@@ -106,3 +106,64 @@ hr {
 .login-bar a:hover {
     opacity: 0.7;
 }
+
+.infoIcons {
+    max-width: 700px;
+    max-height: auto;
+    left: -10%;
+}
+
+.info-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    padding-left: -10;
+    max-width: 1200px;
+    margin: 0;
+    gap: 30px;
+    margin-left: 150px;
+    
+}
+
+.left-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 40%;
+}
+
+.content-section {
+    text-align: center;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: auto;
+}
+
+.section-title {
+    font-family: 'Nixie One', cursive;
+    font-weight: lighter;
+    font-size: 35px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.section-text {
+    font-family: 'Hubballi', sans-serif;
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 1.5;
+    color: #000000;
+    margin-bottom: 30px;
+}
+
+.arrow-icon {
+    max-width: 100px;
+    margin-top: 20px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
