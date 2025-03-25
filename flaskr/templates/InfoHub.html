@@ -4,27 +4,28 @@
 
 <hr>
 
-<img src="{{ url_for('static', filename='images/infoHub/title.svg') }}" alt="Your Gateway To Smarter Energy Choices" class="title animate__animated animate__fadeIn">
+<img src="{{ url_for('static', filename='images/infoHub/title.svg') }}" alt="Your Gateway To Smarter Energy Choices" class="title">
 
 <br>
+
 <div class="redirects" id="redirects-container">
+    <a href="{{ url_for('energy_tips') }}" class="info-link reduce-cfp">
+        <img src="{{ url_for('static', filename='images/infoHub/reduceCFP.svg') }}" alt="reduce CFP" class="info-image">
+    </a>
     <a href="{{ url_for('ev_chargers') }}" class="info-link ev-chargers">
         <img src="{{ url_for('static', filename='images/infoHub/evChargers.svg') }}" alt="EV Chargers" class="info-image">
-    </a>
-    <a href="{{ url_for('green_energy') }}" class="info-link green-energy">
-        <img src="{{ url_for('static', filename='images/infoHub/greenEnergy.svg') }}" alt="Green Energy" class="info-image">
     </a>
     <a href="{{ url_for('smart_home') }}" class="info-link smart-home">
         <img src="{{ url_for('static', filename='images/infoHub/smartHome.svg') }}" alt="Smart Home" class="info-image">
     </a>
-    <a href="{{ url_for('energy_tips') }}" class="info-link reduce-cfp">
-        <img src="{{ url_for('static', filename='images/infoHub/reduceCFP.svg') }}" alt="reduce CFP" class="info-image">
+    <a href="{{ url_for('green_energy') }}" class="info-link green-energy">
+        <img src="{{ url_for('static', filename='images/infoHub/greenEnergy.svg') }}" alt="Green Energy" class="info-image">
     </a>
+
 </div>
 
 <style>
-
-nav a {
+    nav a {
         color: #664E6D;
     }
 
@@ -52,19 +53,21 @@ nav a {
         margin-top: 50px;
     }
 
-        .info-image {
-            transform: rotate(0deg);
-        }
+    .info-image {
+        transition: transform 0.3s ease;
+        width: 300px;
+    }
+
+    .info-image:hover {
+        transform: scale(1.1) !important;
+    }
 </style>
 
-    <script>
-        document.querySelectorAll('.info-image').forEach(img => {
-            const random = Math.floor(Math.random() * 31) - 15;
-            img.style.transform = `rotate(${random}deg)`;
-        });
-    </script>
-
-
-
+<script>
+    document.querySelectorAll('.info-image').forEach(img => {
+        const random = Math.floor(Math.random() * 31) - 15;
+        img.style.transform = `rotate(${random}deg)`;
+    });
+</script>
 
 {% endblock %}

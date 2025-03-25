@@ -48,19 +48,19 @@ def logout():
 
 @app.route('/ev_chargers')
 def ev_chargers():
-    return render_template('ev_chargers.html')
+    return render_template('infoPages/evChargers.html')
 
 @app.route('/green_energy')
 def green_energy():
-    return render_template('green_energy.html')
+    return render_template('infoPages/greenEnergy.html')
 
 @app.route('/smart_home')
 def smart_home():
-    return render_template('smart_home.html')
+    return render_template('infoPages/smartHome.html')
 
 @app.route('/energy_tips')
 def energy_tips():
-    return render_template('energy_tips.html')
+    return render_template('infoPages/reduceCarbonFootprint.html')
 
 if __name__ == "__main__":
     # set_up_db()
