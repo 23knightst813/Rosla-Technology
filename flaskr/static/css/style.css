@@ -1,3 +1,49 @@
 body {
     background-color: #F4F1EB;
+    margin: 0;
+    padding: 0;
+}
+
+nav {
+    width: 100%;
+    padding: 1.6rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+nav a {
+    font-family: 'Nixie One', cursive;
+    font-weight: bold;
+    font-size: 17px;
+    color: #F4F1EB;
+    text-decoration: none;
+    padding: 8px 16px;
+    margin: 0 5px;
+    border: 2px solid transparent;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    text-decoration: underline;
+}
+
+nav a:hover {
+    color: #f4f1eb65;
+}
+
+.header {
+    /* Rolsa Technologies */
+
+        margin-left: 20px;
+        position: absolute;
+        font-family: 'Hubballi';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 15px;
+        text-decoration-line: underline;
+        color: #F4F1EB;
+
+
 }

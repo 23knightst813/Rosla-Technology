@@ -16,6 +16,10 @@
 
 <body>
 
+    <div class="header">
+    <h1>Rosla <br>Technologies</h1>
+    </div>
+
     <nav>
         <a href="{{ url_for('index') }}">Learn</a>
         <a href="{{ url_for('index') }}">Footprint Calculator</a>
@@ -23,10 +27,10 @@
         <a href="{{ url_for('index') }}">Solar Consultation</a>
     </nav>
 
+
 </body>
-
-<style>
-
+</html>
 
 
-</style>
+
+{% block content %}{% endblock %}
