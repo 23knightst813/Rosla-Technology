@@ -15,9 +15,8 @@
 </head>
 
 <body>
-
     <div class="header">
-    <h1>Rosla <br>Technologies</h1>
+        <h1>Rosla <br>Technologies</h1>
     </div>
 
     <nav>
@@ -27,10 +26,6 @@
         <a href="{{ url_for('index') }}">Solar Consultation</a>
     </nav>
 
-
+    {% block content %}{% endblock %}
 </body>
 </html>
-
-
-
-{% block content %}{% endblock %}

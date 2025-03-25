@@ -1,14 +1,163 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<!-- First section with current content -->
 
 
 
-<p>Hi</p>
+
+<div class="top-section">
+    <img class="titleImg" src="{{ url_for('static', filename='images/indexTitle.svg') }}"
+        alt="A black-and-white surreal illustration of a human face resembling a classical sculpture, with the upper portion obscured or distorted, creating a 'blinded' effect.">
+    <img class="indexImg" src="{{ url_for('static', filename='images/index.png') }}" alt="Blined From The Green">
+    <p class="imgCredits"> Josh <br> Hernandez </p>
+</div>
+
+<!-- Second section with different color -->
+<div class="bottom-section">
+    <div class="quote">
+        <h2>“The greatest threat to our planet is the belief that someone else will save it”</h2>
+        <p>-ROBERT SWAN-</p>
+    </div>
+    <div class="desc">
+        <p>Making green energy simple with solar, EV charging, and smart home solutions—powering a cleaner future!</p>
+    </div>
+
+    <button class="btn btn-centered">Get Started</button>
+</div>
 
 <style>
+
+    
+    .quote h2 {
+        /* "The greatest threat to our planet is the belief that someone else will save it" */
+
+        position: absolute;
+        width: 1054px;
+        top: 120%;
+        left: calc(50% - 1054px/2 - 1px);
+
+        font-family: 'Hubballi';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 64px;
+        line-height: 61px;
+        text-align: center;
+
+        color: #2C713E;
+
+    }
+
+    .quote p {
+        /* -ROBERT SWAN- */
+
+        position: absolute;
+        width: 340px;
+        height: 45px;
+        left: calc(50% - 340px/2 - 1px);
+        top: 145%;
+
+        font-family: 'Nixie One';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 40px;
+        line-height: 45px;
+
+        color: #2C713E;
+
+    }
+
+    .desc {
+        /* Making green energy simple with solar, EV charging, and smart home solutions—powering a cleaner future! */
+
+        position: absolute;
+        width: 1323px;
+        height: 100px;
+        left: calc(50% - 1323px/2 + 1.5px);
+        top: 160%;
+
+        font-family: 'Simonetta';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 40px;
+        line-height: 50px;
+        text-align: center;
+
+        color: rgba(61, 44, 113, 0.65);
+
+
+    }
+
+    .btn {
+    margin-top: 40%;
+    position: relative;
+    display: block;
+}
+
+
     body {
         background-color: #8CB4AC;
+        margin: 0;
+        padding: 0;
+    }
+
+    .top-section {
+        height: 90vh;
+        width: 100%;
+        position: relative;
+        margin-top: -110px;
+        padding-top: 130px;
+        pointer-events: none;
+        /* This allows clicks to pass through to elements below */
+    }
+
+    /* enable pointer events for specific elements inside top-section */
+    .top-section img,
+    .top-section .imgCredits {
+        pointer-events: auto;
+    }
+
+    .bottom-section {
+        background-color: #F4F1EB;
+        /* Different color for second section */
+        min-height: 100vh;
+        width: 100%;
+        padding: 40px;
+        box-sizing: border-box;
+    }
+
+    .indexImg {
+        position: absolute;
+        left: 50%;
+        transform: translate(-50%, 0);
+        height: 830px;
+        top: 8%;
+        user-select: none;
+    }
+
+    .titleImg {
+        position: absolute;
+        left: 50%;
+        transform: translate(-50%, 0);
+        height: 150px;
+        top: 29%;
+        z-index: 999;
+    }
+
+    .imgCredits {
+        position: absolute;
+        left: 62%;
+        transform: translate(-50%, 0);
+        height: 100%;
+        font-family: 'Nixie One';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 32px;
+        line-height: 36px;
+        display: flex;
+        align-items: center;
+        color: #FFFFFF;
     }
 </style>
+
 {% endblock %}
