@@ -46,6 +46,22 @@ def logout():
     session.clear()
     return redirect(url_for('index'))
 
+@app.route('/ev_chargers')
+def ev_chargers():
+    return render_template('ev_chargers.html')
+
+@app.route('/green_energy')
+def green_energy():
+    return render_template('green_energy.html')
+
+@app.route('/smart_home')
+def smart_home():
+    return render_template('smart_home.html')
+
+@app.route('/energy_tips')
+def energy_tips():
+    return render_template('energy_tips.html')
+
 if __name__ == "__main__":
     # set_up_db()
     logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s: %(message)s')
