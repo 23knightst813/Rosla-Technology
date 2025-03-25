@@ -15,15 +15,15 @@
 </head>
 
 <body>
-    <div class="header">
+    <div class="header" href="{{ url_for('index') }}">
         <h1>Rosla <br>Technologies</h1>
     </div>
 
     <nav>
-        <a href="{{ url_for('index') }}">Learn</a>
-        <a href="{{ url_for('index') }}">Footprint Calculator</a>
-        <a href="{{ url_for('index') }}">Energy Tracker</a>
-        <a href="{{ url_for('index') }}">Solar Consultation</a>
+        <a href="{{ url_for('infoHub') }}">Learn</a>
+        <a href="{{ url_for('cfpCalculater') }}">Footprint Calculator</a>
+        <a href="{{ url_for('tracker') }}">Energy Tracker</a>
+        <a href="{{ url_for('solarConsultation') }}">Solar Consultation</a>
     </nav>
 
     {% block content %}{% endblock %}

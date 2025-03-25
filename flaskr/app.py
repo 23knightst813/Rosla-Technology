@@ -9,6 +9,39 @@ app.secret_key = 'dev'
 def index():
     return render_template('index.html')
 
+@app.route('/infoHub')
+def infoHub():
+    return render_template('InfoHub.html')
+
+@app.route('/cfpCalculater')
+def cfpCalculater():
+    return render_template('cfpCalculater.html')
+
+@app.route('/tracker')
+def tracker():
+    return render_template('tracker.html')
+
+@app.route('/solarConsultation')
+def solarConsultation():
+    return render_template('solarConsultation.html')
+
+@app.route('/dashboard')
+def dashboard():
+    return render_template('dashboard.html')
+
+@app.route('/installation')
+def installation():
+    return render_template('installation.html')
+
+@app.route('/login')
+def login():
+    return render_template('login.html')
+
+@app.route('/register')
+def register():
+    return render_template('register.html')
+
+
 if __name__ == "__main__":
     # set_up_db()
     logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s: %(message)s')
