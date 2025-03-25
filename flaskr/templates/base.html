@@ -15,8 +15,10 @@
 </head>
 
 <body>
-    <div class="header" href="{{ url_for('index') }}">
-        <h1>Rosla <br>Technologies</h1>
+    <div class="header">
+        <a href="{{ url_for('index') }}">
+            <h1>Rosla <br>Technologies</h1>
+        </a>
     </div>
 
     <nav>
@@ -25,6 +27,16 @@
         <a href="{{ url_for('tracker') }}">Energy Tracker</a>
         <a href="{{ url_for('solarConsultation') }}">Solar Consultation</a>
     </nav>
+
+    <!-- Login bar with links to login and register pages -->
+    <div class="login-bar">
+        {% if session["email"] %}
+        <a href="/logout" class="navbar-btn">Log-out</a>
+        {% else %}
+        <a href="/login" class="navbar-btn">Login</a>
+        <a href="/register" class="navbar-btn">Register</a>
+        {% endif %}
+    </div>
 
     {% block content %}{% endblock %}
 </body>

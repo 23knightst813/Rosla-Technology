@@ -41,6 +41,10 @@ def login():
 def register():
     return render_template('register.html')
 
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('index'))
 
 if __name__ == "__main__":
     # set_up_db()

@@ -17,3 +17,5 @@
 - Actual Result: werkzeug.routing.BuildError werkzeug.routing.BuildError: Could not build url for endpoint 'infoHub'. Did you mean 'login' instead
 - Status: Fail
 - Fix: Add the routes to app.py
+
+
