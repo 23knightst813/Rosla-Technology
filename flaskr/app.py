@@ -58,7 +58,7 @@ def green_energy():
 def smart_home():
     return render_template('infoPages/smartHome.html')
 
-@app.route('/energy_tips')
+@app.route('/reduce_carbon_footprint')
 def energy_tips():
     return render_template('infoPages/reduceCarbonFootprint.html')
 

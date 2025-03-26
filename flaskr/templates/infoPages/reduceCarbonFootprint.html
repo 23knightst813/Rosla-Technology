@@ -14,7 +14,7 @@
         <div id="section-content">
             <p class="section-text">A carbon footprint is a number, often measured in tonnes, kilograms, or grams, that represents the total amount of carbon dioxide (CO₂) and other equivalent greenhouse gases that are associated with an individual, product, person or even country.</p>
         </div>
-        <img id="arrow-icon" class="arrow-icon" src="{{ url_for('static', filename='images/infoHub/reduceCFPArrow.svg') }}" alt="Carbon Footprint Calculator">
+        <img id="arrow-icon" class="arrow-icon" src="{{ url_for('static', filename='images/infoHub/Arrow.svg') }}" alt="Carbon Footprint Calculator">
     
     </div>
 
@@ -36,6 +36,9 @@
     #arrow-icon {
         cursor: pointer;
         transition: transform 0.3s ease;
+        filter: invert(36%) sepia(23%) saturate(1095%) hue-rotate(138deg) brightness(88%) contrast(82%);
+
+
     }
 
     #arrow-icon:hover {
@@ -72,35 +75,23 @@
         // Define the different content sections to cycle through
         const contentSections = [
             {
-                title: "What is Carbon Foot Print?",
+                title: "What is Carbon Foot Prints?",
                 content: `<p class="section-text">A carbon footprint is a number, often measured in tonnes, kilograms, or grams, that represents the total amount of carbon dioxide (CO₂) and other equivalent greenhouse gases that are associated with an individual, product, person or even country.</p>`
             },
             {
                 title: "How to Reduce Your Carbon Footprint",
-                content: `<h3 class="subsection-title">Drive Smarter, Travel Greener</h3>
-                         <ul class="section-list">
-                             <li>Switch to an electric vehicle (EV) or use public transport.</li>
-                             <li>Carpool or use ride-sharing services to cut down emissions.</li>
-                             <li>Reduce air travel and choose eco-friendly airlines when flying.</li>
-                         </ul>`
+                content: `<p class="section-text">Drive Smarter, Travel Greener Switch to an electric vehicle (EV) or use public transport. Carpool or use ride-sharing services to cut down emissions. Reduce air travel and choose eco-friendly airlines when flying.</p>`
+
             },
             {
-                title: "Sustainable Home Practices",
-                content: `<h3 class="subsection-title">Energy & Water Conservation</h3>
-                         <ul class="section-list">
-                             <li>Use energy-efficient appliances and LED lighting.</li>
-                             <li>Install proper insulation and reduce heating/cooling usage.</li>
-                             <li>Fix leaks and install water-saving fixtures.</li>
-                         </ul>`
+                title: "How to Reduce Your Carbon Footprint",
+                content: `<p class="section-text">Use Energy Efficiently at Home Install solar panels to generate clean energy. Use smart thermostats to optimise heating and cooling. Switch to LED bulbs and energy-efficient appliances.</p>`
+
             },
             {
-                title: "Eco-Friendly Food Choices",
-                content: `<h3 class="subsection-title">Diet Adjustments</h3>
-                         <ul class="section-list">
-                             <li>Reduce meat consumption and try plant-based alternatives.</li>
-                             <li>Buy local and seasonal produce to reduce transportation emissions.</li>
-                             <li>Minimize food waste by planning meals and composting.</li>
-                         </ul>`
+                title: "How to Reduce Your Carbon Footprint",
+                content: `<p class="section-text">Switch to Renewable Energy Choose a green energy supplier that uses wind, solar, or hydro power. Install home battery storage to maximise the use of renewable energy. Support policies and businesses that invest in clean energy solutions.</p>`
+
             }
         ];
 
