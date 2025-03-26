@@ -1,11 +1,27 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<hr>
 
-<p>HI</p>
+<div class="info-container">
+    <div class="left-content">
+        <img class="infoIcons" src="{{ url_for('static', filename='images/infoHub/evChargersIcon.svg') }}" alt="EV Chargers">
+    </div>
+
+    <div class="content-section">
+        <h2 id="section-title" class="section-title">What are EV Chargers?</h2>
+    
+        <div id="section-content">
+            <p class="section-text">Electric Vehicle (EV) chargers are devices that supply electric energy to recharge electric vehicles. They come in different types and speeds, from basic home chargers to rapid charging stations, and are essential infrastructure for EV adoption.</p>
+        </div>
+        <img id="arrow-icon" class="arrow-icon" src="{{ url_for('static', filename='images/infoHub/Arrow.svg') }}" alt="Navigation Arrow">
+    
+    </div>
+
+</div>
 
 <style>
-        nav a {
+    nav a {
         color: #664E6D;
     }
 
@@ -17,6 +33,107 @@
         color: #664E6D;
     }
 
+    #arrow-icon {
+        cursor: pointer;
+        transition: transform 0.3s ease;
+        filter: invert(67%) sepia(12%) saturate(1033%) hue-rotate(314deg) brightness(89%) contrast(94%);
+
+}
+
+    #arrow-icon:hover {
+        transform: scale(1.1);
+    }
+
+    @media (max-width: 768px) {
+        .carbon-footprint-container {
+            flex-direction: column;
+        }
+        
+        .left-content {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        
+        .content-section {
+            width: 95%;
+            margin-left: 0;
+        }
+        
+        .section-title {
+            font-size: 28px;
+        }
+        
+        .section-text {
+            font-size: 18px;
+        }
+    }
 </style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Define the different content sections to cycle through
+        const contentSections = [
+            {
+                title: "What are EV Chargers?",
+                content: `<p class="section-text">Electric Vehicle (EV) chargers are devices that supply electric energy to recharge electric vehicles. They come in different types and speeds, from basic home chargers to rapid charging stations, and are essential infrastructure for EV adoption.</p>`
+            },
+            {
+                title: "Types of EV Chargers",
+                content: `<p class="section-text">Level 1 chargers use standard household outlets (120V) and provide slow charging. Level 2 chargers offer medium-speed charging (240V) for homes and public spaces. DC Fast Chargers deliver high-power rapid charging but require special infrastructure. Different vehicles may use different connector types.</p>`
+            },
+            {
+                title: "Installing Home EV Chargers",
+                content: `<p class="section-text">Home installation typically requires a dedicated circuit and possibly an electrical panel upgrade. Professional installation is recommended for safety and compliance. Many regions offer incentives and rebates to offset installation costs. Smart chargers can optimize charging times and monitor energy usage.</p>`
+            },
+            {
+                title: "Finding Public Charging Stations",
+                content: `<p class="section-text">Use mobile apps and websites dedicated to mapping EV charging networks. Major charging networks include ChargePoint, Tesla Superchargers, Electrify America, and EVgo. Plan trips around available charging infrastructure. Consider charging speed, connector type, and payment methods when selecting stations.</p>`
+            }
+        ];
+
+        // Get the elements
+        const titleElement = document.getElementById('section-title');
+        const contentElement = document.getElementById('section-content');
+        const arrowIcon = document.getElementById('arrow-icon');
+        
+        // Track the current section
+        let currentSectionIndex = 0;
+        
+        // Function to update the content
+        function updateContent(index) {
+            // Add fade-out effect
+            titleElement.style.opacity = 0;
+            contentElement.style.opacity = 0;
+            
+            setTimeout(() => {
+                // Update content
+                titleElement.textContent = contentSections[index].title;
+                contentElement.innerHTML = contentSections[index].content;
+                
+                // Add fade-in effect
+                titleElement.style.opacity = 1;
+                contentElement.style.opacity = 1;
+            }, 300);
+        }
+        
+        // Add click event listener to the arrow
+        arrowIcon.addEventListener('click', function() {
+            // Move to the next section, loop back to first if at the end
+            currentSectionIndex = (currentSectionIndex + 1) % contentSections.length;
+            updateContent(currentSectionIndex);
+            
+            // Add rotation animation to the arrow
+            this.style.transform = 'rotate(360deg)';
+            setTimeout(() => {
+                this.style.transform = 'rotate(0deg)';
+            }, 500);
+        });
+
+        // Initialize with fade transition
+        titleElement.style.transition = 'opacity 0.3s ease';
+        contentElement.style.transition = 'opacity 0.3s ease';
+        arrowIcon.style.transition = 'transform 0.5s ease';
+    });
+</script>
 
 {% endblock %}
