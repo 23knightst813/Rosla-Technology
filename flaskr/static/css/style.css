@@ -1,5 +1,3 @@
-
-
 body {
     background-color: #F4F1EB;
     margin: 0;
@@ -30,24 +28,26 @@ nav a {
     text-decoration: underline;
 }
 
+
+
 nav a:hover {
-   opacity: 0.7;
+    opacity: 0.7;
 }
 
 hr {
     opacity: 0.5;
 }
 
-.header a{
+.header a {
 
-        margin-left: 20px;
-        position: absolute;
-        font-family: 'Hubballi';
-        font-style: normal;
-        font-weight: 400;
-        font-size: 15px;
-        text-decoration-line: underline;
-        color: #F4F1EB;
+    margin-left: 20px;
+    position: absolute;
+    font-family: 'Hubballi';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    text-decoration-line: underline;
+    color: #F4F1EB;
 }
 
 .header a:hover {
@@ -73,7 +73,8 @@ hr {
 
 .btn:hover {
     background-color: #563e5d;
-    transform: translateY(-2px); /* Only move up, not left */
+    transform: translateY(-2px);
+    /* Only move up, not left */
     box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.3);
 }
 
@@ -86,6 +87,7 @@ hr {
 .btn-centered:hover {
     transform: translate(-50%, -2px);
 }
+
 .login-bar {
     font-family: Nixie One;
     font-weight: bold;
@@ -95,10 +97,11 @@ hr {
     padding: 1.6rem 0;
     display: flex;
     gap: 20px;
-    height: 10px; 
-    box-sizing: border-box; 
+    height: 10px;
+    box-sizing: border-box;
     align-items: center;
 }
+
 .login-bar a {
     color: #F4F1EB;
 }
@@ -124,7 +127,7 @@ hr {
     margin: 0;
     gap: 30px;
     margin-left: 150px;
-    
+
 }
 
 .left-content {
@@ -168,8 +171,50 @@ hr {
     margin-right: auto;
 }
 
+
+.input-group {
+    position: relative;
+    max-width: 400px;
+}
+
+
+input {
+    width: 110%;
+    border: none;
+    border-bottom: 2px solid #ccc;
+    outline: none;
+    font-size: 25px;
+    padding: 5px 0;
+    background: transparent;
+    color: #333;
+    font-family: 'Nixie One', cursive;
+}
+
+input:focus {
+    border-bottom: 1px solid #666;
+}
+
+label {
+    position: absolute;
+    top: 5px;
+    left: 0;
+    font-size: 16px;
+    color: #aaa;
+    pointer-events: none;
+    transition: all 0.3s ease-in-out;
+}
+
+
+input:focus+label,
+input:not(:placeholder-shown)+label {
+    top: -20px;
+    font-size: 14px;
+    color: #666;
+}
+
+
 @media (max-width: 768px) {
-    .infoIcons{
+    .infoIcons {
         display: none;
     }
 }

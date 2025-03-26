@@ -1,7 +1,230 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="split-container">
+    <div class="left-side">
+        <img class="register-image" src="{{ url_for('static', filename='images/register.png') }}"
+            alt="Green Energy Image">
+    </div>
+    <div class="right-side">
+        <div class="welcome-page-head">
+            <p>Welcome</p>
 
-<p>HI</p>
+            <!-- Registration form for new users -->
+            <form class="register-form" action="/register" method="post">
 
+                <!-- Input field for user's email -->
+                    <input  class="input-group"  type="email" id="email" placeholder="Email" name="email" required />
+
+                <!-- Input field for user's password -->
+                    <input  class="input-group" type="password" id="password" placeholder="Password" name="password" required />
+
+                <!-- Input field for confirming user's password -->
+                    <input class="input-group" type="password" id="password2" placeholder="Confirm Password" name="password2" required />
+
+                <!-- Submit button for registration -->
+                <button type="submit" class="btn login-btn register-btn">Register</button>
+
+                <!-- Social login buttons for Google and Discord -->
+                <div class="social-buttons">
+                    <a href="/google" class="btn login-btn">Google</a>
+                    <a href="/discord" class="btn login-btn">Discord</a>
+                </div>
+
+                <!-- Link to the login page -->
+                <a href="/login" class="btn login-btn login-link">Already have an account? Login</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+button[type="submit"] {
+    margin-top: 30px; /* Adjust as needed */
+}
+
+    input {
+        border-bottom: 1px solid #3D2C71;
+        color: #3D2C71!important;
+    }
+
+    input::placeholder {
+        color: #3D2C71;
+        opacity: 0.7;
+    }
+
+    input:focus {
+        border-bottom: 2px solid #3D2C71;
+    }
+
+    label {
+        color: #3D2C71;
+    }
+
+    input:focus+label,
+    input:not(:placeholder-shown)+label {
+        color: #3D2C71;
+    }
+
+    .welcome-page-head {
+        position: absolute;
+        left: 49%;
+        transform: translate(-52%, 0);
+        top: 14%;
+        font-family: 'Nixie One';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 96px;
+        color: #3D2C71;
+    }
+
+    .welcome-page-head p {
+        margin-bottom: 60px;
+    }
+
+
+
+    .register-form {
+        position: absolute;
+        left: 49%;
+        transform: translate(-50%, 0);
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        max-width: 400px;
+        top: 80%;
+    }
+
+    .input-group {
+        margin-bottom: 10px;  
+        margin-top: 30px;
+        width: 100%;
+        position: relative;  
+    }
+
+    .input-group input {
+        width: 100%;
+        padding: 8px 0;     
+        margin-bottom: 5px;  
+    }
+
+    .register-image {
+        position: relative;
+        width: 92%;
+        max-height: 92%;
+        object-fit: contain;
+        display: block;
+        top: 3%;
+    }
+
+    /* Style for Energy Tracker link - make "Ene" green */
+    nav a[href*="/tracker"] {
+        color: #3D2C71;
+    }
+
+    nav a[href*="/solarConsultation"] {
+        color: #3D2C71;
+    }
+    
+
+
+
+    .login-bar a {
+        color: #664E6D;
+    }
+
+    /* Split color design */
+    .split-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+    }
+
+    .left-side {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 49%;
+        height: 100%;
+        background-color: #524380;
+        border-top-right-radius: 30px;
+        border-bottom-right-radius: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .right-side {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 51%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Social login buttons styling */
+    .social-buttons {
+        display: flex;
+        justify-content: space-between;
+        margin: 20px 0;
+        width: 100%;
+    }
+
+    .social-buttons a {
+        width: 48%;
+        padding: 12px 0;
+        text-align: center;
+    }
+    
+    .login-btn {
+        width: 100%;
+        margin-top: 10px;
+        padding: 15px 0;
+        font-size: 18px;
+        transition: all 0.3s ease;
+    }
+    
+    .login-link {
+        background: none;
+        color: #3D2C71;
+        box-shadow: none;
+        text-decoration: underline;
+        font-size: 16px;
+        padding: 10px 0;
+    }
+    
+    .login-link:hover {
+        background: none;
+        transform: none;
+        box-shadow: none;
+        opacity: 0.8;
+    }
+
+    /* Responsive design */
+    @media (max-width: 768px) {
+        .left-side {
+            display: none;
+        }
+        
+        .right-side {
+            width: 100%;
+            left: 0;
+        }
+        
+        .welcome-page-head {
+            font-size: 64px;
+            left: 50%;
+        }
+    }
+</style>
+
+<script>
+
+</script>
 {% endblock %}
