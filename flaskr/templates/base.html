@@ -38,6 +38,35 @@
         {% endif %}
     </div>
 
+    <!-- Flash messages section -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-container">
+                {% for category, message in messages %}
+                    <div class="flash-message {{ category }}">
+                        <span class="flash-text">{{ message }}</span>
+                        <button type="button" class="close-btn" onclick="this.parentElement.style.display='none'">&times;</button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
     {% block content %}{% endblock %}
+
+    <script>
+        // Auto-hide flash messages after 5 seconds
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(function() {
+                const flashMessages = document.querySelectorAll('.flash-message');
+                flashMessages.forEach(function(message) {
+                    message.style.opacity = '0';
+                    setTimeout(function() {
+                        message.style.display = 'none';
+                    }, 500);
+                });
+            }, 5000);
+        });
+    </script>
 </body>
 </html>

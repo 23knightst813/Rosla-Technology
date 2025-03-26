@@ -218,3 +218,71 @@ input:not(:placeholder-shown)+label {
         display: none;
     }
 }
+
+/* Flash Messages Styling */
+.flash-container {
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    z-index: 1000;
+    width: 300px;
+    max-width: 90%;
+}
+
+.flash-message {
+    margin-bottom: 10px;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    opacity: 1;
+    transition: opacity 0.5s ease;
+    font-family: 'Nixie One', cursive;
+}
+
+.flash-text {
+    flex-grow: 1;
+    font-size: 16px;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 0 0 0 10px;
+    color: inherit;
+    opacity: 0.5;
+    transition: opacity 0.3s;
+}
+
+.close-btn:hover {
+    opacity: 1;
+}
+
+/* Message type styling */
+.success {
+    background-color: rgba(76, 175, 80, 0.9);
+    color: white;
+    border-left: 5px solid #388e3c;
+}
+
+.error {
+    background-color: rgba(244, 67, 54, 0.9);
+    color: white;
+    border-left: 5px solid #d32f2f;
+}
+
+.warning {
+    background-color: rgba(255, 152, 0, 0.9);
+    color: white;
+    border-left: 5px solid #f57c00;
+}
+
+.info {
+    background-color: rgba(33, 150, 243, 0.9);
+    color: white;
+    border-left: 5px solid #1976d2;
+}
