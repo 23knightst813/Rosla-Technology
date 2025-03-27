@@ -313,3 +313,69 @@
 - Actual Result: Chart updates correctly
 - Status: Pass
 - Dependencies: Chart.js
+
+## Test Case 5: Carbon Footprint Calculation & Submission
+
+
+### Authentication Check
+- Event:
+    - Submit form while not logged in
+- Expected Result: Redirect to login page with error message
+- Actual Result: Redirected to login page with "You must be logged in" flash message
+- Status: Pass
+- Dependencies: Session management
+
+### Calculation Logic
+- Event:
+    - Submit form with Carnivore diet, Car transport, High energy usage, No recycling
+- Expected Result: Total emissions calculated correctly (3.0 + 2.5 + 3.5 + 0.5 = 9.5 tonnes)
+- Actual Result: Total emissions calculated as 9.5 tonnes
+- Status: Pass
+- Dependencies: None
+
+- Event:
+    - Submit form with other diet, public transport, Medium energy usage, Recycling
+- Expected Result: Total emissions calculated correctly (2.0 + 1.5 + 2.0 + 0.2 = 5.7 tonnes)
+- Actual Result: Total emissions calculated as 5.7 tonnes
+- Status: Pass
+- Dependencies: None
+
+### Database Storage
+- Event:
+    - Submit form with valid data while logged in
+- Expected Result: Carbon footprint entry saved to database
+- Actual Result: Entry saved with correct user ID, date, and calculated values
+- Status: Pass
+- Dependencies: Database connection, User authentication
+
+### Error Handling
+- Event:
+    - Submit form with valid data but database connection fails
+- Expected Result: User shown error message and redirected to calculator
+- Actual Result: "Error adding carbon footprint entry" flash message and redirect to calculator
+- Status: Pass
+- Dependencies: Database error simulation
+
+### Form Validation
+- Event:
+    - Submit form with missing transport value
+- Expected Result: System uses default value for calculation
+- Actual Result: Default transport emissions of 1.5 tonnes used
+- Status: Pass
+- Dependencies: None
+
+### Redirect Logic
+- Event:
+    - Access page via GET request
+- Expected Result: Redirect to calculator page
+- Actual Result: Redirected to calculator page
+- Status: Pass
+- Dependencies: None
+
+### Template Rendering
+- Event:
+    - Submit valid form with all values
+- Expected Result: Results template rendered with all submitted values
+- Actual Result: cfp_calculator_submit.html rendered with diet, transport, energy, waste, and total_emissions
+- Status: Pass
+- Dependencies: Template existence

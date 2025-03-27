@@ -1,4 +1,5 @@
 > ***Change Log***
+> - **e5444d8** 2025-03-27 10:49:12 - Add changelog and update test log for Carbon Footprint Calculator UI
 > - **24ad7bb** 2025-03-27 10:40:23 - Updated the carbon footprint calculater to have the complted form
 > - **3132979** 2025-03-27 10:13:20 - Update test log for user login cases; add carbon footprint table and front end of the carbon footprint
 > - **59cdc74** 2025-03-26 13:09:39 - Add flash message functionality for user authentication feedback

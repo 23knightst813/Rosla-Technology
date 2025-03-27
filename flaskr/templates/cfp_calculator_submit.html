@@ -1,0 +1,148 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<hr>
+
+<h1 class="head">Carbon Footprint Results</h1>
+
+<div class="results-container">
+    <div class="results-card">
+        <h2>Your Carbon Footprint Assessment</h2>
+        
+        <div class="result-total">
+            <h3>Your Total Carbon Footprint</h3>
+            <p class="total-value">{{ total_emissions }} tonnes CO2e per year</p>
+        </div>
+        
+        <div class="result-section">
+            <h3>Diet Habits</h3>
+            <p>{{ diet }}</p>
+        </div>
+        
+        <div class="result-section">
+            <h3>Transportation</h3>
+            <p>{{ transport }}</p>
+        </div>
+        
+        <div class="result-section">
+            <h3>Energy Usage</h3>
+            <p>{{ energy }}</p>
+        </div>
+        
+        <div class="result-section">
+            <h3>Waste Management</h3>
+            <p>{{ waste }}</p>
+        </div>
+        
+        <div class="actions">
+            <a href="{{ url_for('cfpCalculater') }}" class="btn">Recalculate</a>
+            <a href="{{ url_for('index') }}" class="btn">Return to Home</a>
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        background-color: #70989B;
+    }
+    
+    .head {
+        text-align: center;
+        font-family: 'Nixie One';
+        font-weight: 400;
+        font-size: 70px;
+        color: #F4F1EB;
+        margin-bottom: 50px;
+    }
+    
+    .results-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .results-card {
+        background: #F4F1EB;
+        border-radius: 15px;
+        padding: 30px;
+        width: 600px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    
+    .results-card h2 {
+        font-family: 'Nixie One';
+        color: #70989B;
+        text-align: center;
+        margin-bottom: 30px;
+        font-size: 28px;
+    }
+    
+    .result-section {
+        margin-bottom: 25px;
+        padding: 15px;
+        background: #e9e5dc;
+        border-radius: 10px;
+    }
+    
+    .result-total {
+        margin-bottom: 30px;
+        padding: 20px;
+        background: #4F777A;
+        border-radius: 10px;
+        text-align: center;
+    }
+    
+    .result-total h3 {
+        font-family: 'Simonetta';
+        color: #F4F1EB;
+        margin-bottom: 10px;
+        font-size: 24px;
+    }
+    
+    .total-value {
+        font-family: 'Simonetta';
+        color: #F4F1EB;
+        font-size: 32px;
+        font-weight: bold;
+    }
+    
+    .result-section h3 {
+        font-family: 'Simonetta';
+        color: #4F777A;
+        margin-bottom: 10px;
+        font-size: 22px;
+    }
+    
+    .result-section p {
+        font-family: 'Simonetta';
+        color: #333;
+        font-size: 18px;
+    }
+    
+    .actions {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 30px;
+    }
+    
+    .btn {
+        padding: 12px 25px;
+        background: #70989B;
+        color: #F4F1EB;
+        border: none;
+        border-radius: 15px;
+        cursor: pointer;
+        font-family: 'Simonetta';
+        font-size: 18px;
+        text-decoration: none;
+        text-align: center;
+        transition: background-color 0.3s;
+    }
+    
+    .btn:hover {
+        background-color: #4F777A;
+    }
+</style>
+
+{% endblock %}

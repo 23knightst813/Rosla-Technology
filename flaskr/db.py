@@ -23,19 +23,64 @@ def set_up_db():
     )
     ''')
     
-    #Create the carbon footprint table
+    # Create the carbon footprint table with proper TEXT data types
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS carbon_footprint (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         user_id INTEGER NOT NULL,
         date TEXT NOT NULL,
         footprint REAL NOT NULL,
+        transport TEXT NOT NULL,
+        energy TEXT NOT NULL,
+        waste TEXT NOT NULL,
+        diet TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
     )
     ''')
 
     conn.commit()
     conn.close()
+
+def add_carbon_footprint(user_id, date, footprint, transport, energy, waste, diet):
+    """
+    Add a new carbon footprint entry to the database.
+    
+    Args:
+        user_id (int): The ID of the user.
+        date (str): The date of the carbon footprint entry.
+        footprint (float): The carbon footprint value.
+        transport (str): The transport method used.
+        energy (str): The energy source used.
+        waste (str): The waste management method used.
+        diet (str): The diet type of the user.
+            
+    Returns:
+        bool: True if the entry was added successfully, False if the user does not exist.
+    """
+    try:
+        # Connect to the database with a timeout to handle locked database
+        conn = sqlite3.connect('database.db', timeout=20)
+        cursor = conn.cursor()
+        
+        # Insert the new carbon footprint entry into the carbon_footprint table
+        cursor.execute('''
+            INSERT INTO carbon_footprint (user_id, date, footprint, transport, energy, waste, diet)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+        ''', (user_id, date, footprint, transport, energy, waste, diet))
+        
+        conn.commit()  # Commit the transaction
+        logging.info('Carbon footprint entry added successfully!')  # Log success message
+        return True
+        
+    except sqlite3.IntegrityError:
+        # Handle case where the user does not exist
+        logging.error('User does not exist!')  # Log error message
+        return False
+        
+    finally:
+        if 'conn' in locals():
+            conn.close()  # Ensure the database connection is closed
 
 
 def add_user(email, password, role):
