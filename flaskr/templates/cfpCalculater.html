@@ -1,0 +1,210 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<hr>
+
+<h1 class="head">Carbon FootPrint</h1>
+
+
+<div class="form-side">
+    <div class="container">
+        <h2>Eating Habits</h2>
+        <form action="{{ url_for('cfp_calculator_submit') }}" method="POST">
+            <button type="submit" name="habit" value="Carnivore" class="option">Carnivore</button>
+            <button type="submit" name="habit" value="Omnivore" class="option">Omnivore</button>
+            <button type="submit" name="habit" value="Pescatarian" class="option">Pescatarian</button>
+            <button type="submit" name="habit" value="Vegetarian" class="option">Vegetarian</button>
+            <div class="buttons">
+                <button type="button" class="btn">Back</button>
+                <button type="submit" class="btn">Next</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="chart-container">
+    <canvas id="myChart"></canvas>
+</div>
+
+<div class="progress-container">
+    <svg class="progress-bar" width="1205" height="40" viewBox="0 0 1205 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 20C0 8.95431 8.95431 0 20 0H1185C1196.05 0 1205 8.95431 1205 20C1205 31.0457 1196.05 40 1185 40H20C8.9543 40 0 31.0457 0 20Z" fill="#F4F1EB"/>
+        <path d="M10.0076 20.5C10.0076 14.701 14.7086 10 20.5076 10H497.004C502.527 10 507.004 14.4772 507.004 20C507.004 25.5228 502.527 30 497.004 30H19.5076C14.2609 30 10.0076 25.7467 10.0076 20.5Z" fill="#70989B"/>
+    </svg>
+    <div class="progress-text">Step 1 of 4</div>
+</div>
+
+<style>
+    .head {
+        position: absolute;
+        left: 50%;
+        transform: translate(-50%, 0);
+        font-family: 'Nixie One';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 70px;
+        color: #F4F1EB;
+    }
+
+    body {
+        background-color: #70989B;
+    }
+    
+    .form-side {
+        position: absolute;
+        top: 30%;
+        left: 30%;
+        transform: translateX(-50%);
+    }
+    
+    .container {
+        top: 25%;
+        width: 500px;
+        background-color: #70989B;
+        padding: 30px;
+    }
+    
+    .container h2 {
+        font-family: 'nixie one';
+        margin-bottom: 25px;
+        color: #F4F1EB;
+        text-align: center;
+        font-size: 28px;
+        font-weight: bold   ;
+    }
+    
+    .option {
+        display: block;
+        width: 100%;
+        padding: 15px;
+        margin: 15px 0;
+        background: #F4F1EB;
+        color: #70989B;
+        border: none;
+        border-radius: 15px;
+        font-size: 22px;
+        cursor: pointer;
+        font-family: 'Simonetta';
+        transition: background-color 0.3s;
+        box-shadow: none;
+    }
+    
+    .option:hover {
+        background-color: #e0dcd5;
+    }
+    
+    .buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 25px;
+    }
+    
+    .btn {
+        padding: 12px 25px;
+        background: #F4F1EB;
+        color: #70989B;
+        border: none;
+        border-radius: 15px;
+        cursor: pointer;
+        font-size: 20px;
+        transition: background-color 0.3s;
+        box-shadow: none;
+    }
+    
+    .btn:hover {
+        background-color: #e0dcd5;
+    }
+    
+    .chart-container {
+        position: absolute;
+        top: 29%;
+        right: 15%;
+        width: 500px;
+        height: 500px;
+        border-radius: 10px;
+        padding: 20px;
+    }
+    
+    .progress-container {
+        position: fixed;
+        bottom: 50px;
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
+    }
+
+    .progress-bar {
+        display: block;
+        margin: 0 auto;
+    }
+
+    .progress-text {
+        color: #F4F1EB;
+        font-family: 'Simonetta';
+        font-size: 16px;
+        margin-top: 10px;
+    }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const ctx = document.getElementById('myChart');
+        
+        const data = {
+            labels: [
+                'Transportation',
+                'Diet',
+                'Energy',
+                'Waste'
+            ],
+            datasets: [{
+                label: 'Carbon Footprint',
+                data: [30, 40, 20, 10],
+                backgroundColor: [
+                    '#5E8588',
+                    '#82A7AA',
+                    '#4F777A',
+                    '#96B3B5'
+                ],
+                hoverOffset: 4
+            }]
+        };
+        
+        const config = {
+            type: 'doughnut',
+            data: data,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: '#F4F1EB',
+                            font: {
+                                family: 'Simonetta',
+                                size: 14
+                            }
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Carbon Footprint Distribution',
+                        color: '#F4F1EB',
+                        font: {
+                            family: 'Nixie One',
+                            size: 18
+                        }
+                    }
+                }
+            }
+        };
+        
+        new Chart(ctx, config);
+    });
+</script>
+
+{% endblock %}

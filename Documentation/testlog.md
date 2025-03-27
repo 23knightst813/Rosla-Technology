@@ -95,7 +95,7 @@
 - Status: Pass
 - Dependencies: User Database Table
 
-## Test Case 3: User Registration
+## Test Case 3: User Login
 
 ### UI/UX
 
@@ -111,4 +111,49 @@
 - Expected Result: User can type in field
 - Actual result: User can type in field
 - Status: Pass
+
+### Normal Data
+- Input: 
+    - Email: user@example.com
+    - Password: P@ssw0rd1234
+- Expected Result: User signed in successfully.
+- Actual Result: User not found.
+- Status: Fail
+- Fix: Add missing sqlite3 syntax to add_user function
+- Dependencies: User Database Table + Registration
+
+### Erroneous Data
+- Input: 
+    - Email: user@example.com
+    - Password: Password
+- Expected Result: Password incorrect.
+- Actual Result: Flask Flash telling the user that their password is incorrect.
+- Status: Pass
+- Dependencies: User Database Table + Registration
+
+### Boundary Data
+- Input: 
+    - Email: user@example.com (valid email format)
+    - Password: P@ssw0 (just below the minimum password length, e.g., 7 characters)
+- Expected Result: Password is incorrect.
+- Actual Result: Flask Flash message indicating the password is incorrect and too short.
+- Status: Pass
+- Dependencies: User Database Table + Registration
+
+### Presence Check
+- Input: 
+    - Email: (empty)
+    - Password: P@ssw0rd1234
+- Expected Result: System prompts the user to enter an email address.
+- Actual Result: Flask Flash message indicating the email field is required.
+- Status: Pass
+- Dependencies: User Database Table + Registration
+
+- Input: 
+    - Email: user@example.com
+    - Password: (empty)
+- Expected Result: System prompts the user to enter a password.
+- Actual Result: Flask Flash message indicating the password field is required.
+- Status: Pass
+- Dependencies: User Database Table + Registration
 

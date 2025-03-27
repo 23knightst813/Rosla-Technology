@@ -21,6 +21,10 @@ def infoHub():
 def cfpCalculater():
     return render_template('cfpCalculater.html')
 
+@app.route('/cfp_calculator_submit')
+def cfp_calculator_submit():
+    return render_template('cfp_calculator_submit.html')
+
 @app.route('/tracker')
 def tracker():
     return render_template('tracker.html')

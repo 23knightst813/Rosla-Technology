@@ -23,12 +23,22 @@ def set_up_db():
     )
     ''')
     
+    #Create the carbon footprint table
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS carbon_footprint (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER NOT NULL,
+        date TEXT NOT NULL,
+        footprint REAL NOT NULL,
+        FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
+    )
+    ''')
 
     conn.commit()
     conn.close()
 
 
-def add_user(email, password, CRD):
+def add_user(email, password, role):
     """
     Add a new user to the database with retry logic for locked database.
     
@@ -54,7 +64,7 @@ def add_user(email, password, CRD):
             cursor.execute('''
                 INSERT INTO users (email, password_hash, role)
                 VALUES (?, ?, ?)
-            ''', (email, hashed_password, CRD))
+            ''', (email, hashed_password, role))
             
             conn.commit()  # Commit the transaction
             logging.info('User added successfully!')  # Log success message
@@ -78,4 +88,3 @@ def add_user(email, password, CRD):
         finally:
             if 'conn' in locals():
                 conn.close()  # Ensure the database connection is closed
-                
