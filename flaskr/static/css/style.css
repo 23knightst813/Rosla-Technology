@@ -264,25 +264,25 @@ input:not(:placeholder-shown)+label {
 
 /* Message type styling */
 .success {
-    background-color: rgba(76, 175, 80, 0.9);
+    background-color: rgba(112, 157, 122, 0.9); /* Softer green from your palette */
     color: white;
-    border-left: 5px solid #388e3c;
+    border-left: 5px solid #2C713E; /* Darker green accent */
 }
 
 .error {
-    background-color: rgba(244, 67, 54, 0.9);
+    background-color: rgba(102, 78, 109, 0.9); /* Purple from your palette */
     color: white;
-    border-left: 5px solid #d32f2f;
+    border-left: 5px solid #524380; /* Deeper purple accent */
 }
 
 .warning {
-    background-color: rgba(255, 152, 0, 0.9);
+    background-color: rgba(140, 180, 172, 0.9); /* Teal/mint green from your palette */
     color: white;
-    border-left: 5px solid #f57c00;
+    border-left: 5px solid #70989B; /* Darker teal accent */
 }
 
 .info {
-    background-color: rgba(33, 150, 243, 0.9);
+    background-color: rgba(61, 44, 113, 0.9); /* Dark purple from your palette */
     color: white;
-    border-left: 5px solid #1976d2;
+    border-left: 5px solid #664E6D; /* Medium purple accent */
 }
