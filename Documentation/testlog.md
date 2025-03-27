@@ -157,3 +157,159 @@
 - Status: Pass
 - Dependencies: User Database Table + Registration
 
+## Test Case 4: Carbon Footprint Calculator UI
+
+### Display Elements
+- Event:
+    - Navigate to Carbon Footprint Calculator page
+- Expected Result: All elements (title, options, chart, progress bar) displayed correctly
+- Actual Result: Elements displayed correctly
+- Status: Pass
+- Dependencies: None
+
+### Responsive Layout
+- Event:
+    - View calculator on mobile device
+- Expected Result: Layout adjusts to fit screen size
+- Actual Result: Chart overlaps with form on small screens
+- Status: Fail
+- Fix: Add media queries for smaller screens
+- Dependencies: None
+
+- Event:
+    - View calculator on mobile device after fix
+- Expected Result: Layout adjusts to fit screen size
+- Actual Result: Layout adjusts correctly
+- Status: Pass
+- Dependencies: None
+
+
+### Next Button Functionality
+- Event:
+    - Click Next without selecting an option
+- Expected Result: Next button disabled, cannot proceed
+- Actual Result: Next button disabled as expected
+- Status: Pass
+- Dependencies: None
+
+- Event:
+    - Select option then click Next
+- Expected Result: Move to next step, progress bar updates
+- Actual Result: Moved to next step, but progress bar disappeared
+- Status: Fail
+- Fix: Maintain progress bar state between steps
+- Dependencies: None
+
+- Event:
+    - Select option then click Next after fix
+- Expected Result: Move to next step, progress bar maintains progress
+- Actual Result: Step navigation and progress bar work correctly
+- Status: Pass
+- Dependencies: None
+
+### Back Button Functionality
+- Event:
+    - Click Back button on step 2
+- Expected Result: Return to step 1, maintain selection
+- Actual Result: Returned to step 1, but previous selection not highlighted
+- Status: Fail
+- Fix: Preserve selected state when navigating back
+- Dependencies: None
+
+- Event:
+    - Click Back button on step 2 after fix
+- Expected Result: Return to step 1, maintain selection
+- Actual Result: Previous selection maintained correctly
+- Status: Pass
+- Dependencies: None
+
+
+### Visual Feedback
+- Event:
+    - Click on an option
+- Expected Result: Option becomes highlighted/selected
+- Actual Result: Option becomes highlighted with darker color
+- Status: Pass
+- Dependencies: None
+
+### Multiple Selections
+- Event:
+    - Select one option then select another in same step
+- Expected Result: First selection deselected, new selection highlighted
+- Actual Result: Behaves as expected
+- Status: Pass
+- Dependencies: None
+
+### Data Storage
+- Event:
+    - Select options across multiple steps
+- Expected Result: All selections stored in form data
+- Actual Result: Data stored correctly in hidden inputs
+- Status: Pass
+- Dependencies: None
+
+
+### Progress Bar Initial State
+- Event:
+    - Load calculator page
+- Expected Result: Empty progress bar (0% filled)
+- Actual Result: Progress bar showing partial fill before any selection
+- Status: Fail
+- Fix: Initialize progress bar to empty state
+- Dependencies: None
+
+### Progress Bar Step Progression
+- Event:
+    - Complete all 4 steps
+- Expected Result: Progress bar fills incrementally (25%, 50%, 75%, 100%)
+- Actual Result: Progress bar jumps to 100% after step 4
+- Status: Fail
+- Fix: Adjust progress fill path calculation
+- Dependencies: None
+
+- Event:
+    - Complete all 4 steps after fix
+- Expected Result: Progress bar fills incrementally
+- Actual Result: Progress bar fills as expected
+- Status: Pass
+- Dependencies: None
+
+### Progress Bar State Persistence
+- Event:
+    - Complete step 1, go to step 2, then back to step 1
+- Expected Result: Progress bar maintains 25% fill
+- Actual Result: Progress bar resets to 0%
+- Status: Fail
+- Fix: Maintain highest completed step in state
+- Dependencies: None
+
+- Event:
+    - Complete step 1, go to step 2, then back to step 1 after fix
+- Expected Result: Progress bar maintains 25% fill
+- Actual Result: Progress bar maintains correct fill level
+- Status: Pass
+- Dependencies: None
+
+### Chart Initial Display
+- Event:
+    - Load calculator page
+- Expected Result: Chart displayed with default values
+- Actual Result: Chart displayed correctly
+- Status: Pass
+- Dependencies: Chart.js
+
+### Chart Updates
+- Event:
+    - Select different options
+- Expected Result: Chart segments update to reflect selections
+- Actual Result: Chart not updating when selections change
+- Status: Fail
+- Fix: Add chart.update() call after data changes
+- Dependencies: Chart.js
+
+- Event:
+    - Select different options after fix
+- Expected Result: Chart segments update to reflect selections
+- Actual Result: Chart updates correctly
+- Status: Pass
+- Dependencies: Chart.js
