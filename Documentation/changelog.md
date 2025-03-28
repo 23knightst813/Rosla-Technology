@@ -1,4 +1,5 @@
 > ***Change Log***
+> - **72d23f6** 2025-03-28 09:05:05 - Enhance user authentication by adding login checks to carbon footprint calculator route; update registration template with password hint and styling adjustments
 > - **bc37f74** 2025-03-27 12:13:51 - Add error handling for various HTTP status codes and update changelog; adjust layout in carbon footprint calculator submission template
 > - **ea3da93** 2025-03-27 11:56:11 - Add carbon footprint backend functionality and results template; update changelog and test log
 > - **e5444d8** 2025-03-27 10:49:12 - Add changelog and update test log for Carbon Footprint Calculator UI
