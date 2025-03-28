@@ -17,10 +17,12 @@
                     <input  class="input-group"  type="email" id="email" placeholder="Email" name="email" required />
 
                 <!-- Input field for user's password -->
-                    <input  class="input-group" type="password" id="password" placeholder="Password" name="password" required />
+                    <input class="input-group" type="password" id="password" placeholder="Password" name="password" required />
+                    <p class="password-hint">Example: KYQ5'#f-m</p>
+
 
                 <!-- Input field for confirming user's password -->
-                    <input class="input-group" type="password" id="password2" placeholder="Confirm Password" name="password2" required />
+                    <input class="input-group" type="password" id="password2" placeholder="Confirm Password" name="password2" required style="margin-top: -40px;"/>
 
                 <!-- Submit button for registration -->
                 <button type="submit" class="btn login-btn register-btn">Register</button>
@@ -39,8 +41,16 @@
 </div>
 
 <style>
+    .password-hint {
+        font-size:18px;
+        color: #664E6D;
+        margin-top: -7px;
+        margin-bottom: 0;
+        font-family: Hubballi;
+    }
+
 button[type="submit"] {
-    margin-top: 30px; /* Adjust as needed */
+    margin-top: 30px;
 }
 
     input {
@@ -117,7 +127,6 @@ button[type="submit"] {
         top: 3%;
     }
 
-    /* Style for Energy Tracker link - make "Ene" green */
     nav a[href*="/tracker"] {
         color: #3D2C71;
     }

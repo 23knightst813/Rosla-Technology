@@ -1,10 +1,11 @@
 > ***Change Log***
+> - **bc37f74** 2025-03-27 12:13:51 - Add error handling for various HTTP status codes and update changelog; adjust layout in carbon footprint calculator submission template
 > - **ea3da93** 2025-03-27 11:56:11 - Add carbon footprint backend functionality and results template; update changelog and test log
 > - **e5444d8** 2025-03-27 10:49:12 - Add changelog and update test log for Carbon Footprint Calculator UI
 > - **24ad7bb** 2025-03-27 10:40:23 - Updated the carbon footprint calculater to have the complted form
 > - **3132979** 2025-03-27 10:13:20 - Update test log for user login cases; add carbon footprint table and front end of the carbon footprint
 > - **59cdc74** 2025-03-26 13:09:39 - Add flash message functionality for user authentication feedback
-> - **508e222** 2025-03-26 12:45:26 - Finished Login and Register Front End input fields for email and password, social login buttons, and  esponsive design adjustments
+> - **508e222** 2025-03-26 12:45:26 - Finished Login and Register Front End input fields for email and password, social login buttons, and responsive design adjustments
 > - **0d60d55** 2025-03-26 09:17:22 - Finish Info Pages
 > - **258ba30** 2025-03-26 09:05:00 - rename energy tips route to reduce carbon footprint; update related HTML and SVG assets
 > - **e4a64bf** 2025-03-25 15:12:03 - add new info section for carbon footprint reduction with interactive content and styles

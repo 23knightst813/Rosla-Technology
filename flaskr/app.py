@@ -19,17 +19,17 @@ def infoHub():
 
 @app.route('/cfpCalculater')
 def cfpCalculater():
-    return render_template('cfpCalculater.html')
+    if not session.get("email"):
+        flash("You must be logged in to submit your carbon footprint.", "error")
+        return redirect(url_for('login'))
+    else:
+        return render_template('cfpCalculater.html')
 
 @app.route('/cfp_calculator_submit', methods=["GET", "POST"])
 def cfp_calculator_submit():
     if request.method == "POST":
 
-        if not session.get("email"):
-            flash("You must be logged in to submit your carbon footprint.", "error")
-            return redirect(url_for('login'))
         
-        else:
             logging.debug("User is logged in. Proceeding with carbon footprint calculation.")
             # Extract form data
             diet = request.form.get("diet")
