@@ -1,12 +1,420 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
 <hr>
 
+<div class="main-content-purple">
+    <h1 class="tracker-title">Energy Usage</h1>
+
+    <div class="charts-container">
+        <div class="chart-wrapper">
+            <h2 class="chart-title">Total Usage</h2>
+            <canvas id="totalUsageChart"></canvas>
+        </div>
+        <div class="chart-wrapper">
+            <h2 class="chart-title">Break Down</h2>
+            <canvas id="breakdownChart"></canvas>
+        </div>
+    </div>
+
+    <div class="tips-section">
+        <h2 class="tips-title">Save Money on Electricity</h2>
+        <ul>
+            <li><strong>Heating</strong> – Use a thermostat, insulate rooms, and wear warm clothes instead of turning up the heat.</li>
+            <li><strong>Lighting</strong> – Switch to LED bulbs, turn off unused lights, and use motion sensors for outdoor lighting.</li>
+            <li><strong>Cooling</strong> – Use fans instead of AC, close blinds during hot days, and clean air filters regularly.</li>
+            <li><strong>Appliances</strong> – Unplug unused devices, choose energy-efficient models, and run full loads in washers & dishwashers.</li>
+        </ul>
+    </div>
+</div>
+
+<div class="input-section-wrapper">
+    <div class="input-section">
+        <h2 class="input-title">Input Energy Data</h2>
+        <p class="input-subtitle">Upload your energy usage file</p>
+        <form action="{{ url_for('tracker_upload_file') }}" method="post" enctype="multipart/form-data" class="upload-form">
+            <div class="input-options">
+                <label for="file-upload" class="input-option-box">
+                    <span id="file-label">Upload<br>File</span>
+                    <input type="file" id="file-upload" name="file" accept=".csv,.xlsx,.xls" style="display: none;" onchange="updateFileName(this)">
+                </label>
+            </div>
+            <button type="submit" class="upload-button">Process Data</button>
+            <p class="file-selected" id="selected-file-name"></p>
+        </form>
+    </div>
+</div>
+
 <style>
+    /* Page background colour - Applied to body */
     body {
+        background-color: #7C709C; /* Purple background */
+    }
+
+    /* Wrapper for the top purple content area */
+    .main-content-purple {
+        padding-bottom: 40px; /* Add some space before the next section */
+    }
+
+    /* Main Title */
+    .tracker-title {
+        text-align: center;
+        font-family: 'Nixie One', cursive;
+        font-size: 64px;
+        font-weight: 400;
+        color: #F4F1EB;
+        margin: 40px 0;
+        letter-spacing: 1px;
+    }
+
+    /* Charts Container */
+    .charts-container {
+        display: flex;
+        justify-content: center;
+        gap: 40px;
+        flex-wrap: wrap;
+        margin: 20px 40px;
+        padding: 0 20px;
+    }
+
+    /* Individual Chart Wrapper */
+    .chart-wrapper {
+        text-align: center;
+        background-color: #F4F1EB;
+        padding: 25px 35px 35px;
+        border-radius: 25px;
+        margin: 15px;
+        flex: 1 1 450px;
+        min-width: 350px;
+        height: 450px;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Chart Titles */
+    .chart-title {
+        text-align: center;
+        font-size: 28px;
+        font-family: 'Nixie One', cursive;
+        font-weight: 400;
+        color: #7C709C;
+        margin-bottom: 25px;
+    }
+
+    /* Chart Canvas */
+    canvas {
+        flex-grow: 1;
+        width: 100% !important;
+        height: auto !important;
+        max-height: 300px;
+        margin: 0 auto;
+    }
+
+    /* Tips Section */
+    .tips-section {
+        background-color: #F4F1EB;
+        padding: 30px 40px;
+        border-radius: 20px;
+        margin: 50px auto 30px auto;
+        max-width: 900px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .tips-title {
+        text-align: center;
+        font-family: 'Nixie One', cursive;
+        font-size: 32px;
+        font-weight: 400;
+        color: #7C709C;
+        margin-bottom: 25px;
+    }
+
+    .tips-section ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .tips-section li {
+        font-family: 'Hubballi', sans-serif;
+        font-size: 19px;
+        color: #333;
+        margin-bottom: 15px;
+        line-height: 1.5;
+    }
+    
+    .tips-section li strong {
+        color: #5C5C5C;
+    }
+
+    /* Wrapper for the light input section */
+    .input-section-wrapper {
+        background-color: #F4F1EB;
+        padding: 60px 20px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    /* Input Section Content Alignment */
+    .input-section {
+        text-align: center;
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    .input-title {
+        font-family: 'Nixie One', cursive;
+        font-size: 64px;
+        font-weight: 400;
+        color: #7C709C;
+        margin-bottom: 10px;
+        letter-spacing: 1px;
+    }
+
+    .input-subtitle {
+        font-family: 'Hubballi', sans-serif;
+        font-size: 22px;
+        color: #7C709C;
+        margin-bottom: 40px;
+        text-decoration: underline;
+        text-underline-offset: 4px;
+    }
+
+    /* Input Options Container */
+    .input-options {
+        display: flex;
+        justify-content: center;
+        gap: 50px;
+        flex-wrap: wrap;
+    }
+
+    /* Input Option Box Styling - Updated for file upload */
+    .input-option-box {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #F4F1EB;
+        border: 1.5px solid #DCD9D0;
+        border-radius: 15px;
+        width: 320px;
+        height: 280px;
+        color: #7C709C;
+        font-family: 'Nixie One', cursive;
+        font-size: 40px;
+        font-weight: 400;
+        text-align: center;
+        text-decoration: none;
+        padding: 20px;
+        box-sizing: border-box;
+        line-height: 1.2;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        cursor: pointer;
+    }
+
+    .input-option-box:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .input-option-box span {
+        display: block;
+    }
+    
+    /* Upload form styling */
+    .upload-form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .upload-button {
+        margin-top: 30px;
+        padding: 12px 35px;
         background-color: #7C709C;
+        color: #F4F1EB;
+        border: none;
+        border-radius: 10px;
+        font-family: 'Nixie One', cursive;
+        font-size: 22px;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.2s;
+    }
+    
+    .upload-button:hover {
+        background-color: #665986;
+        transform: translateY(-2px);
+    }
+    
+    .file-selected {
+        margin-top: 15px;
+        font-family: 'Hubballi', sans-serif;
+        color: #5C5C5C;
+        font-size: 18px;
     }
 </style>
+
+<!-- Load Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        function createPattern(callback) {
+            const svg = `
+                <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10">
+                  <defs>
+                    <pattern id="diagonalHatch" patternUnits="userSpaceOnUse" width="10" height="10">
+                      <path d="M-1,1 l2,-2 M0,10 l10,-10 M9,11 l2,-2"
+                            style="stroke:#5C5C5C; stroke-width:1.5" />
+                    </pattern>
+                  </defs>
+                  <rect width="100%" height="100%" fill="url(#diagonalHatch)" />
+                </svg>
+            `;
+
+            const svgBlob = new Blob([svg], { type: 'image/svg+xml;charset=utf-8' });
+            const url = URL.createObjectURL(svgBlob);
+            const img = new Image();
+            img.src = url;
+
+            img.onload = function() {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                canvas.width = 10;
+                canvas.height = 10;
+                ctx.drawImage(img, 0, 0);
+                const pattern = ctx.createPattern(canvas, 'repeat');
+                callback(pattern);
+                URL.revokeObjectURL(url);
+            };
+            img.onerror = function() {
+                console.error("Failed to load SVG pattern image.");
+                callback('#E0DDEE');
+            }
+        }
+
+        const totalUsageCtx = document.getElementById('totalUsageChart').getContext('2d');
+        new Chart(totalUsageCtx, {
+            type: 'line',
+            data: {
+                labels: ['01', '03', '05', '07', '09', '11', '13', '15', '17', '19', '21', '23', '25', '27', '29'],
+                datasets: [{
+                    data: [100, 25, 145, 80, 25, 230, 190, 180, 50, 150, 210, 140, 240, 180, 220],
+                    borderColor: '#5C5C5C',
+                    borderWidth: 2.5,
+                    pointRadius: 0,
+                    tension: 0.4,
+                    fill: false
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                layout: {
+                    padding: { left: 5, right: 15, top: 10, bottom: 0 }
+                },
+                scales: {
+                    x: {
+                        grid: { display: false },
+                        ticks: {
+                            color: '#7C709C',
+                            font: { family: 'Hubballi', size: 14 },
+                            padding: 10
+                        },
+                        border: { display: false }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        max: 250,
+                        grid: {
+                            color: '#DCD9D0',
+                            borderDash: [4, 4],
+                            drawTicks: false,
+                        },
+                        ticks: {
+                            color: '#7C709C',
+                            font: { family: 'Hubballi', size: 14 },
+                            padding: 10,
+                            stepSize: 50
+                        },
+                        border: { display: false }
+                    }
+                }
+            }
+        });
+
+        createPattern(function(patternFill) {
+            const breakdownCtx = document.getElementById('breakdownChart').getContext('2d');
+            new Chart(breakdownCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Heating', 'Lighting', 'Cooling', 'Appliances', 'Electronics'],
+                    datasets: [{
+                        data: [230, 150, 90, 200, 110],
+                        backgroundColor: patternFill,
+                        barPercentage: 0.6,
+                        categoryPercentage: 0.7
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    layout: {
+                        padding: { left: 5, right: 15, top: 10, bottom: 0 }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        x: {
+                            grid: { display: false },
+                            ticks: {
+                                color: '#7C709C',
+                                font: { family: 'Hubballi', size: 14 },
+                                padding: 10
+                            },
+                            border: { display: false }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            max: 250,
+                            grid: {
+                                color: '#DCD9D0',
+                                borderDash: [4, 4],
+                                drawTicks: false,
+                            },
+                            ticks: {
+                                color: '#7C709C',
+                                font: { family: 'Hubballi', size: 14 },
+                                padding: 10,
+                                stepSize: 50
+                            },
+                            border: { display: false }
+                        }
+                    }
+                }
+            });
+        });
+    });
+    
+    // Function to update the file name display when a file is selected
+    function updateFileName(input) {
+        const fileNameElement = document.getElementById('selected-file-name');
+        const fileLabel = document.getElementById('file-label');
+        
+        if (input.files && input.files[0]) {
+            const fileName = input.files[0].name;
+            fileNameElement.textContent = 'Selected file: ' + fileName;
+            fileLabel.innerHTML = 'File<br>Selected';
+        } else {
+            fileNameElement.textContent = '';
+            fileLabel.innerHTML = 'Upload<br>File';
+        }
+    }
+</script>
 
 {% endblock %}

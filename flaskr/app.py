@@ -1,12 +1,19 @@
 import logging
+import os
 from flask import Flask, render_template, request, flash, redirect, session, url_for, jsonify
 from db import set_up_db, add_user, add_carbon_footprint
 from auth import sign_in, get_user_id_by_email
 from validation import is_not_empty, is_valid_email, is_secure_password
 
 
+
 app = Flask(__name__)
 app.secret_key = 'dev' 
+
+
+# Create upload directory if it doesn't exist
+os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+
 
 
 @app.route('/')
@@ -118,6 +125,26 @@ def cfp_calculator_submit():
 @app.route('/tracker')
 def tracker():
     return render_template('tracker.html')
+
+@app.route('/tracker_upload_file', methods=['POST'])
+def upload_file():
+    if 'file' not in request.files:
+        flash('No file part')
+        return redirect(request.url)
+    
+    file = request.files['file']
+    
+    if file.filename == '':
+        flash('No selected file')
+        return redirect(request.url)
+        
+    if file:
+        # Save the file or process it directly
+        # Example: file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        # Process the energy data from the file...
+        
+        # For now, just redirect back to the tracker page
+        return redirect(url_for('tracker'))
 
 @app.route('/solarConsultation')
 def solarConsultation():

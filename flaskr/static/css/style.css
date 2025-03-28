@@ -298,3 +298,55 @@ input:not(:placeholder-shown)+label {
     color: white;
     border-left: 5px solid #664E6D; /* Medium purple accent */
 }
+
+/* Reusable Components & Utility Classes */
+.section-container {
+    border-radius: 20px;
+    padding: 30px;
+    margin: 30px auto;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.light-bg {
+    background-color: #F4F1EB;
+}
+
+.purple-bg {
+    background-color: #7C709C;
+}
+
+.purple-text {
+    color: #7C709C;
+}
+
+.light-text {
+    color: #F4F1EB;
+}
+
+.nixie-font {
+    font-family: 'Nixie One', cursive;
+    font-weight: 400;
+}
+
+.hubballi-font {
+    font-family: 'Hubballi', sans-serif;
+    font-weight: 400;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.flex-wrap {
+    flex-wrap: wrap;
+}
+
+.transition-hover {
+    transition: all 0.3s ease;
+}

@@ -379,3 +379,32 @@
 - Actual Result: cfp_calculator_submit.html rendered with diet, transport, energy, waste, and total_emissions
 - Status: Pass
 - Dependencies: Template existence
+
+## Test Case 5: Energy Tracker
+
+- Event
+    - User Upload File
+- Expected Result: File can then be proccesed by the server
+- Actual Result: Since the file was just saved as the file name, theres no identifcation to the user
+- Status: Fail
+- Fix: Generate unique filename and  Create user-specific directorys
+- Dependencies: Tracker Font End
+
+- Event
+    - User Upload File
+- Expected Result: File can then be proccesed by the server
+- Actual Result:  File can then be proccesed by the server
+- Status: Pass
+- Dependencies: Tracker Font End
+- Event:
+    - Use OCR to extract text from the electricity bill
+- Expected Result: Text returned
+- Actual Result: Text was returned but it was very slow
+- Status: Fail
+- Fix: Switch from doctr to easyocr
+
+- Event:
+    - Use OCR to extract text from the electricity bill
+- Expected Result: Text returned
+- Actual Result: Text was returned quickly
+- Status: Pass
