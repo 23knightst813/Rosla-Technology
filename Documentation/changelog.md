@@ -1,4 +1,6 @@
 > ***Change Log***
+> - **80a19a2** 2025-03-31 13:16:57 - Stable Completion of the energy tracker: Added file upload functionality with OCR processing; update requirements and .gitignore
+> - **9815791** 2025-03-28 11:39:23 - Add file upload functionality and OCR processing; update requirements and .gitignore
 > - **e5da77b** 2025-03-28 09:20:52 - Update styles and layout for InfoHub and smart home pages; enhance responsiveness and adjust changelog
 > - **72d23f6** 2025-03-28 09:05:05 - Enhance user authentication by adding login checks to carbon footprint calculator route; update registration template with password hint and styling adjustments
 > - **bc37f74** 2025-03-27 12:13:51 - Add error handling for various HTTP status codes and update changelog; adjust layout in carbon footprint calculator submission template
