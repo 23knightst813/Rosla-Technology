@@ -33,12 +33,14 @@
     <div class="input-section">
         <h2 class="input-title">Input Energy Data</h2>
         <p class="input-subtitle">Upload your energy usage file</p>
-        <form action="{{ url_for('tracker_upload_file') }}" method="post" enctype="multipart/form-data" class="upload-form">
+        <form action="/tracker_upload_file" method="post" enctype="multipart/form-data" class="upload-form">
             <div class="input-options">
-                <label for="file-upload" class="input-option-box">
-                    <span id="file-label">Upload<br>File</span>
-                    <input type="file" id="file-upload" name="file" accept=".csv,.xlsx,.xls" style="display: none;" onchange="updateFileName(this)">
-                </label>
+                <div class="input-option-container">
+                    <button type="button" id="file-select-button" class="file-upload-button">
+                        <span id="file-label">Upload<br>File</span>
+                    </button>
+                    <input type="file" id="file-upload" name="file" accept=".jpg,.jpeg,.png,.pdf">
+                </div>
             </div>
             <button type="submit" class="upload-button">Process Data</button>
             <p class="file-selected" id="selected-file-name"></p>
@@ -190,36 +192,49 @@
         flex-wrap: wrap;
     }
 
-    /* Input Option Box Styling - Updated for file upload */
-    .input-option-box {
-        display: flex;
-        align-items: center;
-        justify-content: center;
+    /* Container to hold the button and input */
+    .input-option-container {
+        position: relative;
+        width: 320px;
+        height: 280px;
+        margin: 0 auto;
+    }
+
+    /* File upload button styling */
+    .file-upload-button {
+        width: 100%;
+        height: 100%;
         background-color: #F4F1EB;
         border: 1.5px solid #DCD9D0;
         border-radius: 15px;
-        width: 320px;
-        height: 280px;
         color: #7C709C;
         font-family: 'Nixie One', cursive;
         font-size: 40px;
         font-weight: 400;
         text-align: center;
-        text-decoration: none;
         padding: 20px;
         box-sizing: border-box;
         line-height: 1.2;
         transition: transform 0.2s ease, box-shadow 0.2s ease;
         cursor: pointer;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
-    .input-option-box:hover {
+    .file-upload-button:hover {
         transform: translateY(-3px);
         box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
     }
 
-    .input-option-box span {
+    .file-upload-button span {
         display: block;
+    }
+    
+    /* Hide the actual file input */
+    input[type="file"] {
+        display: none;
     }
     
     /* Upload form styling */
@@ -227,6 +242,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        width: 100%;
     }
     
     .upload-button {
@@ -253,6 +269,14 @@
         color: #5C5C5C;
         font-size: 18px;
     }
+
+    .no-data-message {
+        text-align: center;
+        font-family: 'Hubballi', sans-serif;
+        color: #7C709C;
+        font-size: 20px;
+        font-weight: bold;
+    }
 </style>
 
 <!-- Load Chart.js -->
@@ -260,6 +284,9 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // Get the energy data passed from Flask
+        const energyData = JSON.parse('{{ energy_data | tojson | safe }}');
+        
         function createPattern(callback) {
             const svg = `
                 <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10">
@@ -295,79 +322,44 @@
         }
 
         const totalUsageCtx = document.getElementById('totalUsageChart').getContext('2d');
-        new Chart(totalUsageCtx, {
-            type: 'line',
-            data: {
-                labels: ['01', '03', '05', '07', '09', '11', '13', '15', '17', '19', '21', '23', '25', '27', '29'],
-                datasets: [{
-                    data: [100, 25, 145, 80, 25, 230, 190, 180, 50, 150, 210, 140, 240, 180, 220],
-                    borderColor: '#5C5C5C',
-                    borderWidth: 2.5,
-                    pointRadius: 0,
-                    tension: 0.4,
-                    fill: false
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { display: false }
-                },
-                layout: {
-                    padding: { left: 5, right: 15, top: 10, bottom: 0 }
-                },
-                scales: {
-                    x: {
-                        grid: { display: false },
-                        ticks: {
-                            color: '#7C709C',
-                            font: { family: 'Hubballi', size: 14 },
-                            padding: 10
-                        },
-                        border: { display: false }
-                    },
-                    y: {
-                        beginAtZero: true,
-                        max: 250,
-                        grid: {
-                            color: '#DCD9D0',
-                            borderDash: [4, 4],
-                            drawTicks: false,
-                        },
-                        ticks: {
-                            color: '#7C709C',
-                            font: { family: 'Hubballi', size: 14 },
-                            padding: 10,
-                            stepSize: 50
-                        },
-                        border: { display: false }
-                    }
-                }
-            }
-        });
-
-        createPattern(function(patternFill) {
-            const breakdownCtx = document.getElementById('breakdownChart').getContext('2d');
-            new Chart(breakdownCtx, {
-                type: 'bar',
+        
+        // Check if we have monthly usage data
+        if (energyData.monthly_usage && energyData.monthly_usage.length > 0) {
+            // Prepare data for the monthly usage chart
+            const labels = energyData.monthly_usage.map(item => item.date);
+            const values = energyData.monthly_usage.map(item => item.value);
+            
+            // Find the maximum value to set the Y axis scale
+            const maxValue = Math.max(...values) * 1.2; // Add 20% headroom
+            
+            new Chart(totalUsageCtx, {
+                type: 'line',
                 data: {
-                    labels: ['Heating', 'Lighting', 'Cooling', 'Appliances', 'Electronics'],
+                    labels: labels,
                     datasets: [{
-                        data: [230, 150, 90, 200, 110],
-                        backgroundColor: patternFill,
-                        barPercentage: 0.6,
-                        categoryPercentage: 0.7
+                        data: values,
+                        borderColor: '#5C5C5C',
+                        borderWidth: 2.5,
+                        pointRadius: 3,
+                        tension: 0.4,
+                        fill: false
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `£${context.raw.toFixed(2)}`;
+                                }
+                            }
+                        }
+                    },
                     layout: {
                         padding: { left: 5, right: 15, top: 10, bottom: 0 }
-                    },
-                    plugins: {
-                        legend: { display: false }
                     },
                     scales: {
                         x: {
@@ -381,7 +373,7 @@
                         },
                         y: {
                             beginAtZero: true,
-                            max: 250,
+                            max: maxValue || 250,
                             grid: {
                                 color: '#DCD9D0',
                                 borderDash: [4, 4],
@@ -391,30 +383,132 @@
                                 color: '#7C709C',
                                 font: { family: 'Hubballi', size: 14 },
                                 padding: 10,
-                                stepSize: 50
+                                callback: function(value) {
+                                    return '£' + value;
+                                }
                             },
                             border: { display: false }
                         }
                     }
-                }
-            });
-        });
-    });
-    
-    // Function to update the file name display when a file is selected
-    function updateFileName(input) {
-        const fileNameElement = document.getElementById('selected-file-name');
-        const fileLabel = document.getElementById('file-label');
-        
-        if (input.files && input.files[0]) {
-            const fileName = input.files[0].name;
-            fileNameElement.textContent = 'Selected file: ' + fileName;
-            fileLabel.innerHTML = 'File<br>Selected';
+                    }
+                });
+            
         } else {
-            fileNameElement.textContent = '';
-            fileLabel.innerHTML = 'Upload<br>File';
+            // Handle case where no monthly usage data is available
+            totalUsageCtx.canvas.style.visibility = 'hidden';
+            const parentElement = totalUsageCtx.canvas.parentNode;
+            const message = document.createElement('div');
+            message.className = 'no-data-message';
+            message.textContent = 'Upload your first energy bill to see your usage charts';
+            parentElement.appendChild(message);
         }
-    }
+
+        createPattern(function(patternFill) {
+            const breakdownCtx = document.getElementById('breakdownChart').getContext('2d');
+            
+            // Check if we have category breakdown data
+            if (energyData.category_breakdown && energyData.category_breakdown.length > 0) {
+                // Prepare data for the breakdown chart
+                const categories = energyData.category_breakdown.map(item => item.category);
+                const values = energyData.category_breakdown.map(item => item.value);
+                
+                // Find the maximum value for the Y axis
+                const maxValue = Math.max(...values) * 1.2; // Add 20% headroom
+                
+                new Chart(breakdownCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: categories,
+                        datasets: [{
+                            data: values,
+                            backgroundColor: patternFill,
+                            barPercentage: 0.6,
+                            categoryPercentage: 0.7
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        layout: {
+                            padding: { left: 5, right: 15, top: 10, bottom: 0 }
+                        },
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return `£${context.raw.toFixed(2)}`;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                grid: { display: false },
+                                ticks: {
+                                    color: '#7C709C',
+                                    font: { family: 'Hubballi', size: 14 },
+                                    padding: 10
+                                },
+                                border: { display: false }
+                            },
+                            y: {
+                                beginAtZero: true,
+                                max: maxValue || 250,
+                                grid: {
+                                    color: '#DCD9D0',
+                                    borderDash: [4, 4],
+                                    drawTicks: false,
+                                },
+                                ticks: {
+                                    color: '#7C709C',
+                                    font: { family: 'Hubballi', size: 14 },
+                                    padding: 10,
+                                    callback: function(value) {
+                                        return '£' + value;
+                                    }
+                                },
+                                border: { display: false }
+                            }
+                        }
+                    }
+                });
+            } else {
+                // Display a message if there's no data
+                breakdownCtx.canvas.style.display = 'none';
+                const parentElement = breakdownCtx.canvas.parentNode;
+                const message = document.createElement('div');
+                message.className = 'no-data-message';
+                message.textContent = 'Upload your first energy bill to see your usage breakdown';
+                parentElement.appendChild(message);
+            }
+        });
+
+        // Add event listener for the file select button
+        document.getElementById('file-select-button').addEventListener('click', function() {
+            document.getElementById('file-upload').click();
+        });
+        
+        // Add event listener for file input change
+        document.getElementById('file-upload').addEventListener('change', function() {
+            updateFileName(this);
+        });
+    
+        // Function to update the file name display when a file is selected
+        function updateFileName(input) {
+            const fileNameElement = document.getElementById('selected-file-name');
+            const fileLabel = document.getElementById('file-label');
+            
+            if (input.files && input.files[0]) {
+                const fileName = input.files[0].name;
+                fileNameElement.textContent = 'Selected file: ' + fileName;
+                fileLabel.innerHTML = 'File<br>Selected';
+            } else {
+                fileNameElement.textContent = '';
+                fileLabel.innerHTML = 'Upload<br>File';
+            }
+        }
+    });
 </script>
 
 {% endblock %}

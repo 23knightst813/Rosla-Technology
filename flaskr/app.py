@@ -1,19 +1,22 @@
 import logging
 import os
 from flask import Flask, render_template, request, flash, redirect, session, url_for, jsonify
-from db import set_up_db, add_user, add_carbon_footprint
+from db import set_up_db, add_user, add_carbon_footprint, add_energy_bill, get_user_energy_data
 from auth import sign_in, get_user_id_by_email
 from validation import is_not_empty, is_valid_email, is_secure_password
-
+from tracker import save_uploaded_file, ocr_process_file, gemini_format
 
 
 app = Flask(__name__)
 app.secret_key = 'dev' 
 
+# Configure upload folder
+UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'uploads')
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max upload size
 
 # Create upload directory if it doesn't exist
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
-
 
 
 @app.route('/')
@@ -124,27 +127,74 @@ def cfp_calculator_submit():
 
 @app.route('/tracker')
 def tracker():
-    return render_template('tracker.html')
+    if not session.get("email"):
+        flash("You must be logged in to view your energy tracker.", "error")
+        return redirect(url_for('login'))
+    
+    # Get user energy data for the charts
+    user_id = get_user_id_by_email()
+    if user_id:
+        energy_data = get_user_energy_data(user_id)
+        return render_template('tracker.html', energy_data=energy_data)
+    else:
+        flash("User not found. Please log in again.", "error")
+        return redirect(url_for('login'))
 
 @app.route('/tracker_upload_file', methods=['POST'])
 def upload_file():
+    if not session.get("email"):
+        flash("You must be logged in to upload energy bills.", "error")
+        return redirect(url_for('login'))
+    
     if 'file' not in request.files:
-        flash('No file part')
-        return redirect(request.url)
+        flash('No file part in the request', 'error')
+        return redirect(url_for('tracker'))
     
     file = request.files['file']
     
     if file.filename == '':
-        flash('No selected file')
-        return redirect(request.url)
-        
-    if file:
-        # Save the file or process it directly
-        # Example: file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        # Process the energy data from the file...
-        
-        # For now, just redirect back to the tracker page
+        flash('No selected file', 'error')
         return redirect(url_for('tracker'))
+    
+    user_id = get_user_id_by_email()
+    if not user_id:
+        flash("User not found. Please log in again.", "error")
+        return redirect(url_for('login'))
+    
+    try:
+        # Save the uploaded file
+        filepath = save_uploaded_file(file)
+        if not filepath:
+            flash("Error saving file. Please try again with a supported file type.", "error")
+            return redirect(url_for('tracker'))
+        
+        # Process the file with OCR
+        ocr_result = ocr_process_file(filepath)
+        
+        # Extract structured data using Gemini AI
+        bill_data = gemini_format(ocr_result)
+        
+        if not bill_data or not isinstance(bill_data, list) or len(bill_data) == 0:
+            flash("Unable to extract data from the uploaded bill. Please try another file.", "error")
+            return redirect(url_for('tracker'))
+        
+        # Store the first result in the database
+        success = add_energy_bill(
+            user_id=user_id,
+            bill_data=bill_data[0],
+            filename=file.filename
+        )
+        
+        if success:
+            flash("Energy bill successfully processed and data added to your tracker.", "success")
+        else:
+            flash("Error storing energy data. Please try again.", "error")
+            
+    except Exception as e:
+        logging.error(f"Error processing bill: {str(e)}")
+        flash("Error processing bill. Please try again with a clearer image.", "error")
+        
+    return redirect(url_for('tracker'))
 
 @app.route('/solarConsultation')
 def solarConsultation():
@@ -268,10 +318,10 @@ def bad_request(e):
 def request_entity_too_large(e):
     flash('Request entity too large', 'error')
     return redirect("/")
-@app.errorhandler(Exception)
-def handle_exception(e):
-    flash('An unexpected error occurred. Please try again later.', 'error')
-    return redirect("/")
+# @app.errorhandler(Exception)
+# def handle_exception(e):
+#     flash('An unexpected error occurred. Please try again later.', 'error')
+#     return redirect("/")
 
 
 if __name__ == "__main__":

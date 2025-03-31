@@ -406,5 +406,42 @@
 - Event:
     - Use OCR to extract text from the electricity bill
 - Expected Result: Text returned
-- Actual Result: Text was returned quickly
+- Actual Result: Text was returned quicker but still slow
+- Status: fail
+- Fix: User a api instead of running the ocr prediction locally
+
+- Event:
+    - Use OCR API to extract text from the electricity bill
+- Expected Result: Text returned
+- Actual Result: Text was quickly - 0.57 seconds
 - Status: Pass
+
+
+- Event:
+    - Load the page and attempt to upload a file
+- Expected Result: User can press the button pick a file and sumbit it
+- Actual Resukt: Button was unclickable and in the wrong location 
+- Status: Fail
+- Fix: Move the button into the correct place
+
+- Event:
+    - Load the page and attempt to upload a file
+- Expected Result: User can press the button pick a file and sumbit it
+- Actual Result: Button was unclickable
+- Status: Fail
+- Fix: Switch the button form a label into a normal button element
+
+- Event:
+    - Load the page and attempt to upload a file
+- Expected Result: User can press the button pick a file and sumbit it, and the data is processed and returned
+- Actual Result: User can press the button pick a file and sumbit it, but the data is not processed correctly
+- Status: Fail
+- Fix: Use a smarter AI Model
+
+
+- Event:
+    - Load the page and attempt to upload a file
+- Expected Result: User can press the button to pick a file, submit it, and have the data processed and returned.
+- Actual Result: User can press the button to pick a file and submit it, but the data is processed correctly.
+- Status: Needs Improvement
+- Conclusion: While using a more advanced AI model resolves the issue, it is not cost-effective for the project and exceeds the limits of the free tier. Instead, efforts will focus on refining the prompt to improve performance within the current constraints.

@@ -38,6 +38,23 @@ def set_up_db():
         FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
     )
     ''')
+    
+    # Create energy bills table - simplified to match actual OCR data availability
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS energy_bills (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER NOT NULL,
+        billing_start_date TEXT NOT NULL,
+        billing_end_date TEXT NOT NULL,
+        electricity_cost REAL,
+        gas_cost REAL,
+        total_cost REAL,
+        provider TEXT,
+        filename TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
+    )
+    ''')
 
     conn.commit()
     conn.close()
@@ -133,3 +150,156 @@ def add_user(email, password, role):
         finally:
             if 'conn' in locals():
                 conn.close()  # Ensure the database connection is closed
+
+def add_energy_bill(user_id, bill_data, filename=None):
+    """
+    Add a new energy bill entry to the database based on OCR extracted data.
+    
+    Args:
+        user_id (int): The ID of the user.
+        bill_data (dict): The parsed bill data with billing period and costs.
+        filename (str, optional): The original filename of the uploaded bill.
+            
+    Returns:
+        bool: True if the entry was added successfully, False otherwise.
+    """
+    try:
+        # Extract data from bill_data
+        billing_period = bill_data.get('billingPeriod', {})
+        start_date = billing_period.get('startDate', '')
+        end_date = billing_period.get('endDate', '')
+        
+        usage_totals = bill_data.get('usageTotalsFromBill', {})
+        electricity_cost = usage_totals.get('electricityCostGBP', 0)
+        gas_cost = usage_totals.get('gasCostGBP', 0)
+        total_cost = electricity_cost + gas_cost
+        
+        provider = bill_data.get('provider', 'Unknown')
+        
+        # Connect to the database
+        conn = sqlite3.connect('database.db', timeout=20)
+        cursor = conn.cursor()
+        
+        # Insert the energy bill data
+        cursor.execute('''
+            INSERT INTO energy_bills (
+                user_id, billing_start_date, billing_end_date, 
+                electricity_cost, gas_cost, total_cost, provider, filename
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        ''', (
+            user_id, start_date, end_date, 
+            electricity_cost, gas_cost, total_cost, provider, filename
+        ))
+        
+        conn.commit()
+        logging.info(f'Energy bill data added successfully for user {user_id}')
+        return True
+        
+    except Exception as e:
+        logging.error(f'Error adding energy bill data: {e}')
+        return False
+        
+    finally:
+        if 'conn' in locals():
+            conn.close()
+
+def get_user_energy_data(user_id):
+    """
+    Retrieve energy usage data for a specific user.
+    
+    Args:
+        user_id (int): The ID of the user.
+            
+    Returns:
+        dict: A dictionary containing the user's energy data for charts.
+    """
+    try:
+        # Connect to the database
+        conn = sqlite3.connect('database.db', timeout=20)
+        conn.row_factory = sqlite3.Row  # Return rows as dictionaries
+        cursor = conn.cursor()
+        
+        # Get all energy bills for this user, ordered by date
+        cursor.execute('''
+            SELECT * FROM energy_bills
+            WHERE user_id = ?
+            ORDER BY billing_start_date ASC
+        ''', (user_id,))
+        
+        rows = cursor.fetchall()
+        
+        # Process the data into the required format for the charts
+        monthly_usage = []
+        month_totals = {}
+        total_electricity = 0
+        total_gas = 0
+        
+        for row in rows:
+            # Extract date components for grouping by month
+            billing_start_date = row['billing_start_date'] or ""
+            
+            # Skip entries with invalid dates
+            if not billing_start_date or len(billing_start_date) < 7:
+                logging.warning(f"Skipping energy bill with invalid date: {billing_start_date}")
+                continue
+                
+            month_year = billing_start_date[0:7]  # Format: "YYYY-MM"
+            
+            # Create a more readable date label (e.g., "Oct 2022")
+            import datetime
+            try:
+                date_obj = datetime.datetime.strptime(month_year, "%Y-%m")
+                date_label = date_obj.strftime("%b %Y")
+            except ValueError:
+                # If date format is invalid, use raw string
+                date_label = month_year
+                
+            # Add costs to monthly totals (safely convert to float in case of None values)
+            if month_year not in month_totals:
+                month_totals[month_year] = {
+                    'date': date_label,
+                    'electricity': 0,
+                    'gas': 0,
+                    'total': 0
+                }
+            
+            electricity_cost = float(row['electricity_cost'] or 0)
+            gas_cost = float(row['gas_cost'] or 0)
+            
+            month_totals[month_year]['electricity'] += electricity_cost
+            month_totals[month_year]['gas'] += gas_cost
+            month_totals[month_year]['total'] += (electricity_cost + gas_cost)
+            
+            # Add to overall totals
+            total_electricity += electricity_cost
+            total_gas += gas_cost
+            
+        # Convert month_totals to list format for charts
+        for month, data in month_totals.items():
+            monthly_usage.append({
+                'date': data['date'],
+                'value': data['total']
+            })
+            
+        # Create category breakdown using the electricity/gas split
+        # This is a simplification since we don't have actual usage categories
+        category_breakdown = [
+            {'category': 'Electricity', 'value': total_electricity},
+            {'category': 'Gas', 'value': total_gas}
+        ]
+        
+        # Create the result dictionary
+        result = {
+            'monthly_usage': monthly_usage,
+            'category_breakdown': category_breakdown
+        }
+        
+        return result
+        
+    except Exception as e:
+        logging.error(f'Error retrieving energy data: {e}')
+        return {'monthly_usage': [], 'category_breakdown': []}
+        
+    finally:
+        if 'conn' in locals():
+            conn.close()

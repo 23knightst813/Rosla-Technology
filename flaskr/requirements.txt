@@ -2,3 +2,5 @@ Flask
 Werkzeug
 python-doctr[torch]
 python-dotenv
+easyocr
+google-genai
