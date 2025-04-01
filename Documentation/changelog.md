@@ -1,4 +1,6 @@
 > ***Change Log***
+> - **cbff7c5** 2025-04-01 10:43:48 - Refactor consultations.py to integrate improved API – Rip yesterday's work 😞
+> - **e60f235** 2025-03-31 16:15:34 - Add consultation module for building area calculations: implement geocoding and Overpass API integration
 > - **80a19a2** 2025-03-31 13:16:57 - Stable Completion of the energy tracker: Added file upload functionality with OCR processing; update requirements and .gitignore
 > - **9815791** 2025-03-28 11:39:23 - Add file upload functionality and OCR processing; update requirements and .gitignore
 > - **e5da77b** 2025-03-28 09:20:52 - Update styles and layout for InfoHub and smart home pages; enhance responsiveness and adjust changelog

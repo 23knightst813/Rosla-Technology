@@ -482,5 +482,7 @@
 - Event:
     - Calculate the are aof the house with building_area
 - Expected Result: Retuns the area
-- Actual Result: Retuns the area
-- Status: Pass
+- Actual Result: Retuns the area but its very inacuate
+- Status: Fail
+- Fix: Use the shapely libary isntead
+
