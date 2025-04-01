@@ -1,4 +1,4 @@
-# Testing Log for Coder Dojo Web Application
+# Testing Log
 
 ## Test Case 1: base.html
 
@@ -445,3 +445,42 @@
 - Actual Result: User can press the button to pick a file and submit it, but the data is processed correctly.
 - Status: Needs Improvement
 - Conclusion: While using a more advanced AI model resolves the issue, it is not cost-effective for the project and exceeds the limits of the free tier. Instead, efforts will focus on refining the prompt to improve performance within the current constraints.
+
+## Test Case 6: Online Solar Consultation
+
+- Event:
+    - Use the Geocoding function to get coordinates form a adress
+- Expected Result: Returns Vaild Cords
+- Actual Result: Returns Vaild Cords
+- Status: Pass
+
+- Event:
+    - Use use the fetch_raw_building_data to get all the cords form buildings around the coordinates
+- Expected Result: Retuns a long list of cords what are relevant
+- Actual Result:  Retuns a long list of cords what are not relevant, and in the middle of the see
+- Status: Fail
+- Fix: I accedently fed the latitudie into the logn and visa versa, so dstop doign that
+
+- Event:
+    - Use use the fetch_raw_building_data to get all the cords form buildings around the coordinates
+- Expected Result: Retuns a long list of cords what are relevant
+- Actual Result: Retuns a long list of cords what are relevant
+- Status: Pass
+
+- Event:
+    - Use use the  get_building_cords to get all the cords form from the specifc house
+- Expected Result: Retuns a short list of cords what are of the house
+- Actual Result:  Retuns a short list of cords what are of the house
+- Status: Pass
+
+- Event:
+    - Use use the  get_building_cords to get all the cords form from the specifc house
+- Expected Result: Retuns a short list of cords what are of the house
+- Actual Result:  Retuns a short list of cords what are of the house
+- Status: Pass
+
+- Event:
+    - Calculate the are aof the house with building_area
+- Expected Result: Retuns the area
+- Actual Result: Retuns the area
+- Status: Pass
