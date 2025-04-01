@@ -480,9 +480,21 @@
 - Status: Pass
 
 - Event:
-    - Calculate the are aof the house with building_area
+    - Calculate the are of the house with building_area
 - Expected Result: Retuns the area
 - Actual Result: Retuns the area but its very inacuate
 - Status: Fail
 - Fix: Use the shapely libary isntead
 
+- Event:
+    - Calculate the are of the house with building_area
+- Expected Result: Retuns the area
+- Actual Result: Retuns the are
+- Status: Pass
+
+- Event:
+    - Calculate the the direction of the building using calculate_orientation
+- Expected Result: Retuns the area
+- Actual Result: Retuns the area but its very inacuate
+- Status: Fail
+- Fix: Use the shapely libary isntead
