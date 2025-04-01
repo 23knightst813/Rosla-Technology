@@ -1,4 +1,5 @@
 > ***Change Log***
+> - **ddac9b0** 2025-04-01 12:30:09 - Update changelog and testlog: enhance documentation for consultation module improvements and fix inaccuracies in test results
 > - **2be0462** 2025-04-01 12:27:14 - Enhance consultation module: add error handling, logging, and solar potential calculation
 > - **4b7a07b** 2025-04-01 11:32:32 - Refactor building area calculation to use Shapely and GeoPandas; update requirements and add dotenv support
 > - **cbff7c5** 2025-04-01 10:43:48 - Refactor consultations.py to integrate improved API – Rip yesterday's work 😞

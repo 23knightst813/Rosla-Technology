@@ -1,7 +1,19 @@
 body {
     background-color: #F4F1EB;
+    font-family: 'Hubballi', sans-serif;
     margin: 0;
     padding: 0;
+}
+
+.head {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0);
+    font-family: 'Nixie One';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 70px;
+    color: #F4F1EB;
 }
 
 nav {
@@ -168,6 +180,7 @@ hr {
     position: relative;
     max-width: 400px;
 }
+
 
 input {
     width: 110%;

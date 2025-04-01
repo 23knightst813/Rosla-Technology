@@ -1,7 +1,35 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<HR>
+<h1 class="head">Solar Consultation</h1>
+<p class="sub-head">Enter Your Details To See If Your Suitable For Solar</p>
 
-<p>HI</p>
+<form method="POST" action="{{ url_for('solarConsultation') }}">
+    <label for="adress">Adress:</label><br>
+    <input type="adress" id="adress" name="adress">
+    <input type="submit" value="Submit">
+    <style>
+        body {
+            background-color: #709D7A;
+            color: #F4F1EB;
+        }
 
-{% endblock %}
+        h1 {
+            color: #F4F1EB;
+        }
+
+        .sub-head {
+            position: absolute;
+            top: 25%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Hubballi';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 40px;
+            color: #F4F1EB;
+        }
+    </style>
+
+    {% endblock %}
