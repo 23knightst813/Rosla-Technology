@@ -196,8 +196,28 @@ def upload_file():
         
     return redirect(url_for('tracker'))
 
-@app.route('/solarConsultation')
+@app.route('/solar_assessment', methods=['GET', 'POST'])
 def solarConsultation():
+    if request.method == 'POST':
+        original_postcode = request.form.get('postcode')
+
+        full_selected_address = request.form.get('selected_address')
+
+        print(f"Original Postcode Entered: {original_postcode}")
+        print(f"Full Address Selected: {full_selected_address}")
+
+        if full_selected_address:
+
+            pass # Replace with your actual logic
+        else:
+
+            print("Warning: No full address was selected.")
+
+
+        # Fallback or redirect after processing
+        return redirect(url_for('solarConsultation.html')) # Or render the same page with a message
+
+    # If GET request, just show the form
     return render_template('solarConsultation.html')
 
 @app.route('/dashboard')

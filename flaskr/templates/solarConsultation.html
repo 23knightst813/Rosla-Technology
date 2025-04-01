@@ -6,119 +6,284 @@
     <h1 class="heading">Solar Assessment</h1>
     <p class="sub-heading">Enter Your Details To See If Your Suitable For Solar</p>
 
-    <form method="POST" action="{{ url_for('solarConsultation') }}" class="consultation-form">
+    <form method="POST" action="{{ url_for('solarConsultation') }}" class="consultation-form" id="consultation-form">
         <div class="input-group">
-            <input type="text" id="postcode" name="postcode" required placeholder="Enter your postal code">
+            <!--  id="postcode-input" -->
+            <input type="text" id="postcode-input" name="postcode" required placeholder="Enter your postal code">
         </div>
 
-        <div class="address-suggestions">
-            <ul>
-                <li>Auto Filled Address 1</li>
-                <li>Auto Filled Address 2</li>
-                <li>Auto Filled Address 3</li>
-                <li>Auto Filled Address 4</li>
-                <li>Auto Filled Address 5</li>
+        <!-- Suggestions container - initially hidden -->
+        <div class="address-suggestions" id="address-suggestions-container" style="display: none;">
+             <!-- Added id="address-suggestions-list" -->
+            <ul id="address-suggestions-list">
+                <!-- Suggestions will be populated here by JavaScript -->
             </ul>
         </div>
+
+        <!-- Hidden input to store the full selected address -->
+        <input type="hidden" name="selected_address" id="selected-address">
 
         <input type="submit" value="Submit" class="submit-btn btn">
     </form>
 </div>
 
 <style>
-
-    .address-suggestions{
+    /* --- CSS (Mostly unchanged, added styles for list items) --- */
+    .address-suggestions {
         background-color: #F4F1EB;
         color: #2C713E;
         border-radius: 15px;
-        margin-bottom: 30px;
+        margin-bottom: 20px; 
+        overflow-y: auto; 
+        border: 1px solid #ccc; 
     }
 
     .address-suggestions ul {
         font-family: 'Hubballi';
         font-style: normal;
         font-weight: 400;
-        font-size: 20px;
-        margin: 20px;
+        font-size: 18px; 
+        margin: 0; 
+        padding: 10px; 
+        list-style: none;
     }
 
-    .submit-btn{
+    /* Style for individual suggestion items */
+    .address-suggestions li {
+        padding: 8px 10px;
+        cursor: pointer;
+        border-bottom: 1px solid #e0dccc; /* Separator */
+    }
+    .address-suggestions li:last-child {
+        border-bottom: none; /* No border for the last item */
+    }
+
+    .address-suggestions li:hover {
+        background-color: #e0dccc; /* Hover effect */
+    }
+
+    .submit-btn {
         background-color: #2C713E;
-        left: 49%;
+        align-self: center; /* Center button within flex column */
+        margin-top: 10px; /* Add some space above button */
 
     }
-    .submit-btn:hover{
+    .submit-btn:hover {
         background-color: #185027;
     }
-    hr{
+    hr {
         color: #F4F1EB;
-        opacity: 1;
+
     }
-    
+
     .sub-heading {
         font-family: 'Hubballi';
         font-style: normal;
         font-weight: 400;
-        font-size: 40px;
-        margin-top: -25px;
+        font-size: 35px; 
+        margin-top: -15px; /
+        margin-bottom: 20px;
+        text-align: center;
     }
-    
+
     .heading {
         font-family: 'Nixie One';
         font-style: normal;
         font-weight: 400;
-        font-size: 96px;
+        font-size: 80px; 
+        text-align: center;
     }
 
     .consultation-container {
         display: flex;
         flex-direction: column;
         align-items: center;
-        height: 100vh;
+        min-height: 80vh; 
+        padding: 20px;
     }
 
     body {
         background-color: #709D7A;
         color: #F4F1EB;
     }
-    
-    /* New input styling to match register page */
+
     .consultation-form {
         display: flex;
         flex-direction: column;
         width: 100%;
         max-width: 400px;
-        margin-top: 20px;
     }
-    
+
     .input-group {
-        margin-bottom: 10px;
-        margin-top: -30px;
+        margin-bottom: 15px; 
         position: relative;
     }
-    
+
     .input-group input {
         width: 100%;
-        padding: 8px 0;
+        padding: 10px 0;
         margin-bottom: 5px;
         border: none;
         border-bottom: 2px solid #F4F1EB;
         background: transparent;
-        color: #F4F1EB !important;
+        color: #F4F1EB; 
         font-size: 20px;
         outline: none;
     }
-    
+
     .input-group input::placeholder {
-        color: #F4F1EB;
-        font-weight: bold;
+        color: #F4F1EB; 
+        font-weight: normal; 
     }
-    
+
     .input-group input:focus {
-        border-bottom: 2px solid #F4F1EB;
+        border-bottom: 2px solid #ffffff; 
     }
-    
 
 </style>
 
+<!-- Add JavaScript below -->
+<script>
+    // --- Configuration ---
+    const GETADDRESS_DOMAIN_TOKEN = 'dtoken_hEDzcyiWMr31VHUmjIS97eBcOqtd3b4U0yGzrU5EiG_MKwfX8yJvpY1eyhADhPZyXW8ZmRCTtLAO23zhbkq9AoZGichdiTX20c5O4NBUPk9s9Sc-5BDfHJPHxrq0AfRqeAzBRy8C06NoLZw4Srsc63PkrGRq3-hVP8uUgGvOHq11wbJLvkQn6BDvufJnGki055A4k_6-r-Y'; // Should start with dtoken_
+    const DEBOUNCE_DELAY = 0; // Can be slightly faster for autocomplete
+
+    // --- DOM Elements ---
+    const searchInput = document.getElementById('postcode-input'); // Renamed for clarity
+    const suggestionsContainer = document.getElementById('address-suggestions-container');
+    const suggestionsList = document.getElementById('address-suggestions-list');
+    const selectedAddressInput = document.getElementById('selected-address');
+    const selectedAddressIdInput = document.getElementById('selected-address-id'); // Optional
+    const consultationForm = document.getElementById('consultation-form');
+
+    let debounceTimer;
+
+    // --- Debounce Function ---
+    function debounce(func, delay) {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(func, delay);
+    }
+
+    // --- Fetch Address Suggestions from GetAddress.io Autocomplete ---
+    async function fetchAddressSuggestions(searchTerm) {
+        const cleanSearchTerm = searchTerm.trim();
+        if (!cleanSearchTerm || cleanSearchTerm.length < 0) { //  search for very short terms
+            suggestionsList.innerHTML = '';
+            suggestionsContainer.style.display = 'none';
+            return;
+        }
+
+        suggestionsList.innerHTML = '<li><i>Searching...</i></li>';
+        suggestionsContainer.style.display = 'block';
+
+        // Construct the GetAddress.io Autocomplete API URL
+        // Use the Domain Token in api-key
+        // Add 'all=true' parameter to potentially get all addresses if the term is a full postcode
+        const apiUrl = `https://api.getAddress.io/autocomplete/${encodeURIComponent(cleanSearchTerm)}?api-key=${GETADDRESS_DOMAIN_TOKEN}&all=true`;
+
+        try {
+            const response = await fetch(apiUrl);
+
+            if (!response.ok) {
+                 // Handle errors (4xx, 5xx). 429 means rate limit hit. 401/403 likely token issue.
+                 let errorMsg = `Error: ${response.status} ${response.statusText}`;
+                 if (response.status === 429) {
+                     errorMsg = "Search limit reached, please wait.";
+                 }
+                 try { // Try to get more specific message from response body
+                     const errorData = await response.json();
+                     if (errorData && errorData.Message) {
+                         errorMsg = `Error: ${errorData.Message}`;
+                     }
+                 } catch (e) { /* Ignore if response is not JSON */ }
+                 throw new Error(errorMsg);
+            }
+
+            const data = await response.json();
+
+            // *** Response structure based on docs: { suggestions: [ { address: "...", id: "..." }, ... ] } ***
+            displaySuggestions(data.suggestions);
+
+        } catch (error) {
+            console.error("Error fetching address suggestions:", error);
+            // Display error in the suggestions list
+            suggestionsList.innerHTML = `<li>${error.message || 'Could not fetch suggestions.'}</li>`;
+            suggestionsContainer.style.display = 'block';
+        }
+    }
+
+    // --- Display Autocomplete Suggestions ---
+    function displaySuggestions(suggestions) {
+        suggestionsList.innerHTML = ''; // Clear previous suggestions
+
+        if (!suggestions || suggestions.length === 0) {
+            suggestionsList.innerHTML = '<li>No matching addresses found.</li>';
+            suggestionsContainer.style.display = 'block';
+            return;
+        }
+
+        suggestions.forEach(suggestion => {
+            if (!suggestion || !suggestion.address || !suggestion.id) return; // Basic validation
+
+            const li = document.createElement('li');
+            const displayAddress = suggestion.address; // Use the address string directly from suggestion
+            li.textContent = displayAddress;
+
+            // Store data needed on click
+            li.dataset.address = displayAddress;
+            li.dataset.id = suggestion.id; // Store the ID from the suggestion
+
+            // Add click listener to each suggestion
+            li.addEventListener('click', () => {
+                // Fill the visible input with the selected address text
+                searchInput.value = displayAddress;
+
+                // *** Store the FULL selected address string in the hidden field for submission ***
+                selectedAddressInput.value = displayAddress;
+
+                // Optional: Store the ID if you plan to use the /get/{id} endpoint later (e.g., on the backend)
+                selectedAddressIdInput.value = suggestion.id;
+
+                suggestionsList.innerHTML = ''; // Clear suggestions
+                suggestionsContainer.style.display = 'none'; // Hide container
+
+                console.log("Selected Address (for backend):", selectedAddressInput.value);
+                console.log("Selected Address ID (optional):", selectedAddressIdInput.value);
+            });
+            suggestionsList.appendChild(li);
+        });
+
+        suggestionsContainer.style.display = 'block'; // Ensure container is visible
+    }
+
+    // --- Event Listener for Search Input ---
+    searchInput.addEventListener('input', () => {
+        const searchTerm = searchInput.value;
+        debounce(() => fetchAddressSuggestions(searchTerm), DEBOUNCE_DELAY);
+    });
+
+    // --- Optional: Hide suggestions when clicking outside ---
+    document.addEventListener('click', (event) => {
+        if (!searchInput.contains(event.target) && !suggestionsContainer.contains(event.target)) {
+            suggestionsContainer.style.display = 'none';
+        }
+    });
+
+     // --- Optional: Form submission validation ---
+     consultationForm.addEventListener('submit', (event) => {
+         // Check if an address was actually selected (hidden input has value)
+         if (!selectedAddressInput.value) {
+             alert("Please enter your postcode/address and select a suggestion from the list.");
+             event.preventDefault(); // Stop submission
+             return; // Prevent further checks if invalid
+         }
+         // Optional: Check if the text in the input *matches* the selected hidden value
+         // This prevents submitting if the user selected an address, then manually changed the input field after
+         if (searchInput.value !== selectedAddressInput.value) {
+              alert("Please select a valid address suggestion from the list. Do not manually edit after selecting.");
+              event.preventDefault(); // Stop submission
+         }
+     });
+
+</script>
 {% endblock %}
