@@ -2,34 +2,123 @@
 
 {% block content %}
 <HR>
-<h1 class="head">Solar Consultation</h1>
-<p class="sub-head">Enter Your Details To See If Your Suitable For Solar</p>
+<div class="consultation-container">
+    <h1 class="heading">Solar Assessment</h1>
+    <p class="sub-heading">Enter Your Details To See If Your Suitable For Solar</p>
 
-<form method="POST" action="{{ url_for('solarConsultation') }}">
-    <label for="adress">Adress:</label><br>
-    <input type="adress" id="adress" name="adress">
-    <input type="submit" value="Submit">
-    <style>
-        body {
-            background-color: #709D7A;
-            color: #F4F1EB;
-        }
+    <form method="POST" action="{{ url_for('solarConsultation') }}" class="consultation-form">
+        <div class="input-group">
+            <input type="text" id="postcode" name="postcode" required placeholder="Enter your postal code">
+        </div>
 
-        h1 {
-            color: #F4F1EB;
-        }
+        <div class="address-suggestions">
+            <ul>
+                <li>Auto Filled Address 1</li>
+                <li>Auto Filled Address 2</li>
+                <li>Auto Filled Address 3</li>
+                <li>Auto Filled Address 4</li>
+                <li>Auto Filled Address 5</li>
+            </ul>
+        </div>
 
-        .sub-head {
-            position: absolute;
-            top: 25%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-family: 'Hubballi';
-            font-style: normal;
-            font-weight: 400;
-            font-size: 40px;
-            color: #F4F1EB;
-        }
-    </style>
+        <input type="submit" value="Submit" class="submit-btn btn">
+    </form>
+</div>
 
-    {% endblock %}
+<style>
+
+    .address-suggestions{
+        background-color: #F4F1EB;
+        color: #2C713E;
+        border-radius: 15px;
+        margin-bottom: 30px;
+    }
+
+    .address-suggestions ul {
+        font-family: 'Hubballi';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 20px;
+        margin: 20px;
+    }
+
+    .submit-btn{
+        background-color: #2C713E;
+        left: 49%;
+
+    }
+    .submit-btn:hover{
+        background-color: #185027;
+    }
+    hr{
+        color: #F4F1EB;
+        opacity: 1;
+    }
+    
+    .sub-heading {
+        font-family: 'Hubballi';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 40px;
+        margin-top: -25px;
+    }
+    
+    .heading {
+        font-family: 'Nixie One';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 96px;
+    }
+
+    .consultation-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 100vh;
+    }
+
+    body {
+        background-color: #709D7A;
+        color: #F4F1EB;
+    }
+    
+    /* New input styling to match register page */
+    .consultation-form {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        max-width: 400px;
+        margin-top: 20px;
+    }
+    
+    .input-group {
+        margin-bottom: 10px;
+        margin-top: -30px;
+        position: relative;
+    }
+    
+    .input-group input {
+        width: 100%;
+        padding: 8px 0;
+        margin-bottom: 5px;
+        border: none;
+        border-bottom: 2px solid #F4F1EB;
+        background: transparent;
+        color: #F4F1EB !important;
+        font-size: 20px;
+        outline: none;
+    }
+    
+    .input-group input::placeholder {
+        color: #F4F1EB;
+        font-weight: bold;
+    }
+    
+    .input-group input:focus {
+        border-bottom: 2px solid #F4F1EB;
+    }
+    
+
+</style>
+
+{% endblock %}
