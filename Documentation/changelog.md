@@ -1,4 +1,6 @@
 > ***Change Log***
+> - **2be0462** 2025-04-01 12:27:14 - Enhance consultation module: add error handling, logging, and solar potential calculation
+> - **4b7a07b** 2025-04-01 11:32:32 - Refactor building area calculation to use Shapely and GeoPandas; update requirements and add dotenv support
 > - **cbff7c5** 2025-04-01 10:43:48 - Refactor consultations.py to integrate improved API – Rip yesterday's work 😞
 > - **e60f235** 2025-03-31 16:15:34 - Add consultation module for building area calculations: implement geocoding and Overpass API integration
 > - **80a19a2** 2025-03-31 13:16:57 - Stable Completion of the energy tracker: Added file upload functionality with OCR processing; update requirements and .gitignore

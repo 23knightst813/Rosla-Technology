@@ -494,7 +494,12 @@
 
 - Event:
     - Calculate the the direction of the building using calculate_orientation
-- Expected Result: Retuns the area
-- Actual Result: Retuns the area but its very inacuate
-- Status: Fail
-- Fix: Use the shapely libary isntead
+- Expected Result: Retuns the direction
+- Actual Result: Retuns the direction
+- Status: Pass
+
+- Event:
+    - Calculate soalr pannel infoamtion using  solar_potential
+- Expected Result: Retuns the "area","orientation","usable_area","energy_potential","pannel_count","price_estimate","monthly_payment","energy_savings"
+- Actual Result: Retuns the "area","orientation","usable_area","energy_potential","pannel_count","price_estimate","monthly_payment","energy_savings"
+- Status: Pass
