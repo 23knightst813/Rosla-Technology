@@ -1,4 +1,5 @@
 > ***Change Log***
+> - **82101ab** 2025-04-02 10:16:32 - Update changelog and enhance solar consultation: improve address validation, update geocoding method, and refine error handling
 > - **ccd5331** 2025-04-01 15:11:11 - Rename solar consultation route to solar assessment and add adress auto fill
 > - **3f920d3** 2025-04-01 14:33:16 - Refactor solar consultation template: enhance layout, add postal code input, and improve address suggestions
 > - **dc1e70f** 2025-04-01 13:12:20 - Update styles and templates for solar consultation: enhance layout and add new design elements

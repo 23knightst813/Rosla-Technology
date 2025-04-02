@@ -2,49 +2,208 @@
 
 {% block content %}
 <HR>
-<div class="consultation-container">
-    <h1 class="heading">Solar Assessment</h1>
-    <p class="sub-heading">Enter Your Details To See If Your Suitable For Solar</p>
+<div class="top-section">
+    <div class="consultation-container">
+        <h1 class="heading">Solar Assessment</h1>
+        <p class="sub-heading">Enter  Details To See If  Suitable For Solar</p>
 
-    <form method="POST" action="{{ url_for('solarConsultation') }}" class="consultation-form" id="consultation-form">
-        <div class="input-group">
-            <!--  id="postcode-input" -->
-            <input type="text" id="postcode-input" name="postcode" required placeholder="Enter your postal code">
+        <form method="POST" action="{{ url_for('solarConsultation') }}" class="consultation-form"
+            id="consultation-form">
+            <div class="input-group">
+                <!--  id="postcode-input" -->
+                <input type="text" id="postcode-input" name="postcode" required placeholder="Enter  postal code">
+            </div>
+
+            <!-- Suggestions container - initially hidden -->
+            <div class="address-suggestions" id="address-suggestions-container" style="display: none;">
+                <!-- Added id="address-suggestions-list" -->
+                <ul id="address-suggestions-list">
+                    <!-- Suggestions will be populated here by JavaScript -->
+                </ul>
+            </div>
+
+            <!-- Hidden input to store the full selected address -->
+            <input type="hidden" name="selected_address" id="selected-address">
+
+            <input type="submit" value="Submit" class="submit-btn btn">
+        </form>
+    </div>
+</div>
+
+<div class="bottom-section">
+
+    <div class="left-section">
+        <div class="info-box">
+            <span class="info-title">Pricing Estimates:</span>
+            <span class="info-value">£3,000</span>
+        </div>
+        <div class="info-box">
+            <span class="info-title">Financing Plans:</span>
+            <span class="info-value">£53/Month<br>1 Year</span>
+        </div>
+        <div class="info-box">
+            <span class="info-title">Energy Generation:</span>
+            <span class="info-value">1,360 kWh/year</span>
+        </div>
+        <div class="info-box">
+            <span class="info-title">Savings:</span>
+            <span class="info-value">£49/Month</span>
+        </div>
+    </div>
+
+
+    <div class="right-section">
+        <h3 class="header2">You are suited to 4 panels</h3>
+
+        <div class="solar-icons">
+            <img src="{{ url_for('static', filename='images/solar.svg') }}" alt="solar panel image">
+            <img src="{{ url_for('static', filename='images/solar.svg') }}" alt="solar panel image">
+            <img src="{{ url_for('static', filename='images/solar.svg') }}" alt="solar panel image">
+            <img src="{{ url_for('static', filename='images/solar.svg') }}" alt="solar panel image">
         </div>
 
-        <!-- Suggestions container - initially hidden -->
-        <div class="address-suggestions" id="address-suggestions-container" style="display: none;">
-             <!-- Added id="address-suggestions-list" -->
-            <ul id="address-suggestions-list">
-                <!-- Suggestions will be populated here by JavaScript -->
-            </ul>
-        </div>
+        <p>That's 1,360kwh</p>
+    </div>
 
-        <!-- Hidden input to store the full selected address -->
-        <input type="hidden" name="selected_address" id="selected-address">
-
-        <input type="submit" value="Submit" class="submit-btn btn">
-    </form>
+    <button class="btn">Learn more</button>
 </div>
 
 <style>
-    /* --- CSS (Mostly unchanged, added styles for list items) --- */
+
+
+
+    .info-box {
+        font-weight: bold;
+        /* Make value stand out */
+        background-color: #709D7A;
+        /*  green color */
+        color: #F4F1EB;
+        /*  light text color */
+        padding: 15px 20px;
+        border-radius: 8px;
+        /* Slightly rounded corners */
+        width: 280px;
+        min-height: 65px;
+        /* Ensure boxes have some height */
+        display: flex;
+        justify-content: space-between;
+        /* Pushes title left, value right */
+        align-items: center;
+        /* Vertically centers content */
+        margin: 10px 0;
+        /* Space between boxes */
+    }
+
+    .info-title {
+        font-family: 'Nixie One', sans-serif;
+        /* Title font */
+        font-size: 17px;
+        /* Adjust size */
+        line-height: 1.3;
+        /* Adjust line spacing for two lines */
+        text-align: left;
+        padding-right: 10px;
+        /* Add space between title and value */
+    }
+
+    .info-value {
+        font-family: 'Hubballi', sans-serif;
+        /* Value font */
+        font-size: 22px;
+        /* Adjust size */
+        text-align: right;
+        flex-shrink: 0;
+        /* Prevent value text from wrapping too easily */
+    }
+
+    .top-section {
+        height: 90vh;
+        width: 100%;
+        position: relative;
+        margin-top: -110px;
+        padding-top: 130px;
+        pointer-events: none;
+    }
+
+    /* Make form elements clickable within the pointer-events: none parent */
+    .consultation-container,
+    .consultation-form,
+    .input-group,
+    .input-group input,
+    .address-suggestions,
+    .submit-btn {
+        pointer-events: auto;
+    }
+
+    .bottom-section {
+        background-color: #F4F1EB;
+        color: #709D7A;
+        min-height: 100vh;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 40px;
+        box-sizing: border-box;
+    }
+
+    .header2 {
+        font-family: 'Nixie One';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 80px;
+    }
+
+    .header {
+        font-family: 'Nixie One';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 48px;
+    }
+
+    .solar-icons {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin: 30px 0;
+
+    }
+
+    .solar-icons img {
+
+        width: 219px;
+        height: auto;
+    }
+
+    .bottom-section p {
+        font-family: 'Hubballi';
+        font-size: 40px;
+        margin-bottom: 30px;
+    }
+
+    .bottom-section .btn {
+        margin-top: 20px;
+        background-color: #2C713E;
+        color: #F4F1EB;
+    }
+
     .address-suggestions {
         background-color: #F4F1EB;
         color: #2C713E;
         border-radius: 15px;
-        margin-bottom: 20px; 
-        overflow-y: auto; 
-        border: 1px solid #ccc; 
+        margin-bottom: 20px;
+        overflow-y: auto;
+        border: 1px solid #ccc;
     }
 
     .address-suggestions ul {
         font-family: 'Hubballi';
         font-style: normal;
         font-weight: 400;
-        font-size: 18px; 
-        margin: 0; 
-        padding: 10px; 
+        font-size: 18px;
+        margin: 0;
+        padding: 10px;
         list-style: none;
     }
 
@@ -52,25 +211,33 @@
     .address-suggestions li {
         padding: 8px 10px;
         cursor: pointer;
-        border-bottom: 1px solid #e0dccc; /* Separator */
+        border-bottom: 1px solid #e0dccc;
+        /* Separator */
     }
+
     .address-suggestions li:last-child {
-        border-bottom: none; /* No border for the last item */
+        border-bottom: none;
+        /* No border for the last item */
     }
 
     .address-suggestions li:hover {
-        background-color: #e0dccc; /* Hover effect */
+        background-color: #e0dccc;
+        /* Hover effect */
     }
 
     .submit-btn {
         background-color: #2C713E;
-        align-self: center; /* Center button within flex column */
-        margin-top: 10px; /* Add some space above button */
+        align-self: center;
+        /* Center button within flex column */
+        margin-top: 10px;
+        /* Add some space above button */
 
     }
+
     .submit-btn:hover {
         background-color: #185027;
     }
+
     hr {
         color: #F4F1EB;
 
@@ -80,7 +247,7 @@
         font-family: 'Hubballi';
         font-style: normal;
         font-weight: 400;
-        font-size: 35px; 
+        font-size: 35px;
         margin-top: -15px;
         margin-bottom: 20px;
         text-align: center;
@@ -90,7 +257,7 @@
         font-family: 'Nixie One';
         font-style: normal;
         font-weight: 400;
-        font-size: 80px; 
+        font-size: 80px;
         text-align: center;
     }
 
@@ -98,13 +265,16 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        min-height: 80vh; 
         padding: 20px;
+        width: 100%;
     }
 
     body {
         background-color: #709D7A;
         color: #F4F1EB;
+        overflow-x: hidden;
+        margin: 0;
+        padding: 0;
     }
 
     .consultation-form {
@@ -115,7 +285,7 @@
     }
 
     .input-group {
-        margin-bottom: 15px; 
+        margin-bottom: 15px;
         position: relative;
     }
 
@@ -126,26 +296,25 @@
         border: none;
         border-bottom: 2px solid #F4F1EB;
         background: transparent;
-        color: #F4F1EB; 
+        color: #F4F1EB;
         font-size: 20px;
         outline: none;
     }
 
     .input-group input::placeholder {
-        color: #F4F1EB; 
-        font-weight: normal; 
+        color: #F4F1EB;
+        font-weight: normal;
     }
 
     .input-group input:focus {
-        border-bottom: 2px solid #ffffff; 
+        border-bottom: 2px solid #ffffff;
     }
-
 </style>
 
 <!-- Add JavaScript below -->
 <script>
     // --- Configuration ---
-    const GETADDRESS_DOMAIN_TOKEN = 'dtoken_hEDzcyiWMr31VHUmjIS97eBcOqtd3b4U0yGzrU5EiG_MKwfX8yJvpY1eyhADhPZyXW8ZmRCTtLAO23zhbkq9Ajfd2YPpEib_trP_Vqv9YpB9ihTWp3W9b6xipuPXEcB2oyzCj0iRL_G0YlCW7f1O2yMxemxfsaLk1acAkBdO7_U9fym6eL0Gb7ueAOSjovSKWUkDab0A'; // Should start with dtoken_
+    const GETADDRESS_DOMAIN_TOKEN = 'dtoken_hEDzcyiWMr31VHUmjIS97eBcOqtd3b4U0yGzrU5EiG_MKwfX8yJvpY1eyhADhPZyXW8ZmRCTtLAO23zhbkq9Ajfd2YPpEib_trP_Vqv9YpB9ihTWp3W9b6xipuPXEcB2oyzCj0iRL_G0YlCW7f1O2yMxemxfsaLk1acAkBdO7_U9fym6eL0Gb7ueAOSjovSKWUkDab0A-mE'; // Should start with dtoken_
     const DEBOUNCE_DELAY = 0; // Can be slightly faster for autocomplete
 
     // --- DOM Elements ---
@@ -185,18 +354,18 @@
             const response = await fetch(apiUrl);
 
             if (!response.ok) {
-                 // Handle errors (4xx, 5xx). 429 means rate limit hit. 401/403 likely token issue.
-                 let errorMsg = `Error: ${response.status} ${response.statusText}`;
-                 if (response.status === 429) {
-                     errorMsg = "Search limit reached, please wait.";
-                 }
-                 try { // Try to get more specific message from response body
-                     const errorData = await response.json();
-                     if (errorData && errorData.Message) {
-                         errorMsg = `Error: ${errorData.Message}`;
-                     }
-                 } catch (e) { /* Ignore if response is not JSON */ }
-                 throw new Error(errorMsg);
+                // Handle errors (4xx, 5xx). 429 means rate limit hit. 401/403 likely token issue.
+                let errorMsg = `Error: ${response.status} ${response.statusText}`;
+                if (response.status === 429) {
+                    errorMsg = "Search limit reached, please wait.";
+                }
+                try { // Try to get more specific message from response body
+                    const errorData = await response.json();
+                    if (errorData && errorData.Message) {
+                        errorMsg = `Error: ${errorData.Message}`;
+                    }
+                } catch (e) { /* Ignore if response is not JSON */ }
+                throw new Error(errorMsg);
             }
 
             const data = await response.json();

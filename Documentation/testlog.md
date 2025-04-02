@@ -451,8 +451,16 @@
 - Event:
     - Use the Geocoding function to get coordinates form a adress
 - Expected Result: Returns Vaild Cords
+- Actual Result: Sometimes Returns Vaild Cords
+- Status: Fail
+- Fix: Use a more relible geocoding api
+
+- Event:
+    - Use the Geocoding function to get coordinates form a adress
+- Expected Result: Returns Vaild Cords
 - Actual Result: Returns Vaild Cords
 - Status: Pass
+
 
 - Event:
     - Use use the fetch_raw_building_data to get all the cords form buildings around the coordinates
@@ -504,11 +512,7 @@
 - Actual Result: Retuns the "area","orientation","usable_area","energy_potential","pannel_count","price_estimate","monthly_payment","energy_savings"
 - Status: Pass
 
-- Event:
-    - 
-- Expected Result: 
-- Actual Result:
-- Status: Pass
+
 
 ## Solar Consultation Address Field
 
@@ -630,4 +634,3 @@
 - Actual Result: Input field properly contains long text
 - Status: Pass
 - Dependencies: CSS overflow handling
-
