@@ -503,3 +503,131 @@
 - Expected Result: Retuns the "area","orientation","usable_area","energy_potential","pannel_count","price_estimate","monthly_payment","energy_savings"
 - Actual Result: Retuns the "area","orientation","usable_area","energy_potential","pannel_count","price_estimate","monthly_payment","energy_savings"
 - Status: Pass
+
+- Event:
+    - 
+- Expected Result: 
+- Actual Result:
+- Status: Pass
+
+## Solar Consultation Address Field
+
+- Event:
+    - Click on the input field
+- Expected Result: Text Cursor Appears
+- Actual Result: Text Cursor Appears
+- Status: Pass
+
+### Normal Data Testing
+- Input:
+    - Complete valid UK postcode "EC1A 1BB"
+- Expected Result: API returns valid suggestions for the postcode area
+- Actual Result: Multiple valid addresses displayed in dropdown
+- Status: Pass
+- Dependencies: GetAddress.io API
+
+- Input:
+    - Select a complete address from suggestions
+- Expected Result: Full address populates input field and hidden field
+- Actual Result: Full address correctly populated in both visible and hidden fields
+- Status: Pass
+
+### Erroneous Data Testing
+- Input:
+    - Non-existent postcode "ZZ99 9ZZ"
+- Expected Result: API returns no results message
+- Actual Result: "No matching addresses found" displayed in suggestions
+- Status: Pass
+- Dependencies: GetAddress.io API
+
+- Input:
+    - Invalid characters "EC1A #$%"
+- Expected Result: API handles or rejects invalid characters appropriately
+- Actual Result: API returns error message about invalid input
+- Status: Pass
+- Dependencies: GetAddress.io API
+
+### Extreme/Boundary Data Testing
+- Input:
+    - Very short postcode segment "W1"
+- Expected Result: Many results returned but limited and scrollable
+- Actual Result: Results limited to reasonable number with scroll functionality
+- Status: Pass
+- Dependencies: GetAddress.io API, CSS overflow handling
+
+- Input:
+    - Maximum length UK postcode "PO16 7GZ" plus additional characters
+- Expected Result: Input accepts reasonable length but may truncate extremely long input
+- Actual Result: Input handles the full length properly
+- Status: Pass
+
+### Address Suggestions Display
+
+- Event:
+    - Type "SW1A" into the postal code field
+- Expected Result: Suggestions container becomes visible with loading message
+- Actual Result: Suggestions container becomes visible with "Searching..." message
+- Status: Pass
+- Dependencies: GetAddress.io API
+
+- Event:
+    - Wait for API response after typing "SW1A 1AA"
+- Expected Result: List of address suggestions appears
+- Actual Result: List of address suggestions for SW1A 1AA appears
+- Status: Pass
+- Dependencies: GetAddress.io API
+
+### Selection from Suggestions
+- Event:
+    - Click on an address from the suggestions list
+- Expected Result: Selected address fills the input field
+- Actual Result: Selected address fills the input field
+- Status: Pass
+- Dependencies: GetAddress.io API, JavaScript event handling
+
+- Event:
+    - Verify hidden field population after selection
+- Expected Result: Hidden field "selected_address" contains the full selected address
+- Actual Result: Hidden field "selected_address" contains the full selected address
+- Status: Pass
+- Dependencies: JavaScript event handling
+
+### Form Submission
+- Event:
+    - Select an address and click Submit button
+- Expected Result: Form submits with the selected address
+- Actual Result: Form submits with the selected address in the hidden field
+- Status: Pass
+- Dependencies: Form handling
+
+- Event:
+    - Attempt to submit without selecting an address
+- Expected Result: Form validation prevents submission or uses the raw input
+- Actual Result: Form submits with whatever text is in the input field
+- Status: Needs Improvement
+- Fix: Add validation to ensure a valid address is selected or provide clearer user instructions
+- Dependencies: Form validation
+
+
+### Edge Cases
+- Event:
+    - Type partial postcode "SW" then delete it
+- Expected Result: Suggestions hide when input is cleared
+- Actual Result: Suggestions hide when input is cleared
+- Status: Pass
+- Dependencies: JavaScript event handling
+
+- Event:
+    - Type partial postcode that returns many results (e.g., "SW1")
+- Expected Result: Reasonable number of suggestions displayed with scrolling
+- Actual Result: Suggestions container shows scrollbar when many results
+- Status: Pass
+- Dependencies: GetAddress.io API, CSS overflow handling
+
+- Event:
+    - Type very long postcode or address text
+- Expected Result: Input field handles text without overflow issues
+- Actual Result: Input field properly contains long text
+- Status: Pass
+- Dependencies: CSS overflow handling
+

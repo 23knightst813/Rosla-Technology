@@ -81,7 +81,7 @@
         font-style: normal;
         font-weight: 400;
         font-size: 35px; 
-        margin-top: -15px; /
+        margin-top: -15px;
         margin-bottom: 20px;
         text-align: center;
     }
@@ -145,7 +145,7 @@
 <!-- Add JavaScript below -->
 <script>
     // --- Configuration ---
-    const GETADDRESS_DOMAIN_TOKEN = 'dtoken_hEDzcyiWMr31VHUmjIS97eBcOqtd3b4U0yGzrU5EiG_MKwfX8yJvpY1eyhADhPZyXW8ZmRCTtLAO23zhbkq9AoZGichdiTX20c5O4NBUPk9s9Sc-5BDfHJPHxrq0AfRqeAzBRy8C06NoLZw4Srsc63PkrGRq3-hVP8uUgGvOHq11wbJLvkQn6BDvufJnGki055A4k_6-r-Y'; // Should start with dtoken_
+    const GETADDRESS_DOMAIN_TOKEN = 'dtoken_hEDzcyiWMr31VHUmjIS97eBcOqtd3b4U0yGzrU5EiG_MKwfX8yJvpY1eyhADhPZyXW8ZmRCTtLAO23zhbkq9Ajfd2YPpEib_trP_Vqv9YpB9ihTWp3W9b6xipuPXEcB2oyzCj0iRL_G0YlCW7f1O2yMxemxfsaLk1acAkBdO7_U9fym6eL0Gb7ueAOSjovSKWUkDab0A'; // Should start with dtoken_
     const DEBOUNCE_DELAY = 0; // Can be slightly faster for autocomplete
 
     // --- DOM Elements ---
@@ -269,21 +269,12 @@
         }
     });
 
-     // --- Optional: Form submission validation ---
-     consultationForm.addEventListener('submit', (event) => {
-         // Check if an address was actually selected (hidden input has value)
-         if (!selectedAddressInput.value) {
-             alert("Please enter your postcode/address and select a suggestion from the list.");
-             event.preventDefault(); // Stop submission
-             return; // Prevent further checks if invalid
-         }
-         // Optional: Check if the text in the input *matches* the selected hidden value
-         // This prevents submitting if the user selected an address, then manually changed the input field after
-         if (searchInput.value !== selectedAddressInput.value) {
-              alert("Please select a valid address suggestion from the list. Do not manually edit after selecting.");
-              event.preventDefault(); // Stop submission
-         }
-     });
+    // --- Optional: Form submission handling ---
+    consultationForm.addEventListener('submit', (event) => {
+        // Let the server handle validation - no alerts needed here
+        // You could add loading indicator or disable the submit button though
+        document.querySelector('.submit-btn').disabled = true;
+    });
 
 </script>
 {% endblock %}

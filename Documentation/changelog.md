@@ -1,4 +1,7 @@
 > ***Change Log***
+> - **ccd5331** 2025-04-01 15:11:11 - Rename solar consultation route to solar assessment and add adress auto fill
+> - **3f920d3** 2025-04-01 14:33:16 - Refactor solar consultation template: enhance layout, add postal code input, and improve address suggestions
+> - **dc1e70f** 2025-04-01 13:12:20 - Update styles and templates for solar consultation: enhance layout and add new design elements
 > - **ddac9b0** 2025-04-01 12:30:09 - Update changelog and testlog: enhance documentation for consultation module improvements and fix inaccuracies in test results
 > - **2be0462** 2025-04-01 12:27:14 - Enhance consultation module: add error handling, logging, and solar potential calculation
 > - **4b7a07b** 2025-04-01 11:32:32 - Refactor building area calculation to use Shapely and GeoPandas; update requirements and add dotenv support

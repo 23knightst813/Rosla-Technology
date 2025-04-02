@@ -18,26 +18,25 @@ logger = logging.getLogger(__name__)
 
 def address_coordinates(address):
     try:
-        # Use Nominatim for geocoding (OpenStreetMap's geocoding service)
-        encoded_address = requests.utils.quote(address)
-        url = f"https://nominatim.openstreetmap.org/search?format=json&q={encoded_address}&limit=1"
-        
-        headers = {
-            'User-Agent': 'BuildingAreaCalculator/1.0'  # Nominatim requires a User-Agent
+        # Use Geoapify API for geocoding
+        base_url = "https://api.geoapify.com/v1/geocode/search"
+        params = {
+            'text': address,
+            'apiKey': os.getenv('GEOAPIFY_API_KEY')
         }
         
-        response = requests.get(url, headers=headers)
+        response = requests.get(base_url, params=params)
         response.raise_for_status()  # Raise exception for HTTP errors
         
         data = response.json()
 
-        if data:
-            # Extract latitude and longitude from the first result and convert to float
-            latitude = float(data[0].get('lat'))
-            longitude = float(data[0].get('lon'))
+        if data.get('features'):
+            # Extract latitude and longitude from the first result
+            latitude = data['features'][0]['geometry']['coordinates'][1]
+            longitude = data['features'][0]['geometry']['coordinates'][0]
             return latitude, longitude
         else:
-            flash("No location found for this address", "warning")
+            flash("No location found for this address", "error")
             return None, None
     except Exception as e:
         flash(f"Error fetching address coordinates: {str(e)}", "danger")
@@ -59,7 +58,7 @@ def get_building_geometry(lat, lon):
         for feature in data.get('features', []):
             if feature.get('properties', {}).get('feature_type') == 'building':
                 return feature['geometry']['coordinates'][0]  # List of [lon, lat] pairs
-        flash("Building geometry not found.", "warning")
+        flash("Building geometry not found.", "error")
         raise ValueError("Building geometry not found.")
     except Exception as e:
         flash(f"Error fetching building geometry: {str(e)}", "danger")
@@ -69,7 +68,7 @@ def get_building_geometry(lat, lon):
 def calculate_orientation(building_coords):
     try:
         if len(building_coords) < 2:
-            flash("Insufficient coordinates to determine orientation.", "warning")
+            flash("Insufficient coordinates to determine orientation.", "error")
             raise ValueError("Insufficient coordinates to determine orientation.")
         start = building_coords[0]
         end = building_coords[1]
@@ -88,7 +87,7 @@ def calculate_orientation(building_coords):
 def calculate_area_shapely(building_coords):
     try:
         if not building_coords or len(building_coords) < 3:
-            flash("Invalid building coordinates for area calculation.", "warning")
+            flash("Invalid building coordinates for area calculation.", "error")
             return 0
 
         # Create a Shapely Polygon
@@ -162,7 +161,7 @@ def solar_potential(adress):
                 round(energy_savings, 2)
             )
         else:
-            flash("Failed to calculate solar potential due to missing coordinates.", "warning")
+            flash("Failed to calculate solar potential due to missing coordinates.", "error")
             return None
     except Exception as e:
         flash(f"Error calculating solar potential: {str(e)}", "danger")

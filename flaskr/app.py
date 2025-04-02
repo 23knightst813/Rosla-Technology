@@ -5,7 +5,7 @@ from db import set_up_db, add_user, add_carbon_footprint, add_energy_bill, get_u
 from auth import sign_in, get_user_id_by_email
 from validation import is_not_empty, is_valid_email, is_secure_password
 from tracker import save_uploaded_file, ocr_process_file, gemini_format
-
+from consultation import solar_potential
 
 app = Flask(__name__)
 app.secret_key = 'dev' 
@@ -196,28 +196,30 @@ def upload_file():
         
     return redirect(url_for('tracker'))
 
-@app.route('/solar_assessment', methods=['GET', 'POST'])
+@app.route('/solarConsultation', methods=['GET', 'POST'])
 def solarConsultation():
     if request.method == 'POST':
-        original_postcode = request.form.get('postcode')
+        postcode = request.form.get('postcode')
+        selected_address = request.form.get('selected_address')
+        
+        # Validate submission
+        if not selected_address:
+            flash("Please enter your postcode/address and select a suggestion from the list.", "error")
+            return redirect(url_for('solarConsultation'))
+        
+        if not postcode or postcode != selected_address:
+            flash("Please select a valid address suggestion from the list. Do not manually edit after selecting.", "error")
+            return redirect(url_for('solarConsultation'))
+        
+        
+        flash("Submitted successfully!", "success")
 
-        full_selected_address = request.form.get('selected_address')
-
-        print(f"Original Postcode Entered: {original_postcode}")
-        print(f"Full Address Selected: {full_selected_address}")
-
-        if full_selected_address:
-
-            pass # Replace with your actual logic
-        else:
-
-            print("Warning: No full address was selected.")
+        solar_potential(selected_address)
 
 
-        # Fallback or redirect after processing
-        return redirect(url_for('solarConsultation.html')) # Or render the same page with a message
+        return redirect(url_for('solarConsultation'))  # Correct endpoint name
 
-    # If GET request, just show the form
+    # GET request handling
     return render_template('solarConsultation.html')
 
 @app.route('/dashboard')
