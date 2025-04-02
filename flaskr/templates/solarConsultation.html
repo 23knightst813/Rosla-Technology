@@ -5,18 +5,16 @@
 <div class="top-section">
     <div class="consultation-container">
         <h1 class="heading">Solar Assessment</h1>
-        <p class="sub-heading">Enter  Details To See If  Suitable For Solar</p>
+        <p class="sub-heading">Enter Details To See If Suitable For Solar</p>
 
         <form method="POST" action="{{ url_for('solarConsultation') }}" class="consultation-form"
             id="consultation-form">
             <div class="input-group">
-                <!--  id="postcode-input" -->
-                <input type="text" id="postcode-input" name="postcode" required placeholder="Enter  postal code">
+                <input type="text" id="postcode-input" name="postcode" required placeholder="Enter postal code">
             </div>
 
             <!-- Suggestions container - initially hidden -->
             <div class="address-suggestions" id="address-suggestions-container" style="display: none;">
-                <!-- Added id="address-suggestions-list" -->
                 <ul id="address-suggestions-list">
                     <!-- Suggestions will be populated here by JavaScript -->
                 </ul>
@@ -30,43 +28,47 @@
     </div>
 </div>
 
+{% if solar_results %}
 <div class="bottom-section">
-    <p> your propty has this area and this usable area and id faceign this direction </p>
+    <p style="position: absolute; top: 5%;">We calculated that your property is {{ solar_results.area }} square meters and faces {{ solar_results.orientation }}.</p>
     <div class="left-section">
         <div class="info-box">
             <span class="info-title">Pricing Estimates:</span>
-            <span class="info-value">£3,000</span>
+            <span class="info-value">£{{ "{:,.0f}".format(solar_results.price_estimate) }}</span>
         </div>
         <div class="info-box">
             <span class="info-title">Financing Plans:</span>
-            <span class="info-value">£53/Month<br>1 Year</span>
+            <span class="info-value">£{{ "{:.0f}".format(solar_results.monthly_payment) }}/Month<br>Over 10 Years</span>
         </div>
         <div class="info-box">
             <span class="info-title">Energy Generation:</span>
-            <span class="info-value">1,360 kWh/year</span>
+            <span class="info-value">{{ "{:,.0f}".format(solar_results.energy_potential) }} kWh/year</span>
         </div>
         <div class="info-box">
             <span class="info-title">Savings:</span>
-            <span class="info-value">£49/Month</span>
+            <span class="info-value">£{{ "{:.0f}".format(solar_results.energy_savings) }}/Month</span>
         </div>
     </div>
-
 
     <div class="right-section">
-        <h3 class="header2">You are suited to 4 panels</h3>
+        <h3 class="header2">You are suited to {{ solar_results.panel_count }} panels</h3>
 
         <div class="solar-icons">
+            {% for i in range(min(solar_results.panel_count, 4)) %}
             <img src="{{ url_for('static', filename='images/solar.svg') }}" alt="solar panel image">
-            <img src="{{ url_for('static', filename='images/solar.svg') }}" alt="solar panel image">
-            <img src="{{ url_for('static', filename='images/solar.svg') }}" alt="solar panel image">
-            <img src="{{ url_for('static', filename='images/solar.svg') }}" alt="solar panel image">
+            {% endfor %}
+            {% if solar_results.panel_count > 4 %}
+            <p style="width: 100%; text-align: center; font-size: 18px; margin-top: 10px;">+{{ solar_results.panel_count - 4 }} more panels</p>
+            {% endif %}
         </div>
 
-        <p class="kwh-text">That's 1,360kwh</p>
+        <p class="kwh-text">That's {{ "{:,.0f}".format(solar_results.energy_potential) }} kWh</p>
+        <a href="{{ url_for('installation') }}" class="btn">Learn more</a>
+
     </div>
 
-    <button class="btn">Learn more</button>
 </div>
+{% endif %}
 
 <style>
 
@@ -177,6 +179,7 @@
         font-weight: 400;
         font-size: 60px;
         text-align: center;
+        margin-top: 80px;
     }
 
     .header {
@@ -203,16 +206,17 @@
         font-family: 'Hubballi';
         font-size: 40px;
         margin-bottom: 30px;
+        margin-bottom: -20px;
     }
 
     .bottom-section .btn {
-        margin-top: 20px;
         background-color: #2C713E;
         color: #F4F1EB;
-        position: absolute;
-        bottom: 40px;
-        left: 50%;
-        transform: translateX(-50%);
+        position: relative;
+        margin: 0 auto;
+        display: block;
+        text-align: center;
+        margin-top: 60px;
     }
 
     .address-suggestions {
@@ -338,7 +342,6 @@
     }
 </style>
 
-<!-- Add JavaScript below -->
 <script>
     // --- Configuration ---
     const GETADDRESS_DOMAIN_TOKEN = 'dtoken_hEDzcyiWMr31VHUmjIS97eBcOqtd3b4U0yGzrU5EiG_MKwfX8yJvpY1eyhADhPZyXW8ZmRCTtLAO23zhbkq9Ajfd2YPpEib_trP_Vqv9YpB9ihTWp3W9b6xipuPXEcB2oyzCj0iRL_G0YlCW7f1O2yMxemxfsaLk1acAkBdO7_U9fym6eL0Gb7ueAOSjovSKWUkDab0A-mE'; // Should start with dtoken_

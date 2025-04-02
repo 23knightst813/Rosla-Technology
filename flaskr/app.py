@@ -10,6 +10,9 @@ from consultation import solar_potential
 app = Flask(__name__)
 app.secret_key = 'dev' 
 
+# Add min function to the Jinja2 environment
+app.jinja_env.globals.update(min=min)
+
 # Configure upload folder
 UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'uploads')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -211,16 +214,39 @@ def solarConsultation():
             flash("Please select a valid address suggestion from the list. Do not manually edit after selecting.", "error")
             return redirect(url_for('solarConsultation'))
         
+        try:
+            # Call solar_potential function with the selected address
+            result = solar_potential(selected_address)
+            
+            if result:
+                # Unpack the tuple returned by solar_potential
+                area, orientation, usable_area, energy_potential, panel_count, price_estimate, monthly_payment, energy_savings = result
+                
+                # Store results in session for display
+                session['solar_results'] = {
+                    'address': selected_address,
+                    'area': area,
+                    'orientation': orientation,
+                    'usable_area': usable_area,
+                    'energy_potential': energy_potential,
+                    'panel_count': int(panel_count),
+                    'price_estimate': price_estimate,
+                    'monthly_payment': monthly_payment,
+                    'energy_savings': energy_savings
+                }
+                
+                flash("Solar assessment completed successfully!", "success")
+            else:
+                flash("Unable to calculate solar potential for this address.", "error")
+        except Exception as e:
+            flash(f"Error processing solar assessment: {str(e)}", "error")
+            logging.error(f"Solar assessment error: {str(e)}")
         
-        flash("Submitted successfully!", "success")
+        return redirect(url_for('solarConsultation'))
 
-        solar_potential(selected_address)
-
-
-        return redirect(url_for('solarConsultation'))  # Correct endpoint name
-
-    # GET request handling
-    return render_template('solarConsultation.html')
+    # GET request handling - pass any stored results to the template
+    solar_results = session.get('solar_results', None)
+    return render_template('solarConsultation.html', solar_results=solar_results)
 
 @app.route('/dashboard')
 def dashboard():

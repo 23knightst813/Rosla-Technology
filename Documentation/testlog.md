@@ -634,3 +634,43 @@
 - Actual Result: Input field properly contains long text
 - Status: Pass
 - Dependencies: CSS overflow handling
+
+## Test Case 7: Integrated Solar Consultation
+
+### Front-End to Back-End Integration
+- Event:
+    - Submit form with valid UK address
+- Expected Result: System calculates solar potential and displays results
+- Actual Result: Results displayed with correct formatting and values
+- Status: Pass
+- Dependencies: Address API, Geoapify API, Solar Potential Calculation
+
+- Event:
+    - Submit form with invalid address
+- Expected Result: Error message displayed
+- Actual Result: Flash message alerting user that address could not be processed
+- Status: Pass
+- Dependencies: Form validation
+
+### Data Persistence
+- Event:
+    - Calculate solar potential and refresh page
+- Expected Result: Results remain on screen
+- Actual Result: Results persisted in session and displayed after refresh
+- Status: Pass
+- Dependencies: Flask session management
+
+### Results Display
+- Event:
+    - Calculate for large roof area
+- Expected Result: Shows multiple solar panels with "more panels" message for counts > 8
+- Actual Result: Correct count with "more panels" message
+- Status: Pass
+- Dependencies: Template logic
+
+- Event:
+    - Calculate for property with unfavorable orientation (e.g., North)
+- Expected Result: Lower energy potential and financial benefits
+- Actual Result: Energy potential and savings adjusted correctly for orientation
+- Status: Pass
+- Dependencies: Solar potential calculation algorithm
