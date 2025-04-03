@@ -1,4 +1,10 @@
 > ***Change Log***
+> - **989dd36** 2025-04-03 12:11:47 - Enhance solar consultation functionality: retrieve and store user solar assessment data in session, improve error handling, and update results display + Added Assesbility button
+> - **0eaf98a** 2025-04-03 10:25:11 - Refactor solar assessment functionality: delete existing assessment for user before inserting new entry
+> - **698e1d9** 2025-04-03 10:22:40 - Add solar assessment functionality: create database table, implement data storage, and enhance solar consultation flow
+> - **54d2876** 2025-04-02 15:10:38 - Enhance solar consultation functionality: add detailed test cases, improve error handling, and update results display in the template
+> - **2e5cc1b** 2025-04-02 14:46:01 - Enhance solar consultation template: add property area information, adjust layout, and improve styling for better user experience
+> - **dafa457** 2025-04-02 14:31:10 - Update changelog and testlog: add recent changes and improve test case documentation for geocoding functionality
 > - **82101ab** 2025-04-02 10:16:32 - Update changelog and enhance solar consultation: improve address validation, update geocoding method, and refine error handling
 > - **ccd5331** 2025-04-01 15:11:11 - Rename solar consultation route to solar assessment and add adress auto fill
 > - **3f920d3** 2025-04-01 14:33:16 - Refactor solar consultation template: enhance layout, add postal code input, and improve address suggestions
