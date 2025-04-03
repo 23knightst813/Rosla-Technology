@@ -30,7 +30,7 @@
 
 {% if solar_results %}
 <div class="bottom-section">
-    <p style="position: absolute; top: 5%;">We calculated that your property is {{ solar_results.area }} square meters
+    <p class="details">We calculated that your property is {{ solar_results.area }} square meters
         and faces {{ solar_results.orientation }}.</p>
     <div class="left-section">
         <div class="info-box">
@@ -80,6 +80,10 @@
 </style>
 {% endif %}
 <style>
+
+    .details{
+        position: absolute; top: 5%;
+    }
     .left-section {
         width: 20%;
         padding: 20px;

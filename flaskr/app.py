@@ -218,27 +218,11 @@ def solarConsultation():
             # Call solar_potential function with the selected address
             result = solar_potential(selected_address)
             
-
-
             if result:
                 # Unpack the tuple returned by solar_potential
                 area, orientation, usable_area, energy_potential, panel_count, price_estimate, monthly_payment, energy_savings = result
                 
-                # Store the results in the database
-                user_id = get_user_id_by_email()
-                add_solar_assessment(
-                    user_id=user_id,
-                    roof_area=area,
-                    orientation=orientation,
-                    usable_area=usable_area,
-                    energy_potential=energy_potential,
-                    panel_count=panel_count,
-                    price_estimate=price_estimate,
-                    monthly_payment=monthly_payment,
-                    energy_savings=energy_savings
-                )
-
-                # Store results in session for display
+                # Store results in session for display - use consistent format with auth.py
                 session['solar_results'] = {
                     'address': selected_address,
                     'area': area,
@@ -250,8 +234,24 @@ def solarConsultation():
                     'monthly_payment': monthly_payment,
                     'energy_savings': energy_savings
                 }
-                
-                flash("Solar assessment completed successfully!", "success")
+
+                # Store the results in the database
+                user_id = get_user_id_by_email()
+                if user_id:  # Only add to database if user is logged in
+                    add_solar_assessment(
+                        user_id=user_id,
+                        roof_area=area,
+                        orientation=orientation,
+                        usable_area=usable_area,
+                        energy_potential=energy_potential,
+                        panel_count=panel_count,
+                        price_estimate=price_estimate,
+                        monthly_payment=monthly_payment,
+                        energy_savings=energy_savings
+                    )
+                    flash("Solar assessment completed successfully!", "success")
+                else:
+                    flash("Solar assessment completed but not saved to your account. Please log in to save your results.", "warning")
             else:
                 flash("Unable to calculate solar potential for this address.", "error")
         except Exception as e:

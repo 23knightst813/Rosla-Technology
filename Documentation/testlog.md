@@ -663,7 +663,7 @@
 ### Results Display
 - Event:
     - Calculate for large roof area
-- Expected Result: Shows multiple solar panels with "more panels" message for counts > 8
+- Expected Result: Shows multiple solar panels with "more panels" message for counts > 4
 - Actual Result: Correct count with "more panels" message
 - Status: Pass
 - Dependencies: Template logic
@@ -674,3 +674,19 @@
 - Actual Result: Energy potential and savings adjusted correctly for orientation
 - Status: Pass
 - Dependencies: Solar potential calculation algorithm
+
+### Session Persistence
+- Event:
+    - Log in with a user that has a stored solar assessment
+- Expected Result: Previous solar assessment results are loaded into session
+- Actual Result: Solar assessment data was stored in session but under incorrect key ('solar_assessment' instead of 'solar_results')
+- Status: Fail
+- Fix: Modify sign_in function to store solar assessment data under the correct session key 'solar_results'
+- Dependencies: Flask session management, Database access
+
+- Event:
+    - Log in with a user that has a stored solar assessment after fix
+- Expected Result: Previous solar assessment results are loaded into session and displayed on page
+- Actual Result: Solar assessment data correctly loaded and displayed
+- Status: Pass
+- Dependencies: Flask session management, Database access

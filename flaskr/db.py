@@ -1,4 +1,5 @@
 import sqlite3
+from flask import session
 from werkzeug.security import generate_password_hash
 import time
 import logging
@@ -126,6 +127,47 @@ def add_solar_assessment(user_id, roof_area, orientation, usable_area, energy_po
     except Exception as e:
         logging.error(f'Error adding solar assessment data: {e}')  # Log error message
         return False
+        
+    finally:
+        if 'conn' in locals():
+            conn.close()  # Ensure the database connection is closed
+
+
+def get_user_solar_assessment(user_id):
+    """
+    Retrieve solar assessment data for a specific user.
+    
+    Args:
+        user_id (int): The ID of the user.
+            
+    Returns:
+        dict: A dictionary containing the user's solar assessment data, or None if not found.
+    """
+    try:
+        # Connect to the database with a timeout to handle locked database
+        conn = sqlite3.connect('database.db', timeout=20)
+        conn.row_factory = sqlite3.Row  # Return rows as dictionaries
+        cursor = conn.cursor()
+        
+        # Get the solar assessment data for this user
+        cursor.execute('''
+            SELECT * FROM solar_assessment
+            WHERE user_id = ?
+        ''', (user_id,))
+        
+        row = cursor.fetchone()
+        
+        if row:
+            result = dict(row)  # Convert Row object to dictionary
+            logging.info(f'Solar assessment data retrieved successfully for user {user_id}')
+            return result  # Return the assessment data
+        
+        logging.warning(f'No solar assessment data found for user {user_id}')
+        return None  # No assessment found for this user
+        
+    except Exception as e:
+        logging.error(f'Error retrieving solar assessment data: {e}')  # Log error message
+        return None
         
     finally:
         if 'conn' in locals():

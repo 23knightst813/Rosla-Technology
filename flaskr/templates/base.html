@@ -11,7 +11,7 @@
         rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}" />
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
-    
+    <title>Rosla Technologies</title>
     <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
 </head>
 
@@ -20,6 +20,10 @@
         <a href="{{ url_for('index') }}">
             <h1>Rosla <br>Technologies</h1>
         </a>
+        <button id="accessibility-toggle" class="accessibility-btn" aria-label="Toggle accessibility mode">
+            <img class="a11y-icon" src="{{ url_for('static', filename='images/a11y.svg') }}" alt="Accessibility Icon">
+            <span class="a11y-text">Standard Mode</span>
+        </button>
     </div>
 
     <nav>
@@ -53,21 +57,72 @@
         {% endif %}
     {% endwith %}
 
+
+
     {% block content %}{% endblock %}
 
-    <script>
-        // Auto-hide flash messages after 5 seconds
-        document.addEventListener('DOMContentLoaded', function() {
-            setTimeout(function() {
-                const flashMessages = document.querySelectorAll('.flash-message');
-                flashMessages.forEach(function(message) {
-                    message.style.opacity = '0';
-                    setTimeout(function() {
-                        message.style.display = 'none';
-                    }, 500);
-                });
-            }, 5000);
-        });
-    </script>
+
+<style>
+    .a11y-icon  {
+        color: #F4F1EB;
+        border: 2px solid #F4F1EB;
+        border-radius: 10px;
+        padding: 10px;
+        display: inline-block;
+        text-align: center;
+        box-shadow: none;
+        height: 20px;
+    }
+    
+    .a11y-text {
+        display: none;
+        color: #F4F1EB;
+        border: 2px solid #F4F1EB;
+        border-radius: 10px;
+        padding: 10px;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    #accessibility-toggle {
+        background: none;
+        border: none;
+        padding: 0;
+        margin: 0;
+        cursor: pointer;
+        position: absolute;
+        left: 200px;
+        top: 30px;
+    }
+    
+    .a11y-icon:hover, .a11y-text:hover {
+        border: 3px solid #F4F1EB;
+    }
+    
+    /* Class that will be shown in accessibility mode */
+    .accessibility-mode .a11y-icon {
+        display: none;
+    }
+    
+    .accessibility-mode .a11y-text {
+        display: inline-block;
+    }
+</style>
+
+<script>
+    // Auto-hide flash messages after 5 seconds
+    document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(function() {
+            const flashMessages = document.querySelectorAll('.flash-message');
+            flashMessages.forEach(function(message) {
+                message.style.opacity = '0';
+                setTimeout(function() {
+                    message.style.display = 'none';
+                }, 500);
+            });
+        }, 5000);
+    });
+</script>
 </body>
 </html>
+

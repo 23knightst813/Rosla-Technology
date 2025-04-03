@@ -307,6 +307,7 @@ input:not(:placeholder-shown)+label {
 
 .info {
     background-color: rgba(61, 44, 113, 0.9); 
+    color: white;
     border-left: 5px solid #664E6D; /* Medium purple accent */
 }
 
