@@ -101,6 +101,11 @@ def add_solar_assessment(user_id, roof_area, orientation, usable_area, energy_po
         conn = sqlite3.connect('database.db', timeout=20)
         cursor = conn.cursor()
         
+        # Delete any existing solar assessment for the user
+        cursor.execute('''
+            DELETE FROM solar_assessment WHERE user_id = ?
+        ''', (user_id,))
+
         # Insert the new solar assessment entry into the solar_assessment table
         cursor.execute('''
             INSERT INTO solar_assessment (
@@ -128,7 +133,7 @@ def add_solar_assessment(user_id, roof_area, orientation, usable_area, energy_po
 
 def add_carbon_footprint(user_id, date, footprint, transport, energy, waste, diet):
     """
-    Add a new carbon footprint entry to the database and ensuring the user can only have one entry at a time.
+    Add a new carbon footprint entry to the database.
     
     Args:
         user_id (int): The ID of the user.
@@ -146,13 +151,6 @@ def add_carbon_footprint(user_id, date, footprint, transport, energy, waste, die
         # Connect to the database with a timeout to handle locked database
         conn = sqlite3.connect('database.db', timeout=20)
         cursor = conn.cursor()
-        
-        # Delete the last carbon footprint entry for the user
-        
-        cursor.execute('''
-            DELETE FROM carbon_footprint
-            WHERE user_id = ?
-        ''', (user_id,))
         
         # Insert the new carbon footprint entry into the carbon_footprint table
         cursor.execute('''
