@@ -30,10 +30,11 @@
 
 {% if solar_results %}
 <div class="bottom-section">
-    <p style="position: absolute; top: 5%;">We calculated that your property is {{ solar_results.area }} square meters and faces {{ solar_results.orientation }}.</p>
+    <p style="position: absolute; top: 5%;">We calculated that your property is {{ solar_results.area }} square meters
+        and faces {{ solar_results.orientation }}.</p>
     <div class="left-section">
         <div class="info-box">
-            <span class="info-title">Pricing Estimates:</span>
+            <span class="info-title">Price Estimates:</span>
             <span class="info-value">£{{ "{:,.0f}".format(solar_results.price_estimate) }}</span>
         </div>
         <div class="info-box">
@@ -58,20 +59,27 @@
             <img src="{{ url_for('static', filename='images/solar.svg') }}" alt="solar panel image">
             {% endfor %}
             {% if solar_results.panel_count > 4 %}
-            <p style="width: 100%; text-align: center; font-size: 18px; margin-top: 10px;">+{{ solar_results.panel_count - 4 }} more panels</p>
+            <p style="width: 100%; text-align: center; font-size: 18px; margin-top: 10px;">+{{ solar_results.panel_count
+                - 4 }} more panels</p>
             {% endif %}
         </div>
 
-        <p class="kwh-text">That's {{ "{:,.0f}".format(solar_results.energy_potential) }} kWh</p>
-        <a href="{{ url_for('installation') }}" class="btn">Learn more</a>
+        <p class="kwh-text">That's {{ "{:,.0f}".format(solar_results.energy_potential/30) }} kWh a day</p>
+        <a href="{{ url_for('personConsultation') }}" class="btn">Learn more</a>
 
     </div>
 
 </div>
 {% endif %}
 
+{% if not solar_results %}
 <style>
-
+    body {
+        overflow-y: hidden;
+    }
+</style>
+{% endif %}
+<style>
     .left-section {
         width: 20%;
         padding: 20px;
@@ -343,6 +351,9 @@
 </style>
 
 <script>
+
+
+
     // --- Configuration ---
     const GETADDRESS_DOMAIN_TOKEN = 'dtoken_hEDzcyiWMr31VHUmjIS97eBcOqtd3b4U0yGzrU5EiG_MKwfX8yJvpY1eyhADhPZyXW8ZmRCTtLAO23zhbkq9Ajfd2YPpEib_trP_Vqv9YpB9ihTWp3W9b6xipuPXEcB2oyzCj0iRL_G0YlCW7f1O2yMxemxfsaLk1acAkBdO7_U9fym6eL0Gb7ueAOSjovSKWUkDab0A-mE'; // Should start with dtoken_
     const DEBOUNCE_DELAY = 0; // Can be slightly faster for autocomplete

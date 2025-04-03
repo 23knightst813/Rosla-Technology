@@ -1,7 +1,7 @@
 import logging
 import os
 from flask import Flask, render_template, request, flash, redirect, session, url_for, jsonify
-from db import set_up_db, add_user, add_carbon_footprint, add_energy_bill, get_user_energy_data
+from db import set_up_db, add_user, add_carbon_footprint, add_energy_bill, get_user_energy_data,add_solar_assessment
 from auth import sign_in, get_user_id_by_email
 from validation import is_not_empty, is_valid_email, is_secure_password
 from tracker import save_uploaded_file, ocr_process_file, gemini_format
@@ -218,10 +218,26 @@ def solarConsultation():
             # Call solar_potential function with the selected address
             result = solar_potential(selected_address)
             
+
+
             if result:
                 # Unpack the tuple returned by solar_potential
                 area, orientation, usable_area, energy_potential, panel_count, price_estimate, monthly_payment, energy_savings = result
                 
+                # Store the results in the database
+                user_id = get_user_id_by_email()
+                add_solar_assessment(
+                    user_id=user_id,
+                    roof_area=area,
+                    orientation=orientation,
+                    usable_area=usable_area,
+                    energy_potential=energy_potential,
+                    panel_count=panel_count,
+                    price_estimate=price_estimate,
+                    monthly_payment=monthly_payment,
+                    energy_savings=energy_savings
+                )
+
                 # Store results in session for display
                 session['solar_results'] = {
                     'address': selected_address,
@@ -244,9 +260,17 @@ def solarConsultation():
         
         return redirect(url_for('solarConsultation'))
 
-    # GET request handling - pass any stored results to the template
-    solar_results = session.get('solar_results', None)
-    return render_template('solarConsultation.html', solar_results=solar_results)
+    if not session.get("email"):
+        flash("You must be logged in to find to that", "error")
+        return redirect(url_for('login'))
+    else:
+        # GET request handling - pass any stored results to the template
+        solar_results = session.get('solar_results', None)
+        return render_template('solarConsultation.html', solar_results=solar_results)
+
+@app.route('/personConsultation')
+def personConsultation():
+    return render_template('personConsultation.html')
 
 @app.route('/dashboard')
 def dashboard():

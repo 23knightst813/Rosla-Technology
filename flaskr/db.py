@@ -56,12 +56,79 @@ def set_up_db():
     )
     ''')
 
+    ## Create a table to save Online solar assessment data
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS solar_assessment (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER NOT NULL,
+        roof_area REAL,
+        orientation TEXT,
+        usable_area REAL,
+        energy_potential REAL,
+        panel_count REAL,
+        price_estimate REAL,
+        monthly_payment REAL,
+        energy_savings REAL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
+        )
+                   ''')
+
     conn.commit()
     conn.close()
 
+
+def add_solar_assessment(user_id, roof_area, orientation, usable_area, energy_potential, panel_count, price_estimate, monthly_payment, energy_savings):
+    """
+    Add a new solar assessment entry to the database.
+    
+    Args:
+        user_id (int): The ID of the user.
+        roof_area (float): The area of the roof in square meters.
+        orientation (str): The orientation of the roof (e.g., South, East).
+        usable_area (float): The usable area for solar panels in square meters.
+        energy_potential (float): The energy potential from solar panels in kWh.
+        panel_count (int): The number of solar panels.
+        price_estimate (float): The estimated price for the solar installation.
+        monthly_payment (float): The estimated monthly payment for the solar installation.
+        energy_savings (float): The estimated energy savings from solar installation.
+            
+    Returns:
+        bool: True if the entry was added successfully, False otherwise.
+    """
+    try:
+        # Connect to the database with a timeout to handle locked database
+        conn = sqlite3.connect('database.db', timeout=20)
+        cursor = conn.cursor()
+        
+        # Insert the new solar assessment entry into the solar_assessment table
+        cursor.execute('''
+            INSERT INTO solar_assessment (
+                user_id, roof_area, orientation, usable_area, 
+                energy_potential, panel_count, price_estimate, 
+                monthly_payment, energy_savings
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ''', (
+            user_id, roof_area, orientation, usable_area,
+            energy_potential, panel_count, price_estimate,
+            monthly_payment, energy_savings
+        ))
+        
+        conn.commit()  # Commit the transaction
+        logging.info('Solar assessment entry added successfully!')  # Log success message
+        return True
+        
+    except Exception as e:
+        logging.error(f'Error adding solar assessment data: {e}')  # Log error message
+        return False
+        
+    finally:
+        if 'conn' in locals():
+            conn.close()  # Ensure the database connection is closed
+
 def add_carbon_footprint(user_id, date, footprint, transport, energy, waste, diet):
     """
-    Add a new carbon footprint entry to the database.
+    Add a new carbon footprint entry to the database and ensuring the user can only have one entry at a time.
     
     Args:
         user_id (int): The ID of the user.
@@ -79,6 +146,13 @@ def add_carbon_footprint(user_id, date, footprint, transport, energy, waste, die
         # Connect to the database with a timeout to handle locked database
         conn = sqlite3.connect('database.db', timeout=20)
         cursor = conn.cursor()
+        
+        # Delete the last carbon footprint entry for the user
+        
+        cursor.execute('''
+            DELETE FROM carbon_footprint
+            WHERE user_id = ?
+        ''', (user_id,))
         
         # Insert the new carbon footprint entry into the carbon_footprint table
         cursor.execute('''
