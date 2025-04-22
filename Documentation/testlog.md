@@ -736,7 +736,15 @@
 - Actual Result: HTML5 validation prevents submission for 'tel' type if not a valid number pattern (browser dependent). No built-in validation for date/time format beyond 'required'. Backend validation needed.
 - Status: Needs Improvement
 - Fix: Implement robust backend validation for phone, date, and time formats. Consider adding client-side JavaScript validation or using date/time picker widgets for better UX and format enforcement.
-- Dependencies: Backend validation logic, potentially JavaScript validation
+- Dependencies: Backend validation logic
+
+- Event:
+    - Submit form with a time and date that is already booked
+- Expected Result: Form submission fails, and an error message is displayed indicating the selected time and date are unavailable.
+- Actual Result: Form submission succeeds, potentially causing double booking.
+- Status: Fail
+- Fix: Implemented backend logic to check if the selected time and date slot is already in use. If unavailable, return an error message to the user and prevent submission.
+- Dependencies: Backend database query to check existing bookings, error handling logic, and user feedback mechanism.
 
 #### Presence Check
 - Input:
@@ -778,3 +786,11 @@
 - Actual Result: Browser prevents submission and highlights the empty 'Time' field.
 - Status: Pass
 - Dependencies: HTML 'required' attribute
+
+### Form Submision And Back End Handling
+- Event:
+    - Submit form
+- Expected Result: Form submits successfully with all fields processed correctly.
+- Actual Result: NameError: name 'date' is not defined
+- Status: Fail
+- Fix: Import the `date` module

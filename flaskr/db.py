@@ -1,5 +1,5 @@
 import sqlite3
-from flask import session
+from flask import session, flash
 from werkzeug.security import generate_password_hash
 import time
 import logging
@@ -122,6 +122,7 @@ def add_in_person_assessment_booking(user_id, date, time, address, email, phone)
         
         if count > 0:
             logging.warning(f'Time slot {date} {time} is already taken!')
+            flash('Time slot is already booked. Please choose another time.', 'error')
             return False  # Time slot is already booked
         
         # Insert the new in-person assessment booking into the table
@@ -133,10 +134,12 @@ def add_in_person_assessment_booking(user_id, date, time, address, email, phone)
         
         conn.commit()  # Commit the transaction
         logging.info('In-person assessment booking added successfully!')  # Log success message
+        flash('In-person assessment booking added successfully!', 'success')  # Flash success message
         return True
         
     except Exception as e:
         logging.error(f'Error adding in-person assessment data: {e}')  # Log error message
+        flash('Error adding in-person assessment data. Please try again.', 'error')  # Flash error message
         return False
         
     finally:

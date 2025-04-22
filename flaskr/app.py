@@ -2,6 +2,8 @@ import logging
 import os
 import secrets
 import string
+from datetime import date
+
 
 from flask import Flask, render_template, request, flash, redirect, session, url_for, jsonify
 from db import set_up_db, add_user, add_carbon_footprint, add_energy_bill, get_user_energy_data,add_solar_assessment, add_in_person_assessment_booking
@@ -272,78 +274,94 @@ def solarConsultation():
         solar_results = session.get('solar_results', None)
         return render_template('solarConsultation.html', solar_results=solar_results)
     
-@app.route('/personConsultation')
+@app.route('/personConsultation', methods=['GET', 'POST'])
 def personConsultation():
     if request.method == 'POST':
-        #Get the form data
+        # Get the form data
         name = request.form.get('name')
         phone = request.form.get('phone')
-        date = request.form.get('date')
+        booking_date_str = request.form.get('date') # Renamed to avoid conflict with date module
         time = request.form.get('time')
 
-        logging.debug(f"Received form data - Name: {name}, Phone: {phone}, Date: {date}, Time: {time}")
+        logging.debug(f"Received form data - Name: {name}, Phone: {phone}, Date: {booking_date_str}, Time: {time}")
 
         # Validate the form data
-        if not is_not_empty(name) and not is_not_empty(phone) and not is_not_empty(date) and not is_not_empty(time):
+        if not all([is_not_empty(name), is_not_empty(phone), is_not_empty(booking_date_str), is_not_empty(time)]):
             flash("All fields are required", "error")
             return redirect(url_for('personConsultation'))
-        
-        if is_valid_phone_number(phone) == False:
+
+        if not is_valid_phone_number(phone):
             flash("Invalid phone number format", "error")
             return redirect(url_for('personConsultation'))
 
+        # Convert booking_date_str to date object for comparison
+        try:
+            booking_date = date.fromisoformat(booking_date_str)
+            today_date = date.today()
+        except ValueError:
+            flash("Invalid date format. Please use YYYY-MM-DD.", "error")
+            return redirect(url_for('personConsultation'))
+
+        if booking_date < today_date:
+            flash("Please select a date from today onwards.", "error")
+            return redirect(url_for('personConsultation'))
+
         if time < "09:00" or time > "17:00":
-            flash("Please select a time between 09:00 and 17:00", "error")
+            flash("Please select a time between 09:00 and 17:00.", "error")
             return redirect(url_for('personConsultation'))
-        
-        if date < date.today().strftime("%Y-%m-%d"):
-            flash("Please select a date after today", "error")
-            return redirect(url_for('personConsultation'))
-
-
-
 
         # Get Extra Data From Session
-        address = session.get('solar_results', {}).get('address') # Corrected variable name
+        address = session.get('solar_results', {}).get('address')
         email = session.get('email')
 
-        # Add the data to the database
-
+        # Ensure user is logged in before attempting to book
         user_id = get_user_id_by_email()
+        if not user_id:
+            flash("You must be logged in to book a consultation.", "error")
+            return redirect(url_for('login')) 
 
-        result = add_in_person_assessment_booking(user_id, date, time, address, email, phone)
+        # Add the data to the session
+        session['in_person_assessment'] = {
+            'name': name,
+            'phone': phone,
+            'booking_date': booking_date_str,
+            'time': time,
+            'address': address,
+            'email': email
+        }
 
-        if result == True:
-            flash("Booking successful!", "success")
+        # Add the data to the database
+        if add_in_person_assessment_booking(user_id, booking_date_str, time, address, email, phone) == False:
+            return redirect(url_for('personConsultation', _anchor='consultation'))
         else:
-            flash("Booking failed. Please try again.", "error")
-        
-        
-
-    if request.method == 'GET':
-        # 1. Get the original data from session
-        solar_data = session.get('solar_results')
-
-        if not solar_data:
-            flash('Solar assessment data not found. Please complete the assessment first.', 'warning')
-            return redirect(url_for('solarConsultation'))
-
-        # 2. Create the NEW dictionary with the keys the template expects
-        try:
-            predictions_data = {
-                'price': solar_data.get('price_estimate', 0),
-                'financing': f"£{solar_data.get('monthly_payment', 0):.2f} / Month", # Format the financing string
-                'generation': solar_data.get('energy_potential', 0),
-                'savings': solar_data.get('energy_savings', 0)
-            }
-        except (KeyError, TypeError) as e: # Catch potential errors during mapping
-            flash(f'Error processing solar data ({e}). Please try the assessment again.', 'error')
-            logging.error(f"Error mapping solar data in personConsultation: {e}, Data: {solar_data}")
-            return redirect(url_for('solarConsultation'))
+            return redirect(url_for('personConsultation'))
 
 
-        # 4. Pass the NEW dictionary using the variable name 'predictions'
-        return render_template('personConsultation.html', predictions=predictions_data)
+    # --- GET Request Logic ---
+    # This part runs only if request.method is 'GET'
+
+    # 1. Get the original data from session
+    solar_data = session.get('solar_results')
+
+    if not solar_data:
+        flash('Solar assessment data not found. Please complete the assessment first.', 'warning')
+        return redirect(url_for('solarConsultation'))
+
+    # 2. Create the NEW dictionary with the keys the template expects
+    try:
+        predictions_data = {
+            'price': solar_data.get('price_estimate', 0),
+            'financing': f"£{solar_data.get('monthly_payment', 0):.2f} / Month", # Format the financing string
+            'generation': solar_data.get('energy_potential', 0),
+            'savings': solar_data.get('energy_savings', 0)
+        }
+    except (KeyError, TypeError, ValueError) as e: # Catch potential errors during mapping/formatting
+        flash(f'Error processing solar data ({e}). Please try the assessment again.', 'error')
+        logging.error(f"Error mapping solar data in personConsultation: {e}, Data: {solar_data}")
+        return redirect(url_for('solarConsultation'))
+
+    # 4. Pass the NEW dictionary using the variable name 'predictions'
+    return render_template('personConsultation.html', predictions=predictions_data)
 
 
 
