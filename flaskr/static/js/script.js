@@ -58,8 +58,15 @@ document.addEventListener('DOMContentLoaded', function() {
             const accessibilityStyles = document.createElement('style');
             accessibilityStyles.id = 'accessibility-styles';
             accessibilityStyles.textContent = `
+                @font-face {
+                    font-family: 'OpenDyslexic';
+                    /* raw GitHub URL */
+                    src: url('https://raw.githubusercontent.com/antijingoist/opendyslexic/master/compiled/OpenDyslexic-Regular.otf') format('opentype');
+                    font-weight: normal;
+                    font-style: normal;
+                }
                 body, html {
-                    font-family: Arial, sans-serif !important;
+                     font-family: 'OpenDyslexic', sans-serif;
                     font-size: 16px !important;
                     line-height: 1.5 !important;
                     color: #000 !important;
