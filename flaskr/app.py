@@ -267,10 +267,38 @@ def solarConsultation():
         # GET request handling - pass any stored results to the template
         solar_results = session.get('solar_results', None)
         return render_template('solarConsultation.html', solar_results=solar_results)
-
+    
 @app.route('/personConsultation')
 def personConsultation():
-    return render_template('personConsultation.html')
+    if request.method == 'POST':
+        pass
+    if request.method == 'GET':
+        # 1. Get the original data from session
+        solar_data = session.get('solar_results')
+
+        if not solar_data:
+            flash('Solar assessment data not found. Please complete the assessment first.', 'warning')
+            return redirect(url_for('solarConsultation'))
+
+        # 2. Create the NEW dictionary with the keys the template expects
+        try:
+            predictions_data = {
+                'price': solar_data.get('price_estimate', 0),
+                'financing': f"£{solar_data.get('monthly_payment', 0):.2f} / Month", # Format the financing string
+                'generation': solar_data.get('energy_potential', 0),
+                'savings': solar_data.get('energy_savings', 0)
+            }
+        except (KeyError, TypeError) as e: # Catch potential errors during mapping
+            flash(f'Error processing solar data ({e}). Please try the assessment again.', 'error')
+            logging.error(f"Error mapping solar data in personConsultation: {e}, Data: {solar_data}")
+            return redirect(url_for('solarConsultation'))
+
+
+        # 4. Pass the NEW dictionary using the variable name 'predictions'
+        return render_template('personConsultation.html', predictions=predictions_data)
+
+
+
 
 @app.route('/dashboard')
 def dashboard():
@@ -278,7 +306,17 @@ def dashboard():
 
 @app.route('/installation')
 def installation():
-    return render_template('installation.html')
+    if request.method == 'POST':
+        #Get the form data
+        name = request.form.get('name')
+        phone = request.form.get('phone')
+        date = request.form.get('date')
+        time = request.form.get('time')
+
+
+
+    if request.method == 'GET':
+        return render_template('installation.html')
 
 @app.route('/login', methods=["GET", "POST"])
 def login():

@@ -690,3 +690,86 @@
 - Actual Result: Solar assessment data correctly loaded and displayed
 - Status: Pass
 - Dependencies: Flask session management, Database access
+
+
+## Test Case 8: In Person Solar Consultation
+
+### Reuse the prediction infoamtion boxes
+- Event:
+    - Paste The relevant code from the flaskr\templates\personConsultation.html to flaskr\templates\personConsultation.html
+- Expected Result: Data Displays Correctly
+- Actual Result: Error: jinja2.exceptions.UndefinedError
+- Status: Fail
+- Fix: Feed in the varibles in the python route
+
+### Input Box Testing
+- Event:
+    - Click on Name, Phone, Date, or Time input field
+- Expected Result: Text cursor appears, user can type
+- Actual Result: Text cursor appears, user can type
+- Status: Pass
+- Dependencies: HTML structure
+
+#### Normal Data
+- Input:
+    - Name: John Doe
+    - Phone: 07123456789
+    - Date: 2025/05/15
+    - Time: 14:30
+- Expected Result: Form submits successfully when 'Book' is clicked (assuming backend validation passes)
+- Actual Result: Form submits successfully
+- Status: Pass
+- Dependencies: Form handling, Backend validation
+
+#### Erroneous Data
+- Input:
+    - Name: John Doe
+    - Phone: InvalidPhoneNumber
+    - Date: 15-05-2025 (Incorrect format)
+    - Time: 2 PM (Incorrect format)
+- Expected Result: Form submission fails or displays validation errors for phone, date, and time fields.
+- Actual Result: HTML5 validation prevents submission for 'tel' type if not a valid number pattern (browser dependent). No built-in validation for date/time format beyond 'required'. Backend validation needed.
+- Status: Needs Improvement
+- Fix: Implement robust backend validation for phone, date, and time formats. Consider adding client-side JavaScript validation or using date/time picker widgets for better UX and format enforcement.
+- Dependencies: Backend validation logic, potentially JavaScript validation
+
+#### Presence Check
+- Input:
+    - Name: (empty)
+    - Phone: 07123456789
+    - Date: 2025/05/15
+    - Time: 14:30
+- Expected Result: Form submission prevented due to missing required 'Name' field. Browser validation message shown.
+- Actual Result: Browser prevents submission and highlights the empty 'Name' field.
+- Status: Pass
+- Dependencies: HTML 'required' attribute
+
+- Input:
+    - Name: John Doe
+    - Phone: (empty)
+    - Date: 2025/05/15
+    - Time: 14:30
+- Expected Result: Form submission prevented due to missing required 'Phone' field. Browser validation message shown.
+- Actual Result: Browser prevents submission and highlights the empty 'Phone' field.
+- Status: Pass
+- Dependencies: HTML 'required' attribute
+
+- Input:
+    - Name: John Doe
+    - Phone: 07123456789
+    - Date: (empty)
+    - Time: 14:30
+- Expected Result: Form submission prevented due to missing required 'Date' field. Browser validation message shown.
+- Actual Result: Browser prevents submission and highlights the empty 'Date' field.
+- Status: Pass
+- Dependencies: HTML 'required' attribute
+
+- Input:
+    - Name: John Doe
+    - Phone: 07123456789
+    - Date: 2025/05/15
+    - Time: (empty)
+- Expected Result: Form submission prevented due to missing required 'Time' field. Browser validation message shown.
+- Actual Result: Browser prevents submission and highlights the empty 'Time' field.
+- Status: Pass
+- Dependencies: HTML 'required' attribute

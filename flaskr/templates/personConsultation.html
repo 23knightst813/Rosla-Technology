@@ -1,7 +1,424 @@
 {% extends 'base.html' %}
-
 {% block content %}
+<!-- Top Section: Solar Details -->
+<div class="solar-details-section pink-bg">
 
-<p>HI</p>
+    <div class="container">
+        <h1 class="section-title nixie-font light-text text-center">In Person Consultation</h1>
+
+        <div class="details-grid">
+            <!-- Predictions Column -->
+            <div class="predictions-col">
+                <h2 class="column-title nixie-font light-text">Predictions</h2>
+
+                <div class="info-box-new light-bg pink-text">
+                    <span class="info-title-new nixie-font">Pricing Estimates</span>
+                    {# Use default filter if predictions might be missing #}
+                    <span class="info-value-new hubballi-font">£{{ "{:,.0f}".format(predictions.price | default(0)) }}</span>
+                </div>
+                <div class="info-box-new light-bg pink-text">
+                    <span class="info-title-new nixie-font">Financing Plans</span>
+                    <span class="info-value-new hubballi-font">{{ predictions.financing | default('N/A') }}</span>
+                </div>
+                <div class="info-box-new light-bg pink-text">
+                    <span class="info-title-new nixie-font">Energy Generation</span>
+                    <span class="info-value-new hubballi-font">{{ "{:,.0f}".format(predictions.generation | default(0)) }} kWh/year</span>
+                </div>
+                <div class="info-box-new light-bg pink-text">
+                    <span class="info-title-new nixie-font">Savings</span>
+                    <span class="info-value-new hubballi-font">£{{ "{:,.0f}".format(predictions.savings | default(0)) }}/Month</span>
+                </div>
+            </div>
+
+            <!-- Process Details Column -->
+            <div class="process-col light-text">
+                <ul class="process-list hubballi-font">
+                    <li>Consultation & Assessment – We analyse your energy needs and solar potential.</li>
+                    <li>Custom Solar Plan – Receive a tailored system design with cost and savings estimates.</li>
+                    <li>Approvals & Permits – We handle all paperwork for a hassle-free process.</li>
+                    <li>Professional Installation – Certified experts install your system in 1-3 days.</li>
+                    <li>System Activation – We test and connect your system to the grid.</li>
+                    <li>Start Saving – Enjoy lower energy bills</li>
+                </ul>
+            </div>
+
+            <!-- Recommendations Column -->
+            <div class="recommendations-col">
+                <h2 class="column-title nixie-font light-text">We Recommend</h2>
+                <div class="recommendation-box light-bg pink-text hubballi-font">SunPower Maxeon 6</div>
+                <div class="recommendation-box light-bg pink-text hubballi-font">REC Alpha Pure Series</div>
+                <div class="recommendation-box light-bg pink-text hubballi-font">Canadian Solar HiKu6</div>
+                <div class="recommendation-box light-bg pink-text hubballi-font">Panasonic Evervolt</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bottom Section: Consultation Booking -->
+<div class="consultation-booking-section light-bg">
+    <div class="container text-center">
+        <h1 class="section-title nixie-font pink-text">Solar Consultation</h1>
+        <p class="sub-heading hubballi-font pink-text">Enter Your Details To Book An In Person Consultation</p>
+
+        <form method="POST" action="{{ url_for('installation') }}" class="booking-form">
+            <div class="input-group-new">
+                 {# Use a label for accessibility, can be visually hidden if needed #}
+                 <label for="name" class="sr-only">Enter Your Name</label>
+                <input type="text" id="name" name="name" required placeholder="Enter Your Name">
+            </div>
+            <div class="input-group-new">
+                 <label for="phone" class="sr-only">Enter Your Phone Number</label>
+                <input type="tel" id="phone" name="phone" required placeholder="Enter Your Phone Number">
+            </div>
+            <div class="input-group-new">
+                {# Added label for accessibility #}
+                <label for="date" class="sr-only">Select Date (YYYY/MM/DD)</label>
+                {# Placeholder is less reliable for date/time, rely on browser default or label #}
+                <input type="date" id="date" name="date" required >
+                <span class="icon"><i class="far fa-calendar-alt"></i></span>
+            </div>
+            <div class="input-group-new">
+                 {# Added label for accessibility #}
+                 <label for="time" class="sr-only">Select Time</label>
+                 {# Placeholder is less reliable for date/time #}
+                <input type="time" id="time" name="time" required >
+                <span class="icon"><i class="far fa-clock"></i></span>
+            </div>
+            <button type="submit" class="btn book-btn nixie-font">Book</button>
+        </form>
+    </div>
+</div>
+
+<style>
+
+    /* Define colors based on the image */
+    :root {
+        /* Updated colors based on Figma */
+        --brand-pink-bg: #CF8D8B;         /* Main pink background */
+        --brand-light-bg: #F4F1EB;        /* Light cream background */
+        --brand-pink-text-dark: #CF8D8B;  /* Pink text used on light backgrounds (inputs, titles) */
+        --brand-pink-text-medium: #CF8D8B;/* Pink text used for borders, placeholders */
+        --brand-light-text: #F4F1EB;       /* Light cream text used on pink backgrounds */
+    }
+
+    /* Remove default body background override if base.html sets it */
+    body {
+        background-color: var(--brand-light-bg); /* Or keep existing from style.css if preferred */
+         /* override the hidden overflow form the previous verison of the code*/
+         overflow-y: auto !important;
+    }
+
+    nav, .navbar {
+        background-color: #CF8D8B;
+    }
+
+
+    /* General Section Styling */
+    .solar-details-section,
+    .consultation-booking-section {
+        padding-top: 1px;
+        padding-bottom: 145px;
+        min-height: 50vh; /* Ensure sections have some height */
+    }
+
+    .pink-bg {
+        background-color: var(--brand-pink-bg);
+    }
+
+    .light-bg {
+        background-color: var(--brand-light-bg);
+    }
+
+    .light-text {
+        color: var(--brand-light-text);
+    }
+
+    .pink-text {
+        color: var(--brand-pink-text-dark);
+    }
+
+    .container {
+        max-width: 1300px; /* Wider container for 3 columns */
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    .section-title {
+        font-size: 70px; /* Large title */
+        margin-bottom: 40px;
+        font-weight: 400;
+    }
+
+    .column-title {
+        font-size: 28px;
+        margin-bottom: 25px;
+        font-weight: 400;
+        text-align: center; /* Center column titles */
+    }
+
+    /* Top Section Grid Layout */
+    .details-grid {
+        display: flex;
+        justify-content: space-between;
+        gap: 30px; /* Gap between columns */
+        align-items: flex-start; /* Align items to the top */
+    }
+
+    .predictions-col,
+    .recommendations-col {
+        flex: 0 0 28%; /* Fixed width for outer columns */
+        max-width: 28%;
+    }
+
+    .process-col {
+        flex: 1; /* Middle column takes remaining space */
+        padding: 0 15px; /* Add some horizontal padding */
+        margin-top: 65px; /* Align roughly with boxes */
+    }
+
+    /* Info Box Styling (Predictions) */
+    .info-box-new {
+        background-color: var(--brand-light-bg);
+        color: var(--brand-pink-text-dark);
+        border-radius: 15px;
+        padding: 18px 25px;
+        margin-bottom: 18px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        min-height: 55px; /* Consistent height */
+    }
+
+    .info-title-new {
+        font-size: 17px;
+        text-align: left;
+        padding-right: 10px;
+        line-height: 1.3;
+        font-weight: bold;
+
+    }
+
+    .info-value-new {
+        font-size: 20px;
+        text-align: right;
+        font-weight: bold;
+        flex-shrink: 0;
+    }
+
+    /* Process List Styling */
+    .process-list {
+        list-style: none;
+        padding-left: 0; /* Remove default padding */
+        margin-left: 20px; /* Indent list */
+    }
+
+    .process-list li {
+        margin-bottom: 16px;
+        position: relative;
+        padding-left: 28px; /* Space for bullet */
+        font-size: 17px;
+        line-height: 1.5;
+    }
+
+    .process-list li::before {
+        content: '•';
+        color: var(--brand-light-text); /* Bullet color */
+        font-size: 24px;
+        position: absolute;
+        left: 0;
+        top: -1px; /* Adjust vertical alignment */
+    }
+
+    /* Recommendation Box Styling */
+    .recommendation-box {
+        background-color: var(--brand-light-bg);
+        color: var(--brand-pink-text-dark);
+        border-radius: 15px;
+        padding: 25px 20px; /* Make them feel more like buttons */
+        margin-bottom: 18px;
+        text-align: center;
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+
+    }
+
+
+    /* Bottom Section: Consultation Form */
+     .consultation-booking-section .sub-heading {
+        font-size: 22px;
+        margin-top: -25px; /* Adjust spacing below title */
+        margin-bottom: 45px;
+        font-weight: 400;
+    }
+
+    .booking-form {
+        max-width: 450px; /* Control form width */
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 28px; /* Space between input groups */
+    }
+
+    .input-group-new {
+        position: relative;
+    }
+
+    .input-group-new input[type="text"],
+    .input-group-new input[type="tel"],
+    .input-group-new input[type="date"],
+    .input-group-new input[type="time"] {
+        width: 100%;
+        border: none; /* Remove default border */
+        border-bottom: 2px solid var(--brand-pink-text-medium); /* Apply underline */
+        background: transparent; /* Make background transparent */
+        padding: 12px 35px 12px 0; /* Adjust padding: top, right (for icon), bottom, left */
+        font-size: 18px;
+        color: var(--brand-pink-text-dark); /* Input text color */
+        font-family: 'Hubballi', sans-serif;
+        outline: none; /* Remove focus outline */
+        transition: border-bottom-color 0.3s ease;
+        box-sizing: border-box; /* Include padding/border in width */
+        /* Ensure minimum height for consistency */
+        min-height: 46px; /* Adjust as needed */
+         /* Attempt to remove default browser styling (may have limited effect) */
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+    }
+
+    /* Style placeholder text for text/tel inputs */
+    .input-group-new input[type="text"]::placeholder,
+    .input-group-new input[type="tel"]::placeholder {
+        color: var(--brand-pink-text-medium);
+        opacity: 0.9;
+        font-family: 'Hubballi', sans-serif;
+    }
+
+    /* Style the default text/format shown by browser in date/time inputs */
+    /* This is browser-specific and might not work perfectly everywhere */
+    .input-group-new input[type="date"]::-webkit-datetime-edit,
+    .input-group-new input[type="time"]::-webkit-datetime-edit {
+        /* Try to match the placeholder color */
+        color: var(--brand-pink-text-medium);
+        opacity: 0.9;
+    }
+    .input-group-new input[type="date"],
+    .input-group-new input[type="time"] {
+        /* Set default color for browsers that don't support ::-webkit-datetime-edit styling */
+         color: var(--brand-pink-text-medium);
+    }
+    /* When a valid date/time is entered, use the main text color */
+    .input-group-new input[type="date"]:valid,
+    .input-group-new input[type="time"]:valid {
+        color: var(--brand-pink-text-dark);
+         opacity: 1; /* Ensure full opacity */
+    }
+
+
+    /* Style focus state for all input types */
+    .input-group-new input:focus {
+        border-bottom-color: var(--brand-pink-text-dark); /* Darker underline on focus */
+    }
+
+    /* Recolour the native picker via filter*/
+    .input-group-new input[type="date"],input[type="time"]::-webkit-calendar-picker-indicator {
+    filter: brightness(0) saturate(100%) invert(95%) sepia(13%) saturate(2407%) hue-rotate(296deg) brightness(82%) contrast(96%);
+    }
+
+
+
+    /* Added for screen reader accessibility */
+    .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border-width: 0;
+    }
+
+
+    /* Booking Button */
+    .book-btn {
+        background-color: var(--brand-pink-bg); /* Pink background */
+        color: var(--brand-light-text); /* Light text */
+        border: none;
+        border-radius: 30px; /* Rounded corners */
+        padding: 15px 45px;
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        align-self: center; /* Center button horizontally */
+        margin-top: 20px; /* Space above button */
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .book-btn:hover {
+        background-color: #c89f9f; /* Darker pink on hover */
+        transform: translateY(-2px);
+        box-shadow: 0 5px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 992px) {
+        .details-grid {
+            flex-direction: column;
+            align-items: center; /* Center columns when stacked */
+        }
+
+        .predictions-col,
+        .process-col,
+        .recommendations-col {
+            flex: 0 0 100%; /* Full width */
+            max-width: 500px; /* Limit max width when stacked */
+            width: 100%;
+            margin-top: 0; /* Reset top margin */
+            padding: 0;
+        }
+
+        .process-col {
+             margin-bottom: 30px; /* Add space below process list */
+        }
+
+        .section-title {
+            font-size: 50px;
+        }
+         .column-title {
+             margin-top: 20px; /* Add space above column titles when stacked */
+         }
+    }
+
+     @media (max-width: 768px) {
+         .section-title {
+             font-size: 40px;
+         }
+         .consultation-booking-section .sub-heading {
+             font-size: 18px;
+         }
+         .info-box-new {
+             padding: 15px 20px;
+         }
+         .info-title-new {
+             font-size: 15px;
+         }
+         .info-value-new {
+             font-size: 18px;
+         }
+         .recommendation-box {
+             padding: 20px 15px;
+             font-size: 16px;
+         }
+          .booking-form {
+            max-width: 90%;
+        }
+
+     }
+
+</style>
 
 {% endblock %}

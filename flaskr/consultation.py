@@ -130,7 +130,7 @@ def solar_potential(adress):
             usable_area = area * 0.6
             energy_potential = usable_area * 1000 * 0.18 * solar_efficiency[orientation]
 
-            pannel_count = usable_area / 1.7
+            pannel_count = ( usable_area / 1.7 ) / 2
             pannel_count = round(pannel_count, 2)
 
             price_estimate = pannel_count * 300
