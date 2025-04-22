@@ -4,7 +4,7 @@ import secrets
 import string
 
 from flask import Flask, render_template, request, flash, redirect, session, url_for, jsonify
-from db import set_up_db, add_user, add_carbon_footprint, add_energy_bill, get_user_energy_data,add_solar_assessment
+from db import set_up_db, add_user, add_carbon_footprint, add_energy_bill, get_user_energy_data,add_solar_assessment, add_in_person_assessment_booking
 from auth import sign_in, get_user_id_by_email
 from validation import is_not_empty, is_valid_email, is_secure_password, is_valid_phone_number
 from tracker import save_uploaded_file, ocr_process_file, gemini_format
@@ -281,6 +281,8 @@ def personConsultation():
         date = request.form.get('date')
         time = request.form.get('time')
 
+        logging.debug(f"Received form data - Name: {name}, Phone: {phone}, Date: {date}, Time: {time}")
+
         # Validate the form data
         if not is_not_empty(name) and not is_not_empty(phone) and not is_not_empty(date) and not is_not_empty(time):
             flash("All fields are required", "error")
@@ -305,6 +307,17 @@ def personConsultation():
         address = session.get('solar_results', {}).get('address') # Corrected variable name
         email = session.get('email')
 
+        # Add the data to the database
+
+        user_id = get_user_id_by_email()
+
+        result = add_in_person_assessment_booking(user_id, date, time, address, email, phone)
+
+        if result == True:
+            flash("Booking successful!", "success")
+        else:
+            flash("Booking failed. Please try again.", "error")
+        
         
 
     if request.method == 'GET':

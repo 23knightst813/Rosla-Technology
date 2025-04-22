@@ -74,10 +74,74 @@ def set_up_db():
         FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
         )
                    ''')
+    
+    # Create a table to save in person consultation 
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS in_person_assessment_bookings (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER NOT NULL,
+        date TEXT NOT NULL,
+        time TEXT NOT NULL,
+        address TEXT NOT NULL,
+        email TEXT NOT NULL,
+        phone TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
+        )
+    ''')
 
     conn.commit()
     conn.close()
 
+def add_in_person_assessment_booking(user_id, date, time, address, email, phone):
+    """
+    Add a new in-person assessment booking to the database.
+    
+    Args:
+        user_id (int): The ID of the user.
+        date (str): The date of the booking.
+        time (str): The time of the booking.
+        address (str): The address for the assessment.
+        email (str): The email address of the user.
+        phone (str): The phone number of the user.
+            
+    Returns:
+        bool: True if the entry was added successfully, False otherwise.
+    """
+    try:
+        # Connect to the database with a timeout to handle locked database
+        conn = sqlite3.connect('database.db', timeout=20)
+        cursor = conn.cursor()
+        
+        # Check if the time slot is already taken
+        cursor.execute('''
+            SELECT COUNT(*) FROM in_person_assessment_bookings
+            WHERE date = ? AND time = ?
+        ''', (date, time))
+        count = cursor.fetchone()[0]
+        
+        if count > 0:
+            logging.warning(f'Time slot {date} {time} is already taken!')
+            return False  # Time slot is already booked
+        
+        # Insert the new in-person assessment booking into the table
+        cursor.execute('''
+            INSERT INTO in_person_assessment_bookings (
+                user_id, date, time, address, email, phone
+            ) VALUES (?, ?, ?, ?, ?, ?)
+        ''', (user_id, date, time, address, email, phone))
+        
+        conn.commit()  # Commit the transaction
+        logging.info('In-person assessment booking added successfully!')  # Log success message
+        return True
+        
+    except Exception as e:
+        logging.error(f'Error adding in-person assessment data: {e}')  # Log error message
+        return False
+        
+    finally:
+        if 'conn' in locals():
+            conn.close()  # Ensure the database connection is closed
 
 def add_solar_assessment(user_id, roof_area, orientation, usable_area, energy_potential, panel_count, price_estimate, monthly_payment, energy_savings):
     """
