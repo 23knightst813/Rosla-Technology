@@ -3,7 +3,7 @@ import os
 from flask import Flask, render_template, request, flash, redirect, session, url_for, jsonify
 from db import set_up_db, add_user, add_carbon_footprint, add_energy_bill, get_user_energy_data,add_solar_assessment
 from auth import sign_in, get_user_id_by_email
-from validation import is_not_empty, is_valid_email, is_secure_password
+from validation import is_not_empty, is_valid_email, is_secure_password, is_valid_phone_number
 from tracker import save_uploaded_file, ocr_process_file, gemini_format
 from consultation import solar_potential
 
@@ -271,7 +271,38 @@ def solarConsultation():
 @app.route('/personConsultation')
 def personConsultation():
     if request.method == 'POST':
-        pass
+        #Get the form data
+        name = request.form.get('name')
+        phone = request.form.get('phone')
+        date = request.form.get('date')
+        time = request.form.get('time')
+
+        # Validate the form data
+        if not is_not_empty(name) and not is_not_empty(phone) and not is_not_empty(date) and not is_not_empty(time):
+            flash("All fields are required", "error")
+            return redirect(url_for('personConsultation'))
+        
+        if is_valid_phone_number(phone) == False:
+            flash("Invalid phone number format", "error")
+            return redirect(url_for('personConsultation'))
+
+        if time < "09:00" or time > "17:00":
+            flash("Please select a time between 09:00 and 17:00", "error")
+            return redirect(url_for('personConsultation'))
+        
+        if date < date.today().strftime("%Y-%m-%d"):
+            flash("Please select a date after today", "error")
+            return redirect(url_for('personConsultation'))
+
+        
+
+
+        # Get Extra Data From Session
+        address = session.get('solar_results', {}).get('address') # Corrected variable name
+        email = session.get('email')
+
+        
+
     if request.method == 'GET':
         # 1. Get the original data from session
         solar_data = session.get('solar_results')
@@ -307,11 +338,7 @@ def dashboard():
 @app.route('/installation')
 def installation():
     if request.method == 'POST':
-        #Get the form data
-        name = request.form.get('name')
-        phone = request.form.get('phone')
-        date = request.form.get('date')
-        time = request.form.get('time')
+        pass
 
 
 

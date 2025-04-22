@@ -126,3 +126,16 @@ def is_secure_password(password):
     if not re.search(r'[\W_]', password):
         return False
     return True
+
+def is_valid_phone_number(phone_number):
+    """
+    Validate the given phone number using a regular expression.
+
+    Args:
+        phone_number (str): The phone number to validate.
+
+    Returns:
+        bool: True if the phone number is valid, False otherwise.
+    """
+    pattern = r'^\+?[0-9\s\-\(\)]+$'
+    return re.match(pattern, phone_number) is not None

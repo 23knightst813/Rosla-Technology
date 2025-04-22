@@ -60,7 +60,7 @@
         <h1 class="section-title nixie-font pink-text">Solar Consultation</h1>
         <p class="sub-heading hubballi-font pink-text">Enter Your Details To Book An In Person Consultation</p>
 
-        <form method="POST" action="{{ url_for('installation') }}" class="booking-form">
+        <form method="POST" action="{{ url_for('personConsultation') }}" class="booking-form">
             <div class="input-group-new">
                  {# Use a label for accessibility, can be visually hidden if needed #}
                  <label for="name" class="sr-only">Enter Your Name</label>
@@ -70,6 +70,10 @@
                  <label for="phone" class="sr-only">Enter Your Phone Number</label>
                 <input type="tel" id="phone" name="phone" required placeholder="Enter Your Phone Number">
             </div>
+            <div class="input-group-new">
+                <label for="phone" class="sr-only">Enter Your Phone Number</label>
+               <input type="tel" id="phone" name="phone" required placeholder="Enter Your Phone Number">
+           </div>
             <div class="input-group-new">
                 {# Added label for accessibility #}
                 <label for="date" class="sr-only">Select Date (YYYY/MM/DD)</label>
