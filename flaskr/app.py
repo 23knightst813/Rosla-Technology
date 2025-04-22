@@ -1,5 +1,8 @@
 import logging
 import os
+import secrets
+import string
+
 from flask import Flask, render_template, request, flash, redirect, session, url_for, jsonify
 from db import set_up_db, add_user, add_carbon_footprint, add_energy_bill, get_user_energy_data,add_solar_assessment
 from auth import sign_in, get_user_id_by_email
@@ -103,6 +106,7 @@ def cfp_calculator_submit():
             if user_id:
                 # Get the current date
                 from datetime import datetime
+
                 date = datetime.now().strftime("%Y-%m-%d")
                 
                 # Add carbon footprint entry to the database
@@ -294,7 +298,7 @@ def personConsultation():
             flash("Please select a date after today", "error")
             return redirect(url_for('personConsultation'))
 
-        
+
 
 
         # Get Extra Data From Session
@@ -401,7 +405,12 @@ def register():
         flash("Registration successful.", "success")
         sign_in(email, password)
         return redirect("/")
-    return render_template("register.html")
+    # Generate a secure example password
+    secure_password = ''.join(secrets.choice(string.ascii_letters + string.digits + string.punctuation) for _ in range(12))
+
+            
+
+    return render_template("register.html", example_password=secure_password)
 
 @app.route('/logout')
 def logout():

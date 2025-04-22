@@ -42,7 +42,12 @@
 - Actual result: User can type in field
 - Status: Pass
 
-
+- Event:
+    - User Uses Example Password As Acctaul Password
+- Expected Result: Passowrd Meets Requirments
+- Actual Result: Every One Uses The Same Password
+- Status: Fail
+- Fix: Fix The Security Issue By Randomly Generating A Password Instead Of Hard Coding
 
 ### Normal Data
 - Input: 
