@@ -114,9 +114,51 @@ def set_up_db():
     conn.commit()
     conn.close()
 
+def get_all_bookings():
+        conn = sqlite3.connect('database.db', timeout=20)
+        cursor = conn.cursor()
+
+        cursor.execute('''
+            SELECT * FROM installation_requests
+            ORDER BY booking_time ASC
+        ''')
+        installations = cursor.fetchall()
 
 
+        cursor.execute('''
+            SELECT * FROM in_person_assessment_bookings
+            ORDER BY date ASC, time ASC
+        ''')
+        in_person_assessments = cursor.fetchall()
+        conn.close()
+
+        logging.log(logging.INFO, f"Fetched {len(installations)} installation requests and {len(in_person_assessments)} in-person assessments.")
+        return installations, in_person_assessments
+
+
+
+def check_in_person_assessment_booking(user_id):
+        # Check if the user has an in-person assessment booking
+        # Connect to the database with a timeout to handle locked database
+        conn = sqlite3.connect('database.db', timeout=20)
+        cursor = conn.cursor()
         
+        # Get the in-person assessment booking for this user
+        cursor.execute('''
+            SELECT * FROM in_person_assessment_bookings
+            WHERE user_id = ?
+        ''', (user_id,))
+        
+        row = cursor.fetchone()
+        
+        if row:
+            result = dict(row)  # Convert Row object to dictionary
+            logging.info(f'In-person assessment booking found for user {user_id}')
+            return True  # Return the booking data
+        
+        logging.warning(f'No in-person assessment booking found for user {user_id}')
+        return False
+    
 def add_in_person_assessment_booking(user_id, date, time, address, email, phone):
     """
     Add a new in-person assessment booking to the database.

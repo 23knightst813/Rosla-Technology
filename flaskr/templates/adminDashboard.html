@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Admin Dashboard - Bookings</h1>
+
+    <!-- Installation Requests -->
+    <h2 class="mt-5">Installation Requests</h2>
+    {% if installations %}
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>User ID</th>
+                    <th>Product</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Address</th>
+                    <th>Booking Time</th>
+                    <th>Solar Details</th> <!-- Combined Solar/EV details -->
+                    <th>EV Details</th>
+                    <th>Requested At</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for install in installations %}
+                <tr>
+                    <td>{{ install[0] }}</td> <!-- id -->
+                    <td>{{ install[1] }}</td> <!-- user_id -->
+                    <td>{{ install[2] }}</td> <!-- product_type -->
+                    <td>{{ install[3] }}</td> <!-- user_email -->
+                    <td>{{ install[4] }}</td> <!-- user_phone -->
+                    <td>{{ install[5] }}</td> <!-- user_address -->
+                    <td>{{ install[6] }}</td> <!-- booking_time -->
+                    <td>
+                        {% if install[2] == 'solar' %}
+                            Dir: {{ install[7] or 'N/A' }}, Size: {{ install[8] or 'N/A' }}m²
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if install[2] == 'ev_chargers' %}
+                            Type: {{ install[9] or 'N/A' }}, Loc: {{ install[10] or 'N/A' }}, Model: {{ install[11] or 'N/A' }}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                    <td>{{ install[12] }}</td> <!-- request_timestamp -->
+                    <td>
+                        <!-- Add a form for deletion later -->
+                        <button class="btn btn-danger btn-sm" disabled>X</button> <!-- Placeholder delete button -->
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p>No installation requests found.</p>
+    {% endif %}
+
+    <!-- In-Person Assessment Bookings -->
+    <h2 class="mt-5">In-Person Assessment Bookings</h2>
+    {% if in_person_assessments %}
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>User ID</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Address</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Booked At</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for assessment in in_person_assessments %}
+                <tr>
+                    <td>{{ assessment[0] }}</td> <!-- id -->
+                    <td>{{ assessment[1] }}</td> <!-- user_id -->
+                    <td>{{ assessment[2] }}</td> <!-- date -->
+                    <td>{{ assessment[3] }}</td> <!-- time -->
+                    <td>{{ assessment[4] }}</td> <!-- address -->
+                    <td>{{ assessment[5] }}</td> <!-- email -->
+                    <td>{{ assessment[6] }}</td> <!-- phone -->
+                    <td>{{ assessment[7] }}</td> <!-- created_at -->
+                    <td>
+                        <!-- Add a form for deletion later -->
+                         <button class="btn btn-danger btn-sm" disabled>X</button> <!-- Placeholder delete button -->
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p>No in-person assessment bookings found.</p>
+    {% endif %}
+
+</div>
+
+<style>
+    .a11y-icon  {
+                filter: brightness(0) saturate(100%) invert(31%) sepia(19%) saturate(728%) hue-rotate(241deg) brightness(96%) contrast(88%);
+                border: 2px solid #664E6D;
+    }
+    .a11y-icon:hover, .a11y-text:hover {
+        border: 3px solid #664E6D;
+    }
+
+    nav a {
+        color: #664E6D;
+    }
+</style>
+{% endblock %}

@@ -80,7 +80,7 @@ def sign_in(email, password):
                 logging.info("Loaded previous solar assessment into session under 'solar_results' key")
             
             if session["role"] == 1:
-                return redirect("/admin")
+                return redirect("/admin_dashboard")
             return redirect("/")
         else:
             flash("Invalid password", "error")

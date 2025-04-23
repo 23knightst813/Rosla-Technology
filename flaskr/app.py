@@ -5,8 +5,9 @@ import string
 from datetime import date, datetime
 import logging
 
+# --- Make sure get_all_bookings is imported ---
 from flask import Flask, render_template, request, flash, redirect, session, url_for, jsonify
-from db import set_up_db, add_user, add_carbon_footprint, add_energy_bill, get_user_energy_data,add_solar_assessment, add_in_person_assessment_booking, add_installation_request
+from db import set_up_db, add_user, add_carbon_footprint, add_energy_bill, get_user_energy_data,add_solar_assessment, add_in_person_assessment_booking, add_installation_request, check_in_person_assessment_booking, get_all_bookings # Added get_all_bookings
 from auth import sign_in, get_user_id_by_email
 from validation import is_not_empty, is_valid_email, is_secure_password, is_valid_phone_number
 from tracker import save_uploaded_file, ocr_process_file, gemini_format
@@ -378,6 +379,12 @@ def installation():
     if not session.get("email"):
         flash("You must be logged in to request installation.", "error")
         return redirect(url_for('login'))
+    
+    # -- Require In Person Assessment ---
+
+    if check_in_person_assessment_booking(get_user_id_by_email()) == False:
+        flash("You must complete an in-person assessment before requesting installation.", "error")
+        return redirect(url_for('personConsultation'))
 
     if request.method == 'POST':
         # --- POST Request Logic ---
@@ -552,10 +559,27 @@ def register():
 
 @app.route('/admin_dashboard')
 def admin_dashboard():
-    if not session.get("email"):
-        flash("You must be logged in to view the admin dashboard.", "error")
-        return redirect(url_for('login'))
-    return render_template('admin_dashboard.html')
+    # Check if the user is logged in and has admin privileges
+    if not session.get("email") or session.get("role") != True:
+        flash("You do not have permission to access this page.", "error")
+        return redirect("/login")
+
+    # Get Booking Data
+    # --- Fetch bookings ---
+    try:
+        installations, in_person_assessments = get_all_bookings()
+        logging.info(f"Admin dashboard: Fetched {len(installations)} installations and {len(in_person_assessments)} assessments.")
+    except Exception as e:
+        logging.error(f"Error fetching bookings for admin dashboard: {e}")
+        flash("Error fetching booking data.", "error")
+        installations = []
+        in_person_assessments = []
+
+
+    # --- Pass data to template ---
+    return render_template('adminDashboard.html',
+                           installations=installations,
+                           in_person_assessments=in_person_assessments)
 
 @app.route('/logout')
 def logout():
