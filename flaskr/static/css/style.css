@@ -214,6 +214,9 @@ input:not(:placeholder-shown)+label {
     color: #666;
 }
 
+
+
+
 @media (max-width: 768px) {
     .infoIcons {
         max-width: 250px;

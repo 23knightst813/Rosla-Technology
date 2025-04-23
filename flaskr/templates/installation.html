@@ -1,14 +1,356 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<hr style="border-color: #F4F1EB; opacity: 0.5;"> <!-- Use reference hr style -->
+<div class="consultation-container"> <!-- Use container from reference for layout -->
+    <h1 class="heading">Installation</h1>
+    <p class="sub-heading">Please fill out the form below to get started.</p>
 
-<p>HI</p>
+    <!-- Use consultation-form class for form styling -->
+    <form class="consultation-form" action="/register" method="post" style="align-items: center;"> <!-- Center form items -->
 
+        <!-- 1. Hidden original select for form submission -->
+        <select id="product" name="product" required style="display: none;">
+            <option value="" disabled selected>Select Product</option>
+            <option value="solar">Solar</option>
+            <option value="ev_chargers">EV Chargers</option>
+        </select>
+
+        <!-- 2. Custom Dropdown Structure - Wrapped in input-group -->
+        <div class="input-group custom-select-wrapper">
+            <div class="custom-select-display" tabindex="0">
+                <span class="custom-select-placeholder">Select Product</span>
+                <span class="custom-select-arrow">▾</span> <!-- Down arrow character -->
+            </div>
+            <ul class="custom-select-options">
+                <!-- Options will be populated by JS -->
+            </ul>
+        </div>
+
+        <!-- 3. Input Fields - Each wrapped in input-group -->
+        <div class="input-group">
+            <input type="email" id="email" placeholder="Email" name="email" required />
+        </div>
+
+        <div class="input-group">
+            <input type="tel" id="phone" placeholder="Phone" name="phone" required />
+        </div>
+
+        <!-- 4. Submit Button - Using reference styles -->
+        <!-- Keeping the green button for now, as it's distinct -->
+        <button type="submit" class="btn submit-btn" style="align-self: center; margin-top: 20px;">Submit Request</button>
+
+    </form>
+</div>
 
 <style>
+    /* --- Styles copied/adapted from Reference --- */
     body {
+        /* Reverted to original plum purple background */
         background-color: #8e4071;
+        color: #F4F1EB; /* Keep light text color */
+        font-family: 'Hubballi', sans-serif; /* Base font from reference */
+        overflow-x: hidden;
+        margin: 0;
+        padding: 0;
+    }
+
+    hr {
+       border: none;
+       border-top: 1px solid #F4F1EB; /* Match reference color */
+       opacity: 0.5;
+       margin-top: 20px; /* Add some space */
+       margin-bottom: 20px;
+    }
+
+    .heading {
+        font-family: 'Nixie One', cursive;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 80px; /* Keep your original size */
+        text-align: center;
+        color: #F4F1EB; /* Ensure text color */
+    }
+
+     .sub-heading {
+        font-family: 'Hubballi', sans-serif;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 35px; /* Keep your original size */
+        margin-top: -15px;
+        margin-bottom: 30px; /* Increased margin */
+        text-align: center;
+        color: #F4F1EB; /* Ensure text color */
+    }
+
+    .consultation-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+        width: 100%;
+        max-width: 500px; /* Limit form width */
+        margin: 0 auto; /* Center the container */
+    }
+
+    .consultation-form {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        max-width: 400px; /* Consistent width for form elements */
+    }
+
+    /* --- Input Group Styling (from Reference) --- */
+    .input-group {
+        margin-bottom: 25px; /* Increased spacing */
+        position: relative;
+        width: 100%; /* Make group take full width of form */
+    }
+
+    /* Style for ACTUAL input fields */
+    .input-group input {
+        width: 100%;
+        padding: 10px 0px 5px 0px; /* Reference padding */
+        border: none;
+        border-bottom: 2px solid #F4F1EB; /* Light border */
+        background: transparent;
+        color: #F4F1EB; /* Light text color */
+        font-size: 20px; /* Reference font size */
+        font-family: 'Nixie One', cursive; /* Match font */
+        outline: none;
+        box-sizing: border-box;
+        caret-color: #F4F1EB; /* Light caret */
+    }
+
+    .input-group input::placeholder {
+        color: #F4F1EB; /* Light placeholder color */
+        opacity: 0.7;
+        font-weight: normal;
+        font-family: 'Nixie One', cursive;
+    }
+
+    .input-group input:focus {
+        border-bottom-color: #ffffff; /* White focus border color */
+    }
+
+    /* --- Custom Select Styling (ADAPTED to match Input) --- */
+    .custom-select-wrapper.input-group {
+         border-bottom: none;
+         padding-bottom: 0;
+         margin-bottom: 25px;
+    }
+
+    .custom-select-display {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        padding: 10px 0px 5px 0px; /* Match input padding */
+        border: none;
+        border-bottom: 2px solid #F4F1EB; /* Match input border */
+        background: transparent;
+        color: #F4F1EB; /* Match input text color */
+        font-size: 20px; /* Match input font size */
+        font-family: 'Nixie One', cursive; /* Match font */
+        outline: none;
+        cursor: pointer;
+        box-sizing: border-box;
+    }
+
+    .custom-select-wrapper:focus-within .custom-select-display {
+         border-bottom-color: #ffffff; /* Match input focus */
+    }
+
+    .custom-select-placeholder {
+        color: #F4F1EB;
+        opacity: 0.7;
+        font-weight: normal;
+        font-family: inherit;
+    }
+
+     .custom-select-display.selected .custom-select-placeholder {
+         display: none;
+     }
+
+     .custom-select-display .selected-value {
+         color: #F4F1EB;
+         font-family: inherit;
+         text-transform: capitalize;
+     }
+
+    .custom-select-arrow {
+        font-size: 14px;
+        margin-left: 10px;
+        color: #F4F1EB; /* Light arrow */
+        transition: transform 0.3s ease;
+        flex-shrink: 0;
+    }
+
+    .custom-select-wrapper.open .custom-select-arrow {
+        transform: rotate(180deg);
+    }
+
+    /* Options List - Adjusted for purple theme */
+    .custom-select-options {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: #F4F1EB; /* Light background for options */
+        border: 1px solid #ccc;
+        border-top: none;
+        border-radius: 0 0 8px 8px;
+        max-height: 150px;
+        overflow-y: auto;
+        z-index: 10;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        margin-top: 1px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .custom-select-wrapper.open .custom-select-options {
+        display: block;
+    }
+
+    /* Individual Option */
+    .custom-select-options li {
+        padding: 10px 15px;
+        /* Use plum purple for option text on light background */
+        color: #8e4071;
+        cursor: pointer;
+        font-family: 'Nixie One', cursive;
+        font-size: 18px;
+        text-transform: capitalize;
+        transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    .custom-select-options li:hover,
+    .custom-select-options li.selected {
+        background-color: #e0dccc; /* Slightly darker beige for hover */
+        /* Darker purple on hover? Or keep plum? Let's keep plum */
+        /* color: #563e5d; */
+    }
+
+    /* --- Button Styling (Keeping reference button style) --- */
+    .btn {
+        display: inline-block;
+        padding: 15px 30px;
+        background-color: #664E6D; /* Default purple btn from base */
+        color: #F4F1EB;
+        border: none;
+        border-radius: 35px;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-family: 'Nixie One', cursive;
+        font-weight: bold;
+        font-size: 16px;
+        text-align: center;
+        text-decoration: none;
+    }
+
+    .btn:hover {
+        background-color: #8E4071; /* Darker purple from base hover */
+        transform: translateY(-2px);
+        box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Specific Submit Button Style from Reference (Green) */
+    .submit-btn {
+        background-color: #664E6D;
         color: #F4F1EB;
     }
+
+    .submit-btn:hover {
+        background-color: #533a5b;
+    }
+
+
 </style>
+
+<!-- JavaScript for custom dropdown (No changes needed here) -->
+<script>
+    // (JavaScript remains exactly the same as the previous version)
+    document.addEventListener('DOMContentLoaded', function() {
+        const originalSelect = document.getElementById('product');
+        if (!originalSelect) {
+            console.error("Original select element with ID 'product' not found.");
+            return;
+        }
+
+        const customSelectWrapper = document.querySelector('.custom-select-wrapper');
+        if (!customSelectWrapper) {
+            console.error("Custom select wrapper element not found.");
+            return;
+        }
+
+        const customSelectDisplay = customSelectWrapper.querySelector('.custom-select-display');
+        const customSelectPlaceholder = customSelectDisplay.querySelector('.custom-select-placeholder');
+        const customSelectOptionsList = customSelectWrapper.querySelector('.custom-select-options');
+
+        if (!customSelectDisplay || !customSelectOptionsList) { // Placeholder might be absent if already selected
+             console.error("One or more custom select child elements are missing.");
+             return;
+        }
+
+        // Populate custom options from original select
+        Array.from(originalSelect.options).forEach(option => {
+            if (option.value === "" && option.disabled) return;
+
+            const listItem = document.createElement('li');
+            listItem.textContent = option.textContent;
+            listItem.dataset.value = option.value;
+            customSelectOptionsList.appendChild(listItem);
+
+            listItem.addEventListener('click', function() {
+                let arrowSpan = customSelectDisplay.querySelector('.custom-select-arrow');
+                if (!arrowSpan) { // Create arrow if missing (e.g., after selection)
+                    arrowSpan = document.createElement('span');
+                    arrowSpan.className = 'custom-select-arrow';
+                    arrowSpan.innerHTML = '▾';
+                 }
+
+                // Update display - create selected span, append arrow
+                customSelectDisplay.innerHTML = `<span class="selected-value">${this.textContent}</span>`;
+                customSelectDisplay.appendChild(arrowSpan); // Re-append arrow
+                customSelectDisplay.classList.add('selected');
+
+                originalSelect.value = this.dataset.value;
+                originalSelect.dispatchEvent(new Event('change'));
+                customSelectWrapper.classList.remove('open');
+
+                customSelectOptionsList.querySelectorAll('li').forEach(li => li.classList.remove('selected'));
+                this.classList.add('selected');
+            });
+        });
+
+        // Toggle dropdown visibility
+        customSelectDisplay.addEventListener('click', function() {
+            customSelectWrapper.classList.toggle('open');
+        });
+
+         customSelectDisplay.addEventListener('keydown', function(e) {
+             if (e.key === 'Enter' || e.key === ' ') {
+                 e.preventDefault();
+                 customSelectWrapper.classList.toggle('open');
+             }
+         });
+
+        document.addEventListener('click', function(event) {
+            if (!customSelectWrapper.contains(event.target)) {
+                customSelectWrapper.classList.remove('open');
+            }
+        });
+
+         document.addEventListener('keydown', function(e) {
+             if (e.key === 'Escape') {
+                 customSelectWrapper.classList.remove('open');
+             }
+         });
+    });
+</script>
+
 {% endblock %}
