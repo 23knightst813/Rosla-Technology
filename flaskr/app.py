@@ -370,15 +370,69 @@ def personConsultation():
 def dashboard():
     return render_template('dashboard.html')
 
-@app.route('/installation')
+@app.route('/installation', methods=['GET', 'POST']) # Add POST method
 def installation():
+    # --- Require Login ---
+    if not session.get("email"):
+        flash("You must be logged in to request installation.", "error")
+        return redirect(url_for('login'))
+
     if request.method == 'POST':
-        pass
+        # --- Handle Form Submission ---
+        product_type = request.form.get('product')
+        user_email = request.form.get('email') # Get from form now
+        user_phone = request.form.get('phone')
+        
+        # --- Get Solar Specific Data (if submitted) ---
+        solar_ownership = request.form.get('solar_ownership')
+        owned_panel_details = request.form.get('owned_panel_details')
+        purchase_panel_brand = request.form.get('purchase_panel_brand')
 
+        # --- Get EV Specific Data (if submitted) ---
+        ev_location = request.form.get('ev_location')
+        ev_vehicle = request.form.get('ev_vehicle')
 
+        # --- Get Consultation Data (might be useful to log) ---
+        consultation_address = request.form.get('consultation_address') # From hidden/readonly field
 
-    if request.method == 'GET':
-        return render_template('installation.html')
+        # --- Validation (Add more as needed) ---
+        if not product_type or not user_email or not user_phone:
+             flash("Please fill out all required fields.", "error")
+             # Pass data back to re-populate form on error
+             solar_data = session.get('solar_results') 
+             return render_template('installation.html', 
+                                    solar_data=solar_data, 
+                                    user_email=user_email, # Use submitted email for repopulation
+                                    submitted_data=request.form) # Pass all form data back
+             
+        # --- Process the Data (e.g., save to DB, send email) ---
+        print("Installation Request Received:")
+        print(f" Product: {product_type}")
+        print(f" Email: {user_email}")
+        print(f" Phone: {user_phone}")
+
+        if product_type == 'solar':
+            print(f"  Ownership: {solar_ownership}")
+            if solar_ownership == 'owned':
+                 print(f"  Owned Details: {owned_panel_details}")
+            elif solar_ownership == 'purchase':
+                 print(f"  Purchase Brand: {purchase_panel_brand}")
+            print(f"  Consultation Address: {consultation_address}")
+        elif product_type == 'ev_chargers':
+            print(f"  EV Location: {ev_location}")
+            print(f"  EV Vehicle: {ev_vehicle}")
+
+        # Placeholder for success action (e.g., add to a 'requests' table)
+        flash(f"Installation request for {product_type.replace('_', ' ').title()} submitted successfully!", "success")
+        return redirect(url_for('dashboard')) # Or back to installation page, or a thank you page
+
+    # --- GET Request ---
+    # Fetch data needed to pre-fill the form
+    solar_data = session.get('solar_results')
+    user_email = session.get('email') # Get email from session for GET request
+
+    # Pass fetched data to the template
+    return render_template('installation.html', solar_data=solar_data, user_email=user_email)
 
 @app.route('/login', methods=["GET", "POST"])
 def login():

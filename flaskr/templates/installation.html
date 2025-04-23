@@ -36,6 +36,38 @@
             <input type="tel" id="phone" placeholder="Phone" name="phone" required />
         </div>
 
+        <div class="input-group">
+            <input type="text" id="adress" placeholder="Adress" name="adress" required />
+        </div>
+
+        <!-- Product-specific fields -->
+        <div id="solar-fields" class="product-specific-fields" style="display: none; width: 100%;">
+            <div class="input-group">
+                <input type="text" id="house-direction" placeholder="House Direction" name="house-direction" />
+            </div>
+            <div class="input-group">
+                <input type="text" id="solar-panel-size" placeholder="Solar Panel Size" name="solar_panel_size" />
+            </div>
+            <div class="input-group">
+                <input type="text" id="roof_type" placeholder="Roof Type (e.g., Tile, Shingle)" name="roof_type" />
+            </div>
+            <div class="input-group">
+                <input type="number" id="monthly_bill" placeholder="Average Monthly Electric Bill ($)" name="monthly_bill" />
+            </div>
+        </div>
+
+        <div id="ev-fields" class="product-specific-fields" style="display: none; width: 100%;">
+            <div class="input-group">
+                <input type="text" id="ev-charger-type" placeholder="EV Charger Type" name="ev_charger_type" />
+            </div>
+            <div class="input-group">
+                <input type="text" id="charger_location" placeholder="Preferred Charger Location" name="charger_location" />
+            </div>
+            <div class="input-group">
+                <input type="text" id="vehicle_model" placeholder="EV Make/Model" name="vehicle_model" />
+            </div>
+        </div>
+
         <!-- 4. Submit Button - Using reference styles -->
         <!-- Keeping the green button for now, as it's distinct -->
         <button type="submit" class="btn submit-btn" style="align-self: center; margin-top: 20px;">Submit Request</button>
@@ -350,7 +382,47 @@
                  customSelectWrapper.classList.remove('open');
              }
          });
-    });
+
+        // --- Logic to show/hide product-specific fields ---
+        const productSelect = document.getElementById('product');
+        const solarFields = document.getElementById('solar-fields');
+        const evFields = document.getElementById('ev-fields');
+        const specificFieldGroups = [solarFields, evFields]; // Array for easier handling
+
+        // Function to update field visibility
+        function updateVisibleFields() {
+            const selectedValue = productSelect.value;
+
+            // Hide all specific groups first
+            specificFieldGroups.forEach(group => {
+                if (group) group.style.display = 'none';
+                // Make inputs inside hidden groups NOT required
+                group?.querySelectorAll('input').forEach(input => input.required = false);
+            });
+
+            // Show the relevant group and make its inputs required
+            if (selectedValue === 'solar' && solarFields) {
+                solarFields.style.display = 'block';
+                solarFields.querySelectorAll('input').forEach(input => input.required = true);
+                 // Optional: Clear EV fields if switching
+                evFields?.querySelectorAll('input').forEach(input => input.value = '');
+            } else if (selectedValue === 'ev_chargers' && evFields) {
+                evFields.style.display = 'block';
+                evFields.querySelectorAll('input').forEach(input => input.required = true);
+                 // Optional: Clear Solar fields if switching
+                solarFields?.querySelectorAll('input').forEach(input => input.value = '');
+            }
+        }
+
+        // Add event listener to the original select (which is updated by the custom dropdown)
+        if (productSelect) {
+            productSelect.addEventListener('change', updateVisibleFields);
+        }
+
+        // Initial check in case a value is pre-selected (though unlikely with placeholder)
+        // updateVisibleFields(); // You could uncomment this if needed
+
+    }); // End of DOMContentLoaded
 </script>
 
 {% endblock %}

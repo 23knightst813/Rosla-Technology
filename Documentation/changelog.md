@@ -1,4 +1,12 @@
 > ***Change Log***
+> - **1d58cba** 2025-04-23 10:02:36 - Enhance installation page: implement custom dropdown for product selection, add form fields for email and phone, and update styling for improved layout and accessibility.
+> - **f64119c** 2025-04-22 15:14:17 - OpenDyslexic in assesiblity mode
+> - **8535842** 2025-04-22 15:02:05 - Enhance accessibility and user feedback: update styling for accessibility icons, add error handling and success messages for booking functionality, and improve layout in various templates.
+> - **3178721** 2025-04-22 13:20:03 - Enhance in-person consultation functionality: add booking feature with form validation and database integration; create new table for storing bookings
+> - **8f14c7a** 2025-04-22 13:12:52 - Enhance registration functionality: generate a secure example password for users and update password hint in the registration template; fix security issue by suggesting randomly generated passwords
+> - **21d5d94** 2025-04-22 12:56:08 - Enhance person consultation functionality: add form validation for name, phone, date, and time; implement phone number validation; update form action URL
+> - **e25f383** 2025-04-22 12:39:24 - Enhance person consultation functionality: implement data retrieval from session, add error handling, and update template rendering
+> - **186bbdd** 2025-04-03 12:16:38 - Enhance accessibility features: add styling for accessibility icons and improve hover effects in templates
 > - **989dd36** 2025-04-03 12:11:47 - Enhance solar consultation functionality: retrieve and store user solar assessment data in session, improve error handling, and update results display + Added Assesbility button
 > - **0eaf98a** 2025-04-03 10:25:11 - Refactor solar assessment functionality: delete existing assessment for user before inserting new entry
 > - **698e1d9** 2025-04-03 10:22:40 - Add solar assessment functionality: create database table, implement data storage, and enhance solar consultation flow
