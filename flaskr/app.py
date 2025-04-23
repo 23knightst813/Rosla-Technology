@@ -2,11 +2,11 @@ import logging
 import os
 import secrets
 import string
-from datetime import date
-
+from datetime import date, datetime
+import logging
 
 from flask import Flask, render_template, request, flash, redirect, session, url_for, jsonify
-from db import set_up_db, add_user, add_carbon_footprint, add_energy_bill, get_user_energy_data,add_solar_assessment, add_in_person_assessment_booking
+from db import set_up_db, add_user, add_carbon_footprint, add_energy_bill, get_user_energy_data,add_solar_assessment, add_in_person_assessment_booking, add_installation_request
 from auth import sign_in, get_user_id_by_email
 from validation import is_not_empty, is_valid_email, is_secure_password, is_valid_phone_number
 from tracker import save_uploaded_file, ocr_process_file, gemini_format
@@ -26,6 +26,8 @@ app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max upload size
 # Create upload directory if it doesn't exist
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
+# Set up logging
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s: %(message)s')
 
 @app.route('/')
 def index():
@@ -378,53 +380,104 @@ def installation():
         return redirect(url_for('login'))
 
     if request.method == 'POST':
-        # --- Handle Form Submission ---
+        # --- POST Request Logic ---
+
+        # --- Get User ID (moved inside POST block) ---
+        user_id = get_user_id_by_email()
+        if not user_id:
+            # This case should ideally not happen if the initial check passes,
+            # but it's good practice to handle it.
+            flash("User session error. Please log in again.", "error")
+            return redirect(url_for('login'))
+
+        # --- Get Common Form Data ---
         product_type = request.form.get('product')
-        user_email = request.form.get('email') # Get from form now
+        user_email = request.form.get('email')
         user_phone = request.form.get('phone')
-        
-        # --- Get Solar Specific Data (if submitted) ---
-        solar_ownership = request.form.get('solar_ownership')
-        owned_panel_details = request.form.get('owned_panel_details')
-        purchase_panel_brand = request.form.get('purchase_panel_brand')
+        user_address = request.form.get('address') # Corrected typo from 'adress'
+        booking_time_str = request.form.get('booking_time')
 
-        # --- Get EV Specific Data (if submitted) ---
-        ev_location = request.form.get('ev_location')
-        ev_vehicle = request.form.get('ev_vehicle')
-
-        # --- Get Consultation Data (might be useful to log) ---
-        consultation_address = request.form.get('consultation_address') # From hidden/readonly field
-
-        # --- Validation (Add more as needed) ---
-        if not product_type or not user_email or not user_phone:
-             flash("Please fill out all required fields.", "error")
-             # Pass data back to re-populate form on error
-             solar_data = session.get('solar_results') 
-             return render_template('installation.html', 
-                                    solar_data=solar_data, 
-                                    user_email=user_email, # Use submitted email for repopulation
-                                    submitted_data=request.form) # Pass all form data back
-             
-        # --- Process the Data (e.g., save to DB, send email) ---
-        print("Installation Request Received:")
-        print(f" Product: {product_type}")
-        print(f" Email: {user_email}")
-        print(f" Phone: {user_phone}")
-
+        # --- Get Solar Specific Data (if product is 'solar') ---
+        house_direction = None
+        roof_size = None
         if product_type == 'solar':
-            print(f"  Ownership: {solar_ownership}")
-            if solar_ownership == 'owned':
-                 print(f"  Owned Details: {owned_panel_details}")
-            elif solar_ownership == 'purchase':
-                 print(f"  Purchase Brand: {purchase_panel_brand}")
-            print(f"  Consultation Address: {consultation_address}")
-        elif product_type == 'ev_chargers':
-            print(f"  EV Location: {ev_location}")
-            print(f"  EV Vehicle: {ev_vehicle}")
+            house_direction = request.form.get('house-direction')
+            roof_size_str = request.form.get('roof-size')
+            try:
+                roof_size = float(roof_size_str) if roof_size_str else None
+            except ValueError:
+                flash("Invalid roof size format. Please enter a number.", "error")
+                return redirect(url_for('installation'))
 
-        # Placeholder for success action (e.g., add to a 'requests' table)
-        flash(f"Installation request for {product_type.replace('_', ' ').title()} submitted successfully!", "success")
-        return redirect(url_for('dashboard')) # Or back to installation page, or a thank you page
+
+        # --- Get EV Specific Data (if product is 'ev_chargers') ---
+        ev_charger_type = None
+        charger_location = None
+        vehicle_model = None
+
+        if product_type == 'ev_chargers':
+            ev_charger_type = request.form.get('ev_charger_type')
+            charger_location = request.form.get('charger_location')
+            vehicle_model = request.form.get('vehicle_model')
+
+        logging.debug(f"Received installation request - Product: {product_type}, Email: {user_email}, Phone: {user_phone}, Address: {user_address}, Booking Time: {booking_time_str}")
+
+        # --- Validate Common Form Data ---
+        # Check user_address as well
+        if not all([is_not_empty(product_type), is_not_empty(user_email), is_not_empty(user_phone), is_not_empty(user_address), is_not_empty(booking_time_str)]):
+            flash("All fields are required", "error")
+            return redirect(url_for('installation'))
+        # Validate email and phone number formats
+        if not is_valid_email(user_email):
+            flash("Invalid email address", "error")
+            return redirect(url_for('installation'))
+        if not is_valid_phone_number(user_phone):
+            flash("Invalid phone number format", "error")
+            return redirect(url_for('installation'))
+        # Validate booking time
+        try:
+            # --- Use booking_datetime for validation and DB call ---
+            booking_datetime = datetime.fromisoformat(booking_time_str)
+            now = datetime.now()
+
+            # Check if the booking is after today and within the allowed time range
+            # Compare date parts only for "today onwards" check
+            if booking_datetime.date() < now.date():
+                flash("Please select a booking date from today onwards.", "error")
+                return redirect(url_for('installation'))
+
+            # Compare time parts for the time range check
+            if not (datetime.strptime("09:00", "%H:%M").time() <= booking_datetime.time() <= datetime.strptime("17:00", "%H:%M").time()):
+                 flash("Please select a booking time between 09:00 and 17:00.", "error")
+                 return redirect(url_for('installation'))
+
+        except ValueError:
+            flash("Invalid booking time format. Please use the date/time picker.", "error")
+            return redirect(url_for('installation'))
+
+        # --- Call DB function with correct arguments ---
+        success = add_installation_request(
+            user_id=user_id,
+            product_type=product_type,
+            user_email=user_email,
+            user_phone=user_phone,
+            user_address=user_address,
+            booking_time=booking_datetime, # Pass the datetime object
+            house_direction=house_direction, # Pass correct variable
+            roof_size=roof_size, # Pass correct variable
+            ev_charger_type=ev_charger_type, # Pass correct variable
+            charger_location=charger_location, # Pass correct variable
+            vehicle_model=vehicle_model # Pass correct variable
+        )
+
+        # --- Handle DB function result ---
+        if success:
+            flash(f"Installation request for {product_type.replace('_', ' ').title()} submitted successfully!", "success")
+            return redirect(url_for('dashboard')) # Redirect to dashboard on success
+        else:
+            # Error flash message is handled within add_installation_request
+            return redirect(url_for('installation')) # Stay on installation page on failure
+
 
     # --- GET Request ---
     # Fetch data needed to pre-fill the form
@@ -496,6 +549,13 @@ def register():
             
 
     return render_template("register.html", example_password=secure_password)
+
+@app.route('/admin_dashboard')
+def admin_dashboard():
+    if not session.get("email"):
+        flash("You must be logged in to view the admin dashboard.", "error")
+        return redirect(url_for('login'))
+    return render_template('admin_dashboard.html')
 
 @app.route('/logout')
 def logout():

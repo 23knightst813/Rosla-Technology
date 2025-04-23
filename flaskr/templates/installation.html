@@ -7,7 +7,7 @@
     <p class="sub-heading">Please fill out the form below to get started.</p>
 
     <!-- Use consultation-form class for form styling -->
-    <form class="consultation-form" action="/register" method="post" style="align-items: center;"> <!-- Center form items -->
+    <form class="consultation-form" action="{{ url_for('installation') }}" method="post" style="align-items: center;"> <!-- Center form items -->
 
         <!-- 1. Hidden original select for form submission -->
         <select id="product" name="product" required style="display: none;">
@@ -29,7 +29,7 @@
 
         <!-- 3. Input Fields - Each wrapped in input-group -->
         <div class="input-group">
-            <input type="email" id="email" placeholder="Email" name="email" required />
+            <input type="email" id="email" placeholder="Email" name="email" value="{{ user_email if user_email else '' }}" required />
         </div>
 
         <div class="input-group">
@@ -37,20 +37,18 @@
         </div>
 
         <div class="input-group">
-            <input type="text" id="adress" placeholder="Adress" name="adress" required />
+            <input type="text" id="address" placeholder="Address" name="address" value="{{ solar_data.address if solar_data and solar_data.address else '' }}" required />
         </div>
 
         <!-- Product-specific fields -->
         <div id="solar-fields" class="product-specific-fields" style="display: none; width: 100%;">
             <div class="input-group">
-                <input type="text" id="house-direction" placeholder="House Direction" name="house-direction" />
+                <input type="text" id="house-direction" placeholder="House Direction" name="house-direction" value="{{ solar_data.orientation if solar_data and solar_data.orientation else '' }}" />
             </div>
             <div class="input-group">
-                <input type="text" id="solar-panel-size" placeholder="Solar Panel Size" name="solar_panel_size" />
+                <input type="number" id="roof-size" placeholder="Roof Size" name="roof-size" value="{{ solar_data.area if solar_data and solar_data.area else '' }}" />
             </div>
-            <div class="input-group">
-                <input type="text" id="roof_type" placeholder="Roof Type (e.g., Tile, Shingle)" name="roof_type" />
-            </div>
+
 
         </div>
 
@@ -95,6 +93,10 @@
        opacity: 0.5;
        margin-top: 20px; /* Add some space */
        margin-bottom: 20px;
+    }
+
+    input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+    filter: invert(100%);
     }
 
     .heading {

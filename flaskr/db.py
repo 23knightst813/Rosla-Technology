@@ -90,9 +90,33 @@ def set_up_db():
         )
     ''')
 
+
+    # Create a table to save installation bookings
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS installation_requests (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER NOT NULL,
+        product_type TEXT NOT NULL,
+        user_email TEXT NOT NULL,
+        user_phone TEXT NOT NULL,
+        user_address TEXT NOT NULL,
+        booking_time DATETIME NOT NULL,
+        house_direction TEXT,
+        roof_size REAL,      
+        ev_charger_type TEXT,
+        charger_location TEXT,
+        vehicle_model TEXT, 
+        request_timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (user_id) REFERENCES users (id)
+    );
+    ''')
+
     conn.commit()
     conn.close()
 
+
+
+        
 def add_in_person_assessment_booking(user_id, date, time, address, email, phone):
     """
     Add a new in-person assessment booking to the database.
@@ -484,3 +508,59 @@ def get_user_energy_data(user_id):
     finally:
         if 'conn' in locals():
             conn.close()
+
+def add_installation_request(user_id, product_type, user_email, user_phone, user_address, booking_time, house_direction=None, roof_size=None, ev_charger_type=None, charger_location=None, vehicle_model=None):
+    conn = None  # Initialize conn to None
+    try:
+        conn = sqlite3.connect('database.db', timeout=20)
+        cursor = conn.cursor()
+
+        # Check if the time and date slot is already taken by *any* user.
+        cursor.execute('''
+            SELECT COUNT(*) FROM installation_requests
+            WHERE booking_time = ?
+        ''', (booking_time,)) 
+        count = cursor.fetchone()[0]
+
+        if count > 0:
+            logging.warning(f'Time slot {booking_time} is already taken!')
+            flash('Time slot is already booked. Please choose another time.', 'error')
+            return False  # Time slot is already booked
+
+        # Insert the installation request into the table
+        cursor.execute('''
+            INSERT INTO installation_requests (
+                user_id, product_type, user_email, user_phone,
+                user_address, booking_time, house_direction,
+                roof_size, ev_charger_type, charger_location, vehicle_model
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ''', (
+            user_id, product_type, user_email, user_phone,
+            user_address, booking_time, house_direction,
+            roof_size, ev_charger_type, charger_location, vehicle_model
+        ))
+
+        conn.commit()  # Commit the transaction
+        logging.info('Installation request added successfully!')  # Log success message
+        return True
+    except sqlite3.IntegrityError:
+        # Handle case where the user does not exist (foreign key constraint)
+        logging.error(f'User with ID {user_id} does not exist!')
+        flash('User does not exist!', 'error')  # Flash error message
+        return False
+    except sqlite3.OperationalError as e:
+        # Handle operational errors such as database being locked
+        if "database is locked" in str(e):
+            logging.error('Database is locked!')
+            flash('Database is locked! Please try again later.', 'error')  # Flash error message
+        else:
+            logging.error(f'Error adding installation request: {e}')
+            flash('Error adding installation request. Please try again.', 'error')  # Flash error message
+        return False
+    except Exception as e:  # Catch any other potential exceptions
+        logging.error(f'An unexpected error occurred: {e}')
+        flash('An unexpected error occurred. Please try again.', 'error')
+        return False
+    finally:
+        if conn:
+            conn.close()  # Ensure the connection is always closed

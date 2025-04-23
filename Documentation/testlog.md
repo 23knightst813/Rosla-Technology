@@ -794,3 +794,157 @@
 - Actual Result: NameError: name 'date' is not defined
 - Status: Fail
 - Fix: Import the `date` module
+
+## Test Case 9: Instalation Booking
+
+
+## Test Case 9: Installation Booking
+
+### UI/UX
+- Event:
+    - Load the Installation Booking page when logged in.
+- Expected Result: Page renders correctly with heading, subheading, form fields (Product dropdown, Email, Phone, Address, Booking Time), and Submit button. Email and Address might be pre-filled if solar data exists in session.
+- Actual Result: Page rendered correctly. Email pre-filled from session. Address pre-filled from solar session data.
+- Status: Pass
+- Dependencies: Flask routing, Jinja2 templating, Session management.
+
+- Event:
+    - Click the custom "Select Product" dropdown.
+- Expected Result: Dropdown options ("Solar", "EV Chargers") appear below the display element.
+- Actual Result: Dropdown options appeared but are unreadible due to white background on white text.
+- Status: Fail
+- Dependencies: HTML structure, CSS styling, JavaScript for custom dropdown.
+- Fix: Use JS for a custom dropdown menu
+
+
+- Event:
+    - Click the custom "Select Product" dropdown.
+- Expected Result: Dropdown options ("Solar", "EV Chargers") appear below the display element.
+- Actual Result:Dropdown options ("Solar", "EV Chargers") appear below the display element.
+- Status: pAss
+- Dependencies: HTML structure, CSS styling, JavaScript for custom dropdown.
+
+- Event:
+    - Select "Solar" from the product dropdown.
+- Expected Result: "House Direction" and "Roof Size" input fields become visible. EV-specific fields remain hidden.
+- Actual Result: Solar-specific fields became visible. EV fields remained hidden.
+- Status: Pass
+- Dependencies: JavaScript for conditional field display.
+
+- Event:
+    - Select "EV Chargers" from the product dropdown.
+- Expected Result: "EV Charger Type", "Preferred Charger Location", and "EV Make/Model" input fields become visible. Solar-specific fields become hidden.
+- Actual Result: EV-specific fields became visible. Solar fields became hidden.
+- Status: Pass
+- Dependencies: JavaScript for conditional field display.
+
+### Client-Side Validation
+- Event:
+    - Attempt to submit the form with all fields empty.
+- Expected Result: Submission is prevented by the browser due to HTML5 `required` attributes on Product, Email, Phone, Address, and Booking Time. Fields are highlighted.
+- Actual Result: Browser prevented submission and highlighted the required fields.
+- Status: Pass
+- Dependencies: HTML `required` attribute.
+
+- Event:
+    - Select "Solar", leave "House Direction" empty, and attempt to submit.
+- Expected Result: Submission is prevented by the browser/JS because the conditionally displayed "House Direction" field is now required.
+- Actual Result: JavaScript correctly added `required` attribute, and browser prevented submission.
+- Status: Pass
+- Dependencies: HTML `required` attribute, JavaScript conditional logic.
+
+- Event:
+    - Enter an invalid email format (e.g., "test@domain") and attempt to submit.
+- Expected Result: Browser's built-in validation for `type="email"` prevents submission or flags the field.
+- Actual Result: Browser flagged the email field as invalid.
+- Status: Pass
+- Dependencies: HTML `input type="email"`.
+
+### Backend Validation & Logic
+- Event:
+    - Access the `/installation` route while not logged in.
+- Expected Result: User is redirected to the login page with a flash message "You must be logged in...".
+- Actual Result: Redirected to login with the expected flash message.
+- Status: Pass
+- Dependencies: Flask routing, Session management, `login_required` logic.
+
+- Event:
+    - Submit the form with a valid session but leave the 'Phone' field empty.
+- Expected Result: Backend validation catches the missing field, flashes "All fields are required", and redirects back to the installation page.
+- Actual Result: Backend validation caught the missing field, flashed the error, and redirected.
+- Status: Pass
+- Dependencies: `is_not_empty` validation, Flask flash messaging.
+
+- Event:
+    - Submit the form with an invalid phone number format (e.g., "abcdef").
+- Expected Result: Backend validation (`is_valid_phone_number`) catches the invalid format, flashes "Invalid phone number format", and redirects back.
+- Actual Result: Backend validation caught the invalid format, flashed the error, and redirected.
+- Status: Pass
+- Dependencies: `is_valid_phone_number` validation, Flask flash messaging.
+
+- Event:
+    - Submit the form with a booking date in the past.
+- Expected Result: Backend validation catches the past date, flashes "Please select a booking date from today onwards.", and redirects back.
+- Actual Result: Backend validation caught the past date, flashed the error, and redirected.
+- Status: Pass
+- Dependencies: `datetime` comparison, Flask flash messaging.
+
+- Event:
+    - Submit the form with a booking time outside 09:00-17:00 (e.g., 08:00).
+- Expected Result: Backend validation catches the invalid time, flashes "Please select a booking time between 09:00 and 17:00.", and redirects back.
+- Actual Result: Backend validation caught the invalid time, flashed the error, and redirected.
+- Status: Pass
+- Dependencies: `datetime` comparison, Flask flash messaging.
+
+- Event:
+    - Submit a Solar request with non-numeric characters in "Roof Size".
+- Expected Result: Backend validation (`float()`) fails, flashes "Invalid roof size format...", and redirects back.
+- Actual Result: Backend validation failed, flashed the error, and redirected.
+- Status: Pass
+- Dependencies: Python `try-except ValueError`, Flask flash messaging.
+
+- Event:
+    - Submit the form with a date/time slot that is already booked by another user.
+- Expected Result: Backend DB check (`add_installation_request`) identifies the conflict, returns `False`, flashes "Time slot is already booked...", and redirects back.
+- Actual Result: The database check logic incorrectly only checked for bookings by the *same* user, allowing double booking across different users.
+- Status: Fail
+- Fix: Modify the SQL query in `add_installation_request` to check for the `booking_time` regardless of `user_id`. Ensure the query `SELECT COUNT(*) FROM installation_requests WHERE booking_time = ?` is used.
+- Dependencies: `db.add_installation_request`, SQLite query logic.
+
+### Data Handling & Database
+
+-Event:
+    - Table Creation
+- Expected Result: Table is made
+- Actual Result: sqlite3.OperationalError: table installation_requests already exists
+- Statis: Fail
+- Depedemcies: Connection with the sqlite database
+- Fix: `Add CREATE TABLE IF NOT EXISTS`
+
+- Event:
+    - Submit a complete and valid Solar installation request while logged in.
+- Expected Result: Data is correctly extracted from the form, `add_installation_request` is called, data is inserted into the `installation_requests` table, a success flash message is shown, and the user is redirected to the dashboard.
+- Actual Result: Data inserted successfully, user redirected to dashboard with success message.
+- Status: Pass
+- Dependencies: Flask request handling, `db.add_installation_request`, Flask flash messaging, Flask redirect.
+
+- Event:
+    - Submit a complete and valid EV Chargers installation request while logged in.
+- Expected Result: Data (including EV-specific fields) is correctly extracted, inserted into the DB, success message shown, redirect to dashboard.
+- Actual Result: Data inserted successfully, user redirected to dashboard with success message.
+- Status: Pass
+- Dependencies: Flask request handling, `db.add_installation_request`, Flask flash messaging, Flask redirect.
+
+- Event:
+    - Submit a valid request, but simulate a database lock during the `add_installation_request` function.
+- Expected Result: The function should catch the `sqlite3.OperationalError`, return `False`, flash an appropriate error ("Database is locked..."), and redirect back to the installation page.
+- Actual Result: The error was caught, the correct flash message ("Database is locked...") was displayed, and the user was redirected back to the installation page.
+- Status: Pass
+- Dependencies: `db.add_installation_request` error handling, Flask flash messaging.
+
+- Event:
+    - Submit a request with special characters (e.g., `'; DROP TABLE users; --`) in the 'Address' or 'Vehicle Model' field.
+- Expected Result: The application should use parameterized queries in the database function to prevent SQL injection. The data should be stored correctly (or rejected if it violates constraints, but not execute the SQL).
+- Actual Result: The `add_installation_request` function uses parameterized queries (`VALUES (?, ?, ...)`), preventing SQL injection. The data containing special characters was stored safely.
+- Status: Pass
+- Dependencies: `db.add_installation_request`, Parameterized SQL queries.

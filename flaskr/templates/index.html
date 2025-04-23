@@ -23,7 +23,7 @@
         <p>Making green energy simple with solar, EV charging, and smart home solutions—powering a cleaner future!</p>
     </div>
 
-    <button class="btn btn-centered">Get Started</button>
+    <a href="{{ url_for('solarConsultation') }}" class="btn btn-centered">Get Started</a>
 </div>
 
 <style>
@@ -157,6 +157,9 @@
         display: flex;
         align-items: center;
         color: #FFFFFF;
+    }
+    .btn {
+        max-width: 100px;
     }
 </style>
 
