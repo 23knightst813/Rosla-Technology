@@ -5,6 +5,34 @@
 
 <h1 class="head"> User Dashboard </h1>
 <br><br><br><br><br><br><br><br><br>
+<h2 class="sub-heading">Update Acount</h2>
+<br>
+<div class="update-account-section">
+    <p class="form-group">Enter your current password to make changes. Only fill in the fields you wish to update.</p>
+    <form action="{{ url_for('update_account') }}" method="post" class="update-form">
+
+        <div class="form-group">
+            <input type="password" id="current_password" name="current_password" class="form-control" required placeholder="Enter your current password">
+        </div>
+
+        <div class="form-group">
+            <input type="email" id="new_email" name="new_email" class="form-control" placeholder="Enter new email (optional)">
+        </div>
+
+        <div class="form-group">
+            <input type="password" id="new_password" name="new_password" class="form-control" placeholder="Enter new password (optional)">
+             <small class="form-text text-muted"><br>Must be at least 8 characters, include uppercase, lowercase, number, and special character.</small>
+        </div>
+
+        <div class="form-group">
+            <input type="password" id="confirm_password" name="confirm_password" class="form-control" placeholder="Confirm new password (if changing)">
+        </div>
+
+        <button type="submit" class="btn btn-centered">Update Account</button>
+    </form>
+</div>
+
+<br><br>
 <h2 class="sub-heading"> Installation Requests </h2>
 
 {% if installations %}
@@ -41,7 +69,65 @@
 <br><br><br><br><br><br><br><br><br>
 <h2 class="sub-heading">In-Person Concultations</h2>
 
+{% if in_person_assessments %}
+    <table class="dashboard-table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Address</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for assessment in in_person_assessments %}
+            <tr>
+                <td>{{ assessment.date }}</td>
+                <td>{{ assessment.time }}</td>
+                <td>{{ assessment.address }}</td>
+                <td>
+                    <form action="{{ url_for('delete_booking') }}" method="post" style="display:inline;">
+                        <input type="hidden" name="booking_id" value="{{ assessment.id }}">
+                        <input type="hidden" name="booking_type" value="in_person_assessment">
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this consultation booking?');">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>You have no scheduled in-person consultations.</p>
+{% endif %}
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+
+
 <style>
+    .update-account-section {
+        width: 90%;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f9f9f9; 
+        border-radius: 8px;
+        
+        
+    }
+
+    .update-account-section input {
+        width: 90%;
+    }
+
+
+    .form-group
+    {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+
+
     .dashboard-table {
         width: 90%;
         border-collapse: collapse;
