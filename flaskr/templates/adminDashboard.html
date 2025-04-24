@@ -35,7 +35,8 @@
                     <td>{{ install[3] }}</td> <!-- user_email -->
                     <td>{{ install[4] }}</td> <!-- user_phone -->
                     <td>{{ install[5] }}</td> <!-- user_address -->
-                    <td>{{ install[6] }}</td> <!-- booking_time -->
+                    <!-- Format booking_time assuming it's now a datetime object -->
+                    <td>{{ install[6].strftime('%Y-%m-%d %H:%M') if install[6] and hasattr(install[6], 'strftime') else install[6] }}</td> <!-- booking_time -->
                     <td>
                         {% if install[2] == 'solar' %}
                             Dir: {{ install[7] or 'N/A' }}, Size: {{ install[8] or 'N/A' }}m²

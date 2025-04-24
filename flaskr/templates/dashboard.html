@@ -1,7 +1,111 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<hr>
 
-<p>HI</p>
+<h1 class="head"> User Dashboard </h1>
+<br><br><br><br><br><br><br><br><br>
+<h2 class="sub-heading"> Installation Requests </h2>
+
+{% if installations %}
+    <table class="dashboard-table">
+        <thead>
+            <tr>
+                <th>Product Type</th>
+                <th>Address</th>
+                <th>Booking Time</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for installation in installations %}
+            <tr>
+                <td>{{ installation.product_type.replace('_', ' ').title() }}</td>
+                <td>{{ installation.user_address }}</td>
+                <td>{{ installation.booking_time}}</td>
+                <td>
+                    <form action="{{ url_for('delete_booking') }}" method="post" style="display:inline;">
+                        <input type="hidden" name="booking_id" value="{{ installation.id }}">
+                        <input type="hidden" name="booking_type" value="installation_request">
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this request?');">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>You have no pending installation requests.</p>
+{% endif %}
+
+<br><br><br><br><br><br><br><br><br>
+<h2 class="sub-heading">In-Person Concultations</h2>
+
+<style>
+    .dashboard-table {
+        width: 90%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        color: #664E6D; /* Match body color */
+        position: absolute;
+        left: 50%;
+        transform: translate(-50%, 0);
+    }
+    .dashboard-table th, .dashboard-table td {
+        border: 1px solid #ddd; /* Lighter border */
+        padding: 8px;
+        text-align: left;
+    }
+    .dashboard-table th {
+        background-color: #f2f2f2; /* Light grey header */
+        color: #664E6D;
+    }
+    .dashboard-table tr:nth-child(even){background-color: #f9f9f9;} /* Zebra striping */
+
+    .dashboard-table tr:hover {background-color: #e8e4e9;} /* Hover effect */
+
+    .btn-danger {
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    .btn-danger:hover {
+        background-color: #c82333;
+    }
+    
+    .sub-heading{
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+    .head{ 
+        color: #664E6D;
+    }
+
+    body{
+        color: #664E6D;
+    }
+    .header a {
+        color: #664E6D;
+    }
+
+    .a11y-icon  {
+                filter: brightness(0) saturate(100%) invert(31%) sepia(19%) saturate(728%) hue-rotate(241deg) brightness(96%) contrast(88%);
+                border: 2px solid #664E6D;
+    }
+    .a11y-icon:hover, .a11y-text:hover {
+        border: 3px solid #664E6D;
+    }
+
+    nav a {
+        color: #664E6D;
+    }
+    
+    .login-bar a {
+        color: #664E6D;
+    }
+</style>
 
 {% endblock %}

@@ -1,4 +1,9 @@
 > ***Change Log***
+> - **5343202** 2025-04-24 10:11:40 - Enhance admin dashboard: implement booking deletion functionality, add confirmation prompts, and improve layout for better user experience.
+> - **4a279f9** 2025-04-23 15:12:22 - Enhance admin dashboard: add functionality to fetch and display installation requests and in-person assessment bookings, implement user role checks, and improve error handling.
+> - **3cd4f87** 2025-04-23 14:51:49 - Enhance installation process: update form actions and fields, add booking time functionality, and implement database support for installation requests.
+> - **183068b** 2025-04-23 12:20:27 - Enhance installation form: remove monthly bill input, add booking time field, and improve layout for better user experience.
+> - **c740de5** 2025-04-23 10:50:15 - Enhance installation functionality: add form fields for address, solar and EV-specific data, implement form validation, and update template for improved user experience.
 > - **1d58cba** 2025-04-23 10:02:36 - Enhance installation page: implement custom dropdown for product selection, add form fields for email and phone, and update styling for improved layout and accessibility.
 > - **f64119c** 2025-04-22 15:14:17 - OpenDyslexic in assesiblity mode
 > - **8535842** 2025-04-22 15:02:05 - Enhance accessibility and user feedback: update styling for accessibility icons, add error handling and success messages for booking functionality, and improve layout in various templates.

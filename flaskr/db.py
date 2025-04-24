@@ -1,6 +1,6 @@
 import sqlite3
 from flask import session, flash
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 import time
 import logging
 
@@ -114,6 +114,8 @@ def set_up_db():
     conn.commit()
     conn.close()
 
+
+
 def delete_bookings(booking_id, booking_type):
 
     try:
@@ -170,26 +172,37 @@ def get_all_bookings():
 
 def check_in_person_assessment_booking(user_id):
         # Check if the user has an in-person assessment booking
-        # Connect to the database with a timeout to handle locked database
-        conn = sqlite3.connect('database.db', timeout=20)
-        cursor = conn.cursor()
-        
-        # Get the in-person assessment booking for this user
-        cursor.execute('''
-            SELECT * FROM in_person_assessment_bookings
-            WHERE user_id = ?
-        ''', (user_id,))
-        
-        row = cursor.fetchone()
-        
-        if row:
-            result = dict(row)  # Convert Row object to dictionary
-            logging.info(f'In-person assessment booking found for user {user_id}')
-            return True  # Return the booking data
-        
-        logging.warning(f'No in-person assessment booking found for user {user_id}')
-        return False
-    
+        conn = None # Initialize conn
+        try:
+            # Connect to the database with a timeout to handle locked database
+            conn = sqlite3.connect('database.db', timeout=20)
+            # Set row_factory to access columns by name (though not strictly needed for just checking existence)
+            conn.row_factory = sqlite3.Row
+            cursor = conn.cursor()
+
+            # Get the in-person assessment booking for this user
+            cursor.execute('''
+                SELECT 1 FROM in_person_assessment_bookings
+                WHERE user_id = ?
+                LIMIT 1
+            ''', (user_id,))
+
+            row = cursor.fetchone()
+
+            if row:
+                logging.info(f'In-person assessment booking found for user {user_id}')
+                return True  # Booking exists
+            else:
+                logging.warning(f'No in-person assessment booking found for user {user_id}')
+                return False # No booking found
+
+        except Exception as e:
+            logging.error(f"Error checking in-person assessment booking for user {user_id}: {e}")
+            return False # Return False on error
+        finally:
+            if conn:
+                conn.close() # Ensure connection is closed
+
 def add_in_person_assessment_booking(user_id, date, time, address, email, phone):
     """
     Add a new in-person assessment booking to the database.
@@ -636,4 +649,191 @@ def add_installation_request(user_id, product_type, user_email, user_phone, user
         return False
     finally:
         if conn:
-            conn.close()  # Ensure the connection is always closed
+            conn.close()
+
+def get_user_installation_requests(user_id):
+    """
+    Retrieve installation requests for a specific user.
+
+    Args:
+        user_id (int): The ID of the user.
+
+    Returns:
+        list: A list of installation requests (as Row objects) for the user.
+              booking_time will be a datetime object.
+    """
+    conn = None
+    try:
+        # Add detect_types to automatically convert DATETIME columns to datetime objects
+        conn = sqlite3.connect('database.db', timeout=20, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
+        conn.row_factory = sqlite3.Row # Return rows that can be accessed by column name
+        cursor = conn.cursor()
+
+        # Ensure the column name in the query matches the declared type (DATETIME or TIMESTAMP)
+        # The type is declared as DATETIME in the CREATE TABLE statement.
+        cursor.execute('''
+            SELECT id, user_id, product_type, user_email, user_phone, user_address,
+                   booking_time, house_direction, roof_size, ev_charger_type,
+                   charger_location, vehicle_model, request_timestamp
+            FROM installation_requests
+            WHERE user_id = ?
+            ORDER BY booking_time ASC
+        ''', (user_id,))
+        installations = cursor.fetchall()
+        logging.info(f"Fetched {len(installations)} installation requests for user {user_id}.")
+        return installations
+    except Exception as e:
+        logging.error(f"Error fetching installation requests for user {user_id}: {e}")
+        return [] # Return empty list on error
+    finally:
+        if conn:
+            conn.close()
+
+def get_user_in_person_assessments(user_id):
+    """
+    Retrieve in-person assessment bookings for a specific user.
+
+    Args:
+        user_id (int): The ID of the user.
+
+    Returns:
+        list: A list of in-person assessment bookings (as Row objects) for the user.
+    """
+    conn = None
+    try:
+        # Add detect_types here as well if date/time conversion is needed later
+        # Note: 'date' and 'time' columns are TEXT, so they won't be auto-converted
+        conn = sqlite3.connect('database.db', timeout=20, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
+        conn.row_factory = sqlite3.Row # Return rows that can be accessed by column name
+        cursor = conn.cursor()
+
+        cursor.execute('''
+            SELECT * FROM in_person_assessment_bookings
+            WHERE user_id = ?
+            ORDER BY date ASC, time ASC
+        ''', (user_id,))
+        assessments = cursor.fetchall()
+        logging.info(f"Fetched {len(assessments)} in-person assessments for user {user_id}.")
+        return assessments
+    except Exception as e:
+        logging.error(f"Error fetching in-person assessments for user {user_id}: {e}")
+        return [] # Return empty list on error
+    finally:
+        if conn:
+            conn.close()
+
+def verify_password(user_id, password):
+    """
+    Verify the provided password against the stored hash for the user.
+
+    Args:
+        user_id (int): The ID of the user.
+        password (str): The password to verify.
+
+    Returns:
+        bool: True if the password is correct, False otherwise.
+    """
+    conn = None
+    try:
+        conn = sqlite3.connect('database.db', timeout=20)
+        cursor = conn.cursor()
+        cursor.execute('SELECT password_hash FROM users WHERE id = ?', (user_id,))
+        result = cursor.fetchone()
+        if result and result[0]:
+            stored_hash = result[0]
+            return check_password_hash(stored_hash, password)
+        return False # User not found or no password hash stored
+    except Exception as e:
+        logging.error(f"Error verifying password for user {user_id}: {e}")
+        return False
+    finally:
+        if conn:
+            conn.close()
+
+def update_user_email(user_id, new_email):
+    """
+    Update the email address for a specific user.
+
+    Args:
+        user_id (int): The ID of the user.
+        new_email (str): The new email address.
+
+    Returns:
+        bool: True if the email was updated successfully, False otherwise (e.g., email exists).
+    """
+    conn = None
+    try:
+        conn = sqlite3.connect('database.db', timeout=20)
+        cursor = conn.cursor()
+
+        # Check if the new email already exists for another user
+        cursor.execute('SELECT id FROM users WHERE email = ? AND id != ?', (new_email, user_id))
+        if cursor.fetchone():
+            logging.warning(f"Attempt to update email for user {user_id} failed: email '{new_email}' already exists.")
+            flash("Email address already in use by another account.", "error")
+            return False
+
+        # Update the email
+        cursor.execute('UPDATE users SET email = ? WHERE id = ?', (new_email, user_id))
+        conn.commit()
+        if cursor.rowcount > 0:
+            logging.info(f"Email updated successfully for user {user_id}.")
+            return True
+        else:
+            logging.warning(f"Attempt to update email for non-existent user ID {user_id}.")
+            return False # User ID might not exist
+    except sqlite3.OperationalError as e:
+        if "database is locked" in str(e):
+            logging.error("Database is locked during email update.")
+            flash("Database error, please try again later.", "error")
+        else:
+            logging.error(f"Error updating email for user {user_id}: {e}")
+            flash("An error occurred while updating email.", "error")
+        return False
+    except Exception as e:
+        logging.error(f"Error updating email for user {user_id}: {e}")
+        flash("An error occurred while updating email.", "error")
+        return False
+    finally:
+        if conn:
+            conn.close()
+
+def update_user_password(user_id, new_password):
+    """
+    Update the password for a specific user.
+
+    Args:
+        user_id (int): The ID of the user.
+        new_password (str): The new password.
+
+    Returns:
+        bool: True if the password was updated successfully, False otherwise.
+    """
+    conn = None
+    try:
+        conn = sqlite3.connect('database.db', timeout=20)
+        cursor = conn.cursor()
+        new_password_hash = generate_password_hash(new_password)
+        cursor.execute('UPDATE users SET password_hash = ? WHERE id = ?', (new_password_hash, user_id))
+        conn.commit()
+        if cursor.rowcount > 0:
+            logging.info(f"Password updated successfully for user {user_id}.")
+            return True
+        else:
+            logging.warning(f"Attempt to update password for non-existent user ID {user_id}.")
+            return False # User ID might not exist
+    except sqlite3.OperationalError as e:
+        if "database is locked" in str(e):
+            logging.error("Database is locked during password update.")
+            flash("Database error, please try again later.", "error")
+        else:
+            logging.error(f"Error updating password for user {user_id}: {e}")
+            flash("An error occurred while updating password.", "error")
+        return False
+    except Exception as e:
+        logging.error(f"Error updating password for user {user_id}: {e}")
+        flash("An error occurred while updating password.", "error")
+        return False
+    finally:
+        if conn:
+            conn.close()

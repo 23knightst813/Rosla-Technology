@@ -7,7 +7,17 @@ import logging
 
 # --- Make sure get_all_bookings is imported ---
 from flask import Flask, render_template, request, flash, redirect, session, url_for, jsonify
-from db import set_up_db, add_user, add_carbon_footprint, add_energy_bill, get_user_energy_data,add_solar_assessment, add_in_person_assessment_booking, add_installation_request, check_in_person_assessment_booking, get_all_bookings,delete_bookings
+from db import (
+    set_up_db, add_user, add_carbon_footprint, add_energy_bill,
+    get_user_energy_data, add_solar_assessment, add_in_person_assessment_booking,
+    add_installation_request, check_in_person_assessment_booking, get_all_bookings,
+    delete_bookings,
+    get_user_installation_requests,
+    get_user_in_person_assessments,
+    verify_password,
+    update_user_email,
+    update_user_password 
+)
 from auth import sign_in, get_user_id_by_email
 from validation import is_not_empty, is_valid_email, is_secure_password, is_valid_phone_number
 from tracker import save_uploaded_file, ocr_process_file, gemini_format
@@ -371,10 +381,108 @@ def personConsultation():
 
 @app.route('/dashboard')
 def dashboard():
-        # --- Require Login ---
+    # --- Require Login ---
     if not session.get("email"):
-        return redirect(url_for('index'))
-    return render_template('dashboard.html')
+        flash("You must be logged in to view the dashboard.", "error")
+        return redirect(url_for('login'))
+
+    user_id = get_user_id_by_email()
+    if not user_id:
+        flash("User not found. Please log in again.", "error")
+        session.clear() # Clear potentially corrupted session
+        return redirect(url_for('login'))
+
+    # --- Fetch Data for Dashboard ---
+    energy_data = get_user_energy_data(user_id)
+    solar_results = session.get('solar_results', None) # Get solar results from session
+    installations = get_user_installation_requests(user_id) # Fetch user's installations
+    in_person_assessments = get_user_in_person_assessments(user_id) # Fetch user's assessments
+
+    # --- Render Template with Data ---
+    return render_template(
+        'dashboard.html',
+        energy_data=energy_data,
+        solar_results=solar_results,
+        installations=installations,
+        in_person_assessments=in_person_assessments
+    )
+
+# --- Add a new route to handle account updates (implementation needed) ---
+@app.route('/update_account', methods=['POST'])
+def update_account():
+    if not session.get("email"):
+        flash("You must be logged in.", "error")
+        return redirect(url_for('login'))
+
+    user_id = get_user_id_by_email()
+    if not user_id:
+        flash("User not found.", "error")
+        return redirect(url_for('login'))
+
+    current_password = request.form.get('current_password')
+    new_email = request.form.get('new_email')
+    new_password = request.form.get('new_password')
+    confirm_password = request.form.get('confirm_password')
+
+    # --- Basic Validation ---
+    if not is_not_empty(current_password):
+        flash("Current password is required to make changes.", "error")
+        return redirect(url_for('dashboard'))
+
+    # --- Password Verification ---
+    if not verify_password(user_id, current_password): # Use the imported function
+       flash("Incorrect current password.", "error")
+       return redirect(url_for('dashboard'))
+
+    email_updated = False
+    password_updated = False
+
+    # --- Update Email ---
+    if is_not_empty(new_email):
+        if not is_valid_email(new_email):
+            flash("Invalid new email format.", "error")
+            return redirect(url_for('dashboard'))
+        # --- Call DB function to update email ---
+        if update_user_email(user_id, new_email): # Use the imported function
+            session['email'] = new_email # Update session email
+            email_updated = True
+        else:
+            # Flash message is handled within update_user_email
+            return redirect(url_for('dashboard'))
+
+
+    # --- Update Password ---
+    if is_not_empty(new_password):
+        if new_password != confirm_password:
+            flash("New passwords do not match.", "error")
+            return redirect(url_for('dashboard'))
+        if not is_secure_password(new_password):
+             flash(
+                "New password must be at least 8 characters long, contain an uppercase letter, a lowercase letter, a number, and a special character.",
+                "error"
+            )
+             return redirect(url_for('dashboard'))
+        # --- Call DB function to update password ---
+        if update_user_password(user_id, new_password): # Use the imported function
+            password_updated = True
+        else:
+            # Flash message is handled within update_user_password
+            return redirect(url_for('dashboard'))
+
+    # --- Flash success messages ---
+    if email_updated and password_updated:
+        flash("Email and password updated successfully.", "success")
+    elif email_updated:
+        flash("Email updated successfully.", "success")
+    elif password_updated:
+        flash("Password updated successfully.", "success")
+    elif not is_not_empty(new_email) and not is_not_empty(new_password):
+         flash("No changes were submitted.", "info")
+
+
+    # --- Redirect back to dashboard ---
+    return redirect(url_for('dashboard'))
+
 
 @app.route('/installation', methods=['GET', 'POST']) # Add POST method
 def installation():
@@ -586,9 +694,14 @@ def admin_dashboard():
 
 @app.route('/delete_booking', methods=['POST'])
 def delete_booking():
-    # Check admin privileges
-    if not session.get("email") or session.get("role") != True:
-        flash("You do not have permission to perform this action.", "error")
+    # --- Check if user is logged in ---
+    if not session.get("email"):
+        flash("You must be logged in to delete bookings.", "error")
+        return redirect(url_for('login'))
+
+    user_id = get_user_id_by_email()
+    if not user_id:
+        flash("User not found.", "error")
         return redirect(url_for('login'))
 
     booking_id = request.form.get('booking_id')
@@ -596,27 +709,60 @@ def delete_booking():
 
     if not booking_id or not booking_type:
         flash("Invalid request. Missing booking information.", "error")
-        return redirect(url_for('admin_dashboard'))
+        # Redirect to dashboard for user, admin_dashboard for admin
+        redirect_url = url_for('admin_dashboard') if session.get("role") else url_for('dashboard')
+        return redirect(redirect_url)
 
     try:
         booking_id = int(booking_id) # Ensure booking_id is an integer
     except ValueError:
         flash("Invalid booking ID.", "error")
-        return redirect(url_for('admin_dashboard'))
+        redirect_url = url_for('admin_dashboard') if session.get("role") else url_for('dashboard')
+        return redirect(redirect_url)
 
     if booking_type not in ['installation_request', 'in_person_assessment']:
         flash("Invalid booking type.", "error")
-        return redirect(url_for('admin_dashboard'))
+        redirect_url = url_for('admin_dashboard') if session.get("role") else url_for('dashboard')
+        return redirect(redirect_url)
 
-    # Call the delete function from db.py
-    success = delete_bookings(booking_id, booking_type)
+    # --- Authorization Check: User must own the booking OR be an admin ---
+    can_delete = False
+    if session.get("role") == True: # Admin can delete any booking
+        can_delete = True
+    else: # Regular user check
+        conn = None
+        try:
+            conn = sqlite3.connect('database.db', timeout=10)
+            cursor = conn.cursor()
+            table_name = "installation_requests" if booking_type == 'installation_request' else "in_person_assessment_bookings"
+            cursor.execute(f"SELECT user_id FROM {table_name} WHERE id = ?", (booking_id,))
+            result = cursor.fetchone()
+            if result and result[0] == user_id:
+                can_delete = True
+        except Exception as e:
+            logging.error(f"Error checking booking ownership for user {user_id}, booking {booking_id}: {e}")
+            flash("Error verifying booking ownership.", "error")
+        finally:
+            if conn:
+                conn.close()
+
+    if not can_delete:
+        flash("You do not have permission to delete this booking.", "error")
+        redirect_url = url_for('admin_dashboard') if session.get("role") else url_for('dashboard')
+        return redirect(redirect_url)
+
+    # --- Call the delete function from db.py ---
+    success = delete_bookings(booking_id, booking_type) # delete_bookings function already exists
 
     if success:
         flash(f"{booking_type.replace('_', ' ').title()} deleted successfully.", "success")
     else:
-        flash(f"Error deleting {booking_type.replace('_', ' ')}. Please check logs.", "error")
+        # Error flash is handled within delete_bookings or above checks
+        pass # Avoid double flashing
 
-    return redirect(url_for('admin_dashboard'))
+    # --- Redirect back to the appropriate dashboard ---
+    redirect_url = url_for('admin_dashboard') if session.get("role") else url_for('dashboard')
+    return redirect(redirect_url)
 
 
 @app.route('/logout')
