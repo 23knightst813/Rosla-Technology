@@ -18,9 +18,13 @@
 <body>
     <div class="header">
         {% if session["role"] == True %}
-        <a href="{{ url_for('admin_dashboard') }}"><h1>Rosla <br>Technologies</h1></a>
+        <a href="{{ url_for('admin_dashboard') }}">
+            <h1>Rosla <br>Technologies</h1>
+        </a>
         {% else %}
-        <a href="{{ url_for('dashboard') }}"><h1>Rosla <br>Technologies</h1></a>
+        <a href="{{ url_for('dashboard') }}">
+            <h1>Rosla <br>Technologies</h1>
+        </a>
         {% endif %}
         <button id="accessibility-toggle" class="accessibility-btn" aria-label="Toggle accessibility mode">
             <img class="a11y-icon" src="{{ url_for('static', filename='images/a11y.svg') }}" alt="Accessibility Icon">
@@ -48,79 +52,134 @@
 
     <!-- Flash messages section -->
     {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            <div class="flash-container">
-                {% for category, message in messages %}
-                    <div class="flash-message {{ category }}">
-                        <span class="flash-text">{{ message }}</span>
-                        <button type="button" class="close-btn" onclick="this.parentElement.style.display='none'">&times;</button>
-                    </div>
-                {% endfor %}
-            </div>
-        {% endif %}
+    {% if messages %}
+    <div class="flash-container">
+        {% for category, message in messages %}
+        <div class="flash-message {{ category }}">
+            <span class="flash-text">{{ message }}</span>
+            <button type="button" class="close-btn" onclick="this.parentElement.style.display='none'">&times;</button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
     {% endwith %}
 
+    <!-- Cookie Consent Pop-up -->
+    {% if not request.cookies.get('cookie_consent') %}
+    <div id="cookie-consent" class="cookie-consent">
+        <p>We use cookies to improve your experience. by using our site, you agree to our use of cookies.</p>
+        <form method="post" action="{{ url_for('set_cookie') }}">
+            <br>    
+            <button type="submit" class="btn1">Accept</button>
+        </form>
+    </div>
+    {% endif %}
 
 
     {% block content %}{% endblock %}
 
 
-<style>
-    .a11y-icon  {
-        color: #F4F1EB;
-        border: 2px solid #F4F1EB;
-        border-radius: 10px;
-        padding: 10px;
-        display: inline-block;
-        text-align: center;
-        box-shadow: none;
-        height: 20px;
-    }
-    .a11y-icon:hover, .a11y-text:hover {
-        border: 3px solid #F4F1EB;
-    }
-    
-    .a11y-text {
-        display: none;
-    }
+    <style>
+/* Cookie consent pop-up style */
+.cookie-consent {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  padding: 10px;
+  z-index: 1000;
+}
 
-    #accessibility-toggle {
-        background: none;
-        border: none;
-        padding: 0;
-        margin: 0;
-        cursor: pointer;
-        position: absolute;
-        left: 200px;
-        top: 30px;
-    }
-    
+/* Cookie consent paragraph style */
+.cookie-consent p {
+  margin: 0;
+  padding: 0;
+  display: inline;
+}
 
-    
-    /* Class that will be shown in accessibility mode */
-    .accessibility-mode .a11y-icon {
-        display: none;
-    }
-    
-    .accessibility-mode .a11y-text {
-        display: inline-block;
-    }
-</style>
+/* Cookie consent button style */
+.cookie-consent .btn1 {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin-left: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
 
-<script>
-    // Auto-hide flash messages after 5 seconds
-    document.addEventListener('DOMContentLoaded', function() {
-        setTimeout(function() {
-            const flashMessages = document.querySelectorAll('.flash-message');
-            flashMessages.forEach(function(message) {
-                message.style.opacity = '0';
-                setTimeout(function() {
-                    message.style.display = 'none';
-                }, 500);
-            });
-        }, 5000);
-    });
-</script>
+/* Cookie consent button hover effect */
+.cookie-consent .btn:hover {
+  background-color: #45a049;
+}
+
+        .a11y-icon {
+            color: #F4F1EB;
+            border: 2px solid #F4F1EB;
+            border-radius: 10px;
+            padding: 10px;
+            display: inline-block;
+            text-align: center;
+            box-shadow: none;
+            height: 20px;
+        }
+
+        .a11y-icon:hover,
+        .a11y-text:hover {
+            border: 3px solid #F4F1EB;
+        }
+
+        .a11y-text {
+            display: none;
+        }
+
+        #accessibility-toggle {
+            background: none;
+            border: none;
+            padding: 0;
+            margin: 0;
+            cursor: pointer;
+            position: absolute;
+            left: 200px;
+            top: 30px;
+        }
+
+
+
+        /* Class that will be shown in accessibility mode */
+        .accessibility-mode .a11y-icon {
+            display: none;
+        }
+
+        .accessibility-mode .a11y-text {
+            display: inline-block;
+        }
+    </style>
+
+    <script>
+        // Auto-hide flash messages after 5 seconds
+        document.addEventListener('DOMContentLoaded', function () {
+            setTimeout(function () {
+                const flashMessages = document.querySelectorAll('.flash-message');
+                flashMessages.forEach(function (message) {
+                    message.style.opacity = '0';
+                    setTimeout(function () {
+                        message.style.display = 'none';
+                    }, 500);
+                });
+            }, 5000);
+        });
+        // JavaScript to handle the cookie consent pop-up
+        document.addEventListener('DOMContentLoaded', function () {
+            const cookieConsent = document.getElementById('cookie-consent');
+            if (cookieConsent) {
+                cookieConsent.style.display = 'block';
+            }
+        });
+    </script>
 </body>
-</html>
 
+</html>

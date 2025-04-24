@@ -6,7 +6,7 @@ from datetime import date, datetime
 import logging
 
 # --- Make sure get_all_bookings is imported ---
-from flask import Flask, render_template, request, flash, redirect, session, url_for, jsonify
+from flask import Flask, make_response, render_template, request, flash, redirect, session, url_for, jsonify
 from db import (
     set_up_db, add_user, add_carbon_footprint, add_energy_bill,
     get_user_energy_data, add_solar_assessment, add_in_person_assessment_booking,
@@ -787,6 +787,13 @@ def smart_home():
 def energy_tips():
     return render_template('infoPages/reduceCarbonFootprint.html')
 
+# Define the set_cookie route
+@app.route('/set_cookie', methods=['POST'])
+def set_cookie():
+    next_url = request.referrer or url_for('index')  # Get the referring page or default to index
+    response = make_response(redirect(next_url))
+    response.set_cookie('cookie_consent', 'true', max_age=60*60*24*365)  # 1 year
+    return response
 
 # Define error handlers for various HTTP status codes
 @app.errorhandler(404)
