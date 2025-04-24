@@ -7,7 +7,7 @@ import logging
 
 # --- Make sure get_all_bookings is imported ---
 from flask import Flask, render_template, request, flash, redirect, session, url_for, jsonify
-from db import set_up_db, add_user, add_carbon_footprint, add_energy_bill, get_user_energy_data,add_solar_assessment, add_in_person_assessment_booking, add_installation_request, check_in_person_assessment_booking, get_all_bookings # Added get_all_bookings
+from db import set_up_db, add_user, add_carbon_footprint, add_energy_bill, get_user_energy_data,add_solar_assessment, add_in_person_assessment_booking, add_installation_request, check_in_person_assessment_booking, get_all_bookings,delete_bookings
 from auth import sign_in, get_user_id_by_email
 from validation import is_not_empty, is_valid_email, is_secure_password, is_valid_phone_number
 from tracker import save_uploaded_file, ocr_process_file, gemini_format
@@ -371,6 +371,9 @@ def personConsultation():
 
 @app.route('/dashboard')
 def dashboard():
+        # --- Require Login ---
+    if not session.get("email"):
+        return redirect(url_for('index'))
     return render_template('dashboard.html')
 
 @app.route('/installation', methods=['GET', 'POST']) # Add POST method
@@ -580,6 +583,41 @@ def admin_dashboard():
     return render_template('adminDashboard.html',
                            installations=installations,
                            in_person_assessments=in_person_assessments)
+
+@app.route('/delete_booking', methods=['POST'])
+def delete_booking():
+    # Check admin privileges
+    if not session.get("email") or session.get("role") != True:
+        flash("You do not have permission to perform this action.", "error")
+        return redirect(url_for('login'))
+
+    booking_id = request.form.get('booking_id')
+    booking_type = request.form.get('booking_type')
+
+    if not booking_id or not booking_type:
+        flash("Invalid request. Missing booking information.", "error")
+        return redirect(url_for('admin_dashboard'))
+
+    try:
+        booking_id = int(booking_id) # Ensure booking_id is an integer
+    except ValueError:
+        flash("Invalid booking ID.", "error")
+        return redirect(url_for('admin_dashboard'))
+
+    if booking_type not in ['installation_request', 'in_person_assessment']:
+        flash("Invalid booking type.", "error")
+        return redirect(url_for('admin_dashboard'))
+
+    # Call the delete function from db.py
+    success = delete_bookings(booking_id, booking_type)
+
+    if success:
+        flash(f"{booking_type.replace('_', ' ').title()} deleted successfully.", "success")
+    else:
+        flash(f"Error deleting {booking_type.replace('_', ' ')}. Please check logs.", "error")
+
+    return redirect(url_for('admin_dashboard'))
+
 
 @app.route('/logout')
 def logout():

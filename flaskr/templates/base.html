@@ -17,9 +17,11 @@
 
 <body>
     <div class="header">
-        <a href="{{ url_for('index') }}">
-            <h1>Rosla <br>Technologies</h1>
-        </a>
+        {% if session["role"] == True %}
+        <a href="{{ url_for('admin_dashboard') }}"><h1>Rosla <br>Technologies</h1></a>
+        {% else %}
+        <a href="{{ url_for('dashboard') }}"><h1>Rosla <br>Technologies</h1></a>
+        {% endif %}
         <button id="accessibility-toggle" class="accessibility-btn" aria-label="Toggle accessibility mode">
             <img class="a11y-icon" src="{{ url_for('static', filename='images/a11y.svg') }}" alt="Accessibility Icon">
             <span class="a11y-text">Standard Mode</span>

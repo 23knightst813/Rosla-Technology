@@ -948,3 +948,19 @@
 - Actual Result: The `add_installation_request` function uses parameterized queries (`VALUES (?, ?, ...)`), preventing SQL injection. The data containing special characters was stored safely.
 - Status: Pass
 - Dependencies: `db.add_installation_request`, Parameterized SQL queries.
+
+## Test Case 10: Admin Dashboard
+
+- Event:
+    - Veiw All Bookings by loadign the page
+- Expected Result: All Bookigns are displayed
+- Actual Result:  All Bookigns are displayed
+- Status: Pass
+- Dependencies: Booking Database tables
+
+- Event:
+    - Delte A booking#
+- Expected Result: Booking is delted with a confirmenation
+- Actual Result: Booking is delted with a confirmenation
+- Status: Pass
+- Dependencies: Dashboard Booking Veiwing, Booking Database tables

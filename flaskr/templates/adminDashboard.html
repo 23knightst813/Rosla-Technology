@@ -1,9 +1,10 @@
+<!-- filepath: n:\Task 2\flaskr\templates\adminDashboard.html -->
 {% extends 'base.html' %}
 
 
 {% block content %}
 <div class="container mt-4">
-    <h1 class="mb-4">Admin Dashboard - Bookings</h1>
+    <h1 class="mb-4">Admin Dashboard - Bookings - Control + F to search</h1>
 
     <!-- Installation Requests -->
     <h2 class="mt-5">Installation Requests</h2>
@@ -51,8 +52,12 @@
                     </td>
                     <td>{{ install[12] }}</td> <!-- request_timestamp -->
                     <td>
-                        <!-- Add a form for deletion later -->
-                        <button class="btn btn-danger btn-sm" disabled>X</button> <!-- Placeholder delete button -->
+                        <!-- Delete Form for Installation Request -->
+                        <form action="{{ url_for('delete_booking') }}" method="post" style="display: inline;">
+                            <input type="hidden" name="booking_id" value="{{ install[0] }}">
+                            <input type="hidden" name="booking_type" value="installation_request">
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this installation request?');">X</button>
+                        </form>
                     </td>
                 </tr>
                 {% endfor %}
@@ -93,8 +98,12 @@
                     <td>{{ assessment[6] }}</td> <!-- phone -->
                     <td>{{ assessment[7] }}</td> <!-- created_at -->
                     <td>
-                        <!-- Add a form for deletion later -->
-                         <button class="btn btn-danger btn-sm" disabled>X</button> <!-- Placeholder delete button -->
+                        <!-- Delete Form for In-Person Assessment -->
+                        <form action="{{ url_for('delete_booking') }}" method="post" style="display: inline;">
+                            <input type="hidden" name="booking_id" value="{{ assessment[0] }}">
+                            <input type="hidden" name="booking_type" value="in_person_assessment">
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this assessment booking?');">X</button>
+                        </form>
                     </td>
                 </tr>
                 {% endfor %}
@@ -108,6 +117,10 @@
 </div>
 
 <style>
+    .header a {
+        color: #664E6D;
+    }
+
     .a11y-icon  {
                 filter: brightness(0) saturate(100%) invert(31%) sepia(19%) saturate(728%) hue-rotate(241deg) brightness(96%) contrast(88%);
                 border: 2px solid #664E6D;
@@ -117,6 +130,10 @@
     }
 
     nav a {
+        color: #664E6D;
+    }
+    
+    .login-bar a {
         color: #664E6D;
     }
 </style>

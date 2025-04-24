@@ -114,6 +114,37 @@ def set_up_db():
     conn.commit()
     conn.close()
 
+def delete_bookings(booking_id, booking_type):
+
+    try:
+        # Connect to the database with a timeout to handle locked database
+        conn = sqlite3.connect('database.db', timeout=20)
+        cursor = conn.cursor()
+        
+        if booking_type == 'in_person_assessment':
+            cursor.execute('''
+                DELETE FROM in_person_assessment_bookings
+                WHERE id = ?
+            ''', (booking_id,))
+            
+        elif booking_type == 'installation_request':
+            cursor.execute('''
+                DELETE FROM installation_requests
+                WHERE id = ?
+            ''', (booking_id,))
+            
+        conn.commit()  # Commit the transaction
+        logging.info(f'{booking_type} with ID {booking_id} deleted successfully!')
+        return True
+        
+    except Exception as e:
+        logging.error(f'Error deleting {booking_type}: {e}')
+        return False
+        
+    finally:
+        if 'conn' in locals():
+            conn.close()  # Ensure the database connection is closed
+
 def get_all_bookings():
         conn = sqlite3.connect('database.db', timeout=20)
         cursor = conn.cursor()
