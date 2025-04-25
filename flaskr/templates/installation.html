@@ -307,124 +307,150 @@
 
 </style>
 
-<!-- JavaScript for custom dropdown (No changes needed here) -->
 <script>
-    // (JavaScript remains exactly the same as the previous version)
+    class CustomSelect {
+        constructor(selectElement, wrapperElement) {
+            if (!selectElement || !wrapperElement) {
+                console.error("CustomSelect requires both a select element and a wrapper element.");
+                return;
+            }
+            this.originalSelect = selectElement;
+            this.wrapper = wrapperElement;
+            this.display = this.wrapper.querySelector('.custom-select-display');
+            this.placeholder = this.display.querySelector('.custom-select-placeholder');
+            this.optionsList = this.wrapper.querySelector('.custom-select-options');
+            this.arrow = this.display.querySelector('.custom-select-arrow');
+
+            if (!this.display || !this.optionsList) {
+                console.error("Custom select child elements (display, optionsList) are missing.");
+                return;
+            }
+
+            this.populateOptions();
+            this.addEventListeners();
+        }
+
+        populateOptions() {
+            Array.from(this.originalSelect.options).forEach(option => {
+                if (option.value === "" && option.disabled) return;
+
+                const listItem = document.createElement('li');
+                listItem.textContent = option.textContent;
+                listItem.dataset.value = option.value;
+                this.optionsList.appendChild(listItem);
+
+                listItem.addEventListener('click', () => this.selectOption(listItem));
+            });
+        }
+
+        selectOption(listItem) {
+            let currentArrow = this.display.querySelector('.custom-select-arrow');
+            if (!currentArrow) { // Recreate arrow if it was removed
+                currentArrow = document.createElement('span');
+                currentArrow.className = 'custom-select-arrow';
+                currentArrow.innerHTML = '▾';
+            }
+
+            // Update display
+            this.display.innerHTML = `<span class="selected-value">${listItem.textContent}</span>`;
+            this.display.appendChild(currentArrow); // Re-append arrow
+            this.display.classList.add('selected');
+
+            // Update original select and trigger change event
+            this.originalSelect.value = listItem.dataset.value;
+            this.originalSelect.dispatchEvent(new Event('change'));
+
+            // Update visual state
+            this.optionsList.querySelectorAll('li').forEach(li => li.classList.remove('selected'));
+            listItem.classList.add('selected');
+            this.closeDropdown();
+        }
+
+        toggleDropdown() {
+            this.wrapper.classList.toggle('open');
+        }
+
+        closeDropdown() {
+            this.wrapper.classList.remove('open');
+        }
+
+        handleKeyDown(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                this.toggleDropdown();
+            } else if (e.key === 'Escape') {
+                this.closeDropdown();
+            }
+        }
+
+        handleDocumentClick(event) {
+            if (!this.wrapper.contains(event.target)) {
+                this.closeDropdown();
+            }
+        }
+
+        addEventListeners() {
+            this.display.addEventListener('click', () => this.toggleDropdown());
+            this.display.addEventListener('keydown', (e) => this.handleKeyDown(e));
+            // Use binding to ensure 'this' refers to the class instance in the event handler
+            document.addEventListener('click', this.handleDocumentClick.bind(this));
+            document.addEventListener('keydown', (e) => {
+                 if (e.key === 'Escape') {
+                     this.closeDropdown();
+                 }
+            });
+        }
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
         const originalSelect = document.getElementById('product');
-        if (!originalSelect) {
-            console.error("Original select element with ID 'product' not found.");
-            return;
-        }
-
         const customSelectWrapper = document.querySelector('.custom-select-wrapper');
-        if (!customSelectWrapper) {
-            console.error("Custom select wrapper element not found.");
-            return;
+
+        // Instantiate the custom dropdown
+        if (originalSelect && customSelectWrapper) {
+            new CustomSelect(originalSelect, customSelectWrapper);
+        } else {
+             console.error("Could not find original select or custom wrapper to initialize CustomSelect.");
         }
 
-        const customSelectDisplay = customSelectWrapper.querySelector('.custom-select-display');
-        const customSelectPlaceholder = customSelectDisplay.querySelector('.custom-select-placeholder');
-        const customSelectOptionsList = customSelectWrapper.querySelector('.custom-select-options');
 
-        if (!customSelectDisplay || !customSelectOptionsList) { // Placeholder might be absent if already selected
-             console.error("One or more custom select child elements are missing.");
-             return;
-        }
-
-        // Populate custom options from original select
-        Array.from(originalSelect.options).forEach(option => {
-            if (option.value === "" && option.disabled) return;
-
-            const listItem = document.createElement('li');
-            listItem.textContent = option.textContent;
-            listItem.dataset.value = option.value;
-            customSelectOptionsList.appendChild(listItem);
-
-            listItem.addEventListener('click', function() {
-                let arrowSpan = customSelectDisplay.querySelector('.custom-select-arrow');
-                if (!arrowSpan) { // Create arrow if missing (e.g., after selection)
-                    arrowSpan = document.createElement('span');
-                    arrowSpan.className = 'custom-select-arrow';
-                    arrowSpan.innerHTML = '▾';
-                 }
-
-                // Update display - create selected span, append arrow
-                customSelectDisplay.innerHTML = `<span class="selected-value">${this.textContent}</span>`;
-                customSelectDisplay.appendChild(arrowSpan); // Re-append arrow
-                customSelectDisplay.classList.add('selected');
-
-                originalSelect.value = this.dataset.value;
-                originalSelect.dispatchEvent(new Event('change'));
-                customSelectWrapper.classList.remove('open');
-
-                customSelectOptionsList.querySelectorAll('li').forEach(li => li.classList.remove('selected'));
-                this.classList.add('selected');
-            });
-        });
-
-        // Toggle dropdown visibility
-        customSelectDisplay.addEventListener('click', function() {
-            customSelectWrapper.classList.toggle('open');
-        });
-
-         customSelectDisplay.addEventListener('keydown', function(e) {
-             if (e.key === 'Enter' || e.key === ' ') {
-                 e.preventDefault();
-                 customSelectWrapper.classList.toggle('open');
-             }
-         });
-
-        document.addEventListener('click', function(event) {
-            if (!customSelectWrapper.contains(event.target)) {
-                customSelectWrapper.classList.remove('open');
-            }
-        });
-
-         document.addEventListener('keydown', function(e) {
-             if (e.key === 'Escape') {
-                 customSelectWrapper.classList.remove('open');
-             }
-         });
-
-        // --- Logic to show/hide product-specific fields ---
-        const productSelect = document.getElementById('product');
+        // --- Logic to show/hide product-specific fields (Remains outside the class) ---
+        const productSelect = document.getElementById('product'); // Get reference again for this logic
         const solarFields = document.getElementById('solar-fields');
         const evFields = document.getElementById('ev-fields');
-        const specificFieldGroups = [solarFields, evFields]; // Array for easier handling
+        const specificFieldGroups = [solarFields, evFields];
 
-        // Function to update field visibility
         function updateVisibleFields() {
+            // Check if productSelect exists before accessing its value
+            if (!productSelect) return;
             const selectedValue = productSelect.value;
 
-            // Hide all specific groups first
             specificFieldGroups.forEach(group => {
-                if (group) group.style.display = 'none';
-                // Make inputs inside hidden groups NOT required
-                group?.querySelectorAll('input').forEach(input => input.required = false);
+                if (group) {
+                    group.style.display = 'none';
+                    group.querySelectorAll('input').forEach(input => input.required = false);
+                }
             });
 
-            // Show the relevant group and make its inputs required
             if (selectedValue === 'solar' && solarFields) {
                 solarFields.style.display = 'block';
                 solarFields.querySelectorAll('input').forEach(input => input.required = true);
-                 // Optional: Clear EV fields if switching
-                evFields?.querySelectorAll('input').forEach(input => input.value = '');
+                evFields?.querySelectorAll('input').forEach(input => input.value = ''); // Clear other fields
             } else if (selectedValue === 'ev_chargers' && evFields) {
                 evFields.style.display = 'block';
                 evFields.querySelectorAll('input').forEach(input => input.required = true);
-                 // Optional: Clear Solar fields if switching
-                solarFields?.querySelectorAll('input').forEach(input => input.value = '');
+                solarFields?.querySelectorAll('input').forEach(input => input.value = ''); // Clear other fields
             }
         }
 
-        // Add event listener to the original select (which is updated by the custom dropdown)
+        // Add event listener to the original select (which is updated by the custom dropdown class)
         if (productSelect) {
             productSelect.addEventListener('change', updateVisibleFields);
+            // Initial check in case a value is pre-selected or set by default
+            // updateVisibleFields(); // Uncomment if needed
+        } else {
+            console.error("Product select element not found for field visibility logic.");
         }
-
-        // Initial check in case a value is pre-selected (though unlikely with placeholder)
-        // updateVisibleFields(); // You could uncomment this if needed
 
     }); // End of DOMContentLoaded
 </script>

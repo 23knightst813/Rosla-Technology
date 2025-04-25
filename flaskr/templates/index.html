@@ -24,11 +24,27 @@
     </div>
 
     <a href="{{ url_for('solarConsultation') }}" class="btn btn-centered">Get Started</a>
+
+    <div class="footer">
+        <a href="/policy">Policy/Terms of Service</a>
+        <a href="/data-collected">Data Collected</a>
+        <a href="/cookie-usage">Cookie Usage</a>
+    </div>
+
 </div>
 
-<style>
 
-    
+
+<style>
+    .footer {
+        color: white;
+        position: absolute;
+        margin-top: 75px;
+        display: flex;
+        gap: 20px; 
+        align-items: center; 
+    }
+
     .quote h2 {
         /* "The greatest threat to our planet is the belief that someone else will save it" */
 

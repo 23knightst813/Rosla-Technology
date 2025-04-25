@@ -6,3 +6,4 @@ easyocr
 google-genai
 shapely
 geopandas
+requests

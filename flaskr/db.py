@@ -595,6 +595,29 @@ def get_user_energy_data(user_id):
         if 'conn' in locals():
             conn.close()
 
+def booking_delete_authorization(user_id, booking_id, booking_type):
+
+    can_delete = False
+    if session.get("role") == True: # Admin can delete any booking
+        can_delete = True
+    else: # Regular user check
+        conn = None
+        try:
+            conn = sqlite3.connect('database.db', timeout=10)
+            cursor = conn.cursor()
+            table_name = "installation_requests" if booking_type == 'installation_request' else "in_person_assessment_bookings"
+            cursor.execute(f"SELECT user_id FROM {table_name} WHERE id = ?", (booking_id,))
+            result = cursor.fetchone()
+            if result and result[0] == user_id:
+                can_delete = True
+        except Exception as e:
+            logging.error(f"Error checking booking ownership for user {user_id}, booking {booking_id}: {e}")
+            flash("Error verifying booking ownership.", "error")
+        finally:
+            if conn:
+                conn.close()
+    return can_delete
+
 def add_installation_request(user_id, product_type, user_email, user_phone, user_address, booking_time, house_direction=None, roof_size=None, ev_charger_type=None, charger_location=None, vehicle_model=None):
     conn = None  # Initialize conn to None
     try:

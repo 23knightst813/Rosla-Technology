@@ -16,7 +16,8 @@ from db import (
     get_user_in_person_assessments,
     verify_password,
     update_user_email,
-    update_user_password 
+    update_user_password,
+    booking_delete_authorization
 )
 from auth import sign_in, get_user_id_by_email
 from validation import is_not_empty, is_valid_email, is_secure_password, is_valid_phone_number
@@ -28,6 +29,8 @@ app.secret_key = 'dev'
 
 # Add min function to the Jinja2 environment
 app.jinja_env.globals.update(min=min)
+# Add hasattr function to the Jinja2 environment
+app.jinja_env.globals.update(hasattr=hasattr)
 
 # Configure upload folder
 UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'uploads')
@@ -726,25 +729,8 @@ def delete_booking():
         return redirect(redirect_url)
 
     # --- Authorization Check: User must own the booking OR be an admin ---
-    can_delete = False
-    if session.get("role") == True: # Admin can delete any booking
-        can_delete = True
-    else: # Regular user check
-        conn = None
-        try:
-            conn = sqlite3.connect('database.db', timeout=10)
-            cursor = conn.cursor()
-            table_name = "installation_requests" if booking_type == 'installation_request' else "in_person_assessment_bookings"
-            cursor.execute(f"SELECT user_id FROM {table_name} WHERE id = ?", (booking_id,))
-            result = cursor.fetchone()
-            if result and result[0] == user_id:
-                can_delete = True
-        except Exception as e:
-            logging.error(f"Error checking booking ownership for user {user_id}, booking {booking_id}: {e}")
-            flash("Error verifying booking ownership.", "error")
-        finally:
-            if conn:
-                conn.close()
+    can_delete = booking_delete_authorization(user_id, booking_id, booking_type) # Function to check if user can delete the booking
+    
 
     if not can_delete:
         flash("You do not have permission to delete this booking.", "error")
@@ -764,6 +750,17 @@ def delete_booking():
     redirect_url = url_for('admin_dashboard') if session.get("role") else url_for('dashboard')
     return redirect(redirect_url)
 
+@app.route('/policy')
+def policy():
+    return "<h1>Policy/Terms of Service</h1><p>This page is not needed during prototyping.</p>"
+
+@app.route('/data-collected')
+def data_collected():
+    return "<h1>Data Collected</h1><p>This page is not needed during prototyping.</p>"
+
+@app.route('/cookie-usage')
+def cookie_usage():
+    return "<h1>Cookie Usage</h1><p>This page is not needed during prototyping.</p>"
 
 @app.route('/logout')
 def logout():

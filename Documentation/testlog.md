@@ -964,3 +964,19 @@
 - Actual Result: Booking is delted with a confirmenation
 - Status: Pass
 - Dependencies: Dashboard Booking Veiwing, Booking Database tables
+
+## Test Case 11: User Dashboard
+
+- Event:
+    - Veiw All of the users Bookings by loading the page
+- Expected Result: All Bookigns are displayed
+- Actual Result:  All Bookigns are displayed
+- Status: Pass
+- Dependencies: Booking Database tables
+
+- Event:
+    - Delte A booking
+- Expected Result: Booking is delted with a confirmenation
+- Actual Result: Booking is delted with a confirmenation
+- Status: Pass
+- Dependencies: Dashboard Booking Veiwing, Booking Database tables
