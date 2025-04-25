@@ -345,21 +345,16 @@
         border-bottom: 2px solid #ffffff;
     }
 </style>
-
 <script>
-
-
-
     // --- Configuration ---
-    const GETADDRESS_DOMAIN_TOKEN = 'dtoken_hEDzcyiWMr31VHUmjIS97eBcOqtd3b4U0yGzrU5EiG_MKwfX8yJvpY1eyhADhPZyXW8ZmRCTtLAO23zhbkq9Ajfd2YPpEib_trP_Vqv9YpB9ihTWp3W9b6xipuPXEcB2oyzCj0iRL_G0YlCW7f1O2yMxemxfsaLk1acAkBdO7_U9fym6eL0Gb7ueAOSjovSKWUkDab0A-mE'; // Should start with dtoken_
-    const DEBOUNCE_DELAY = 0; // Can be slightly faster for autocomplete
+    const GEOAPIFY_API_KEY = '{{ geoapify_api_key }}'; // Use Jinja variable here
+    const DEBOUNCE_DELAY = 300; // Milliseconds delay after user stops typing
 
     // --- DOM Elements ---
-    const searchInput = document.getElementById('postcode-input'); // Renamed for clarity
+    const searchInput = document.getElementById('postcode-input');
     const suggestionsContainer = document.getElementById('address-suggestions-container');
     const suggestionsList = document.getElementById('address-suggestions-list');
     const selectedAddressInput = document.getElementById('selected-address');
-    const selectedAddressIdInput = document.getElementById('selected-address-id'); // Optional
     const consultationForm = document.getElementById('consultation-form');
 
     let debounceTimer;
@@ -370,10 +365,11 @@
         debounceTimer = setTimeout(func, delay);
     }
 
-    // --- Fetch Address Suggestions from GetAddress.io Autocomplete ---
+    // --- Fetch Address Suggestions from Geoapify Autocomplete ---
     async function fetchAddressSuggestions(searchTerm) {
         const cleanSearchTerm = searchTerm.trim();
-        if (!cleanSearchTerm || cleanSearchTerm.length < 0) { //  search for very short terms
+        // Optional: Add a minimum length check if desired
+        if (!cleanSearchTerm) {
             suggestionsList.innerHTML = '';
             suggestionsContainer.style.display = 'none';
             return;
@@ -382,24 +378,20 @@
         suggestionsList.innerHTML = '<li><i>Searching...</i></li>';
         suggestionsContainer.style.display = 'block';
 
-        // Construct the GetAddress.io Autocomplete API URL
-        // Use the Domain Token in api-key
-        // Add 'all=true' parameter to potentially get all addresses if the term is a full postcode
-        const apiUrl = `https://api.getAddress.io/autocomplete/${encodeURIComponent(cleanSearchTerm)}?api-key=${GETADDRESS_DOMAIN_TOKEN}&all=true`;
+        // Construct the Geoapify Autocomplete API URL
+        const apiUrl = `https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(cleanSearchTerm)}&format=json&apiKey=${GEOAPIFY_API_KEY}`;
 
         try {
             const response = await fetch(apiUrl);
 
             if (!response.ok) {
-                // Handle errors (4xx, 5xx). 429 means rate limit hit. 401/403 likely token issue.
+                // Handle errors (4xx, 5xx).
                 let errorMsg = `Error: ${response.status} ${response.statusText}`;
-                if (response.status === 429) {
-                    errorMsg = "Search limit reached, please wait.";
-                }
-                try { // Try to get more specific message from response body
+                 try { // Try to get more specific message from response body
                     const errorData = await response.json();
-                    if (errorData && errorData.Message) {
-                        errorMsg = `Error: ${errorData.Message}`;
+                    // Geoapify error structure might be different, adjust if needed
+                    if (errorData && (errorData.message || errorData.error)) {
+                        errorMsg = `Error: ${errorData.message || errorData.error}`;
                     }
                 } catch (e) { /* Ignore if response is not JSON */ }
                 throw new Error(errorMsg);
@@ -407,8 +399,10 @@
 
             const data = await response.json();
 
-            // *** Response structure based on docs: { suggestions: [ { address: "...", id: "..." }, ... ] } ***
-            displaySuggestions(data.suggestions);
+            // *** Geoapify Response structure: { results: [ { formatted: "...", ... }, ... ] } ***
+            // Note: Geoapify might return results directly in an array sometimes.
+            // If it fails, try using `data` directly instead of `data.results`.
+            displaySuggestions(data.results || data); // Handle both potential structures
 
         } catch (error) {
             console.error("Error fetching address suggestions:", error);
@@ -429,15 +423,18 @@
         }
 
         suggestions.forEach(suggestion => {
-            if (!suggestion || !suggestion.address || !suggestion.id) return; // Basic validation
+            // Basic validation for Geoapify structure
+            if (!suggestion || !suggestion.formatted) return;
 
             const li = document.createElement('li');
-            const displayAddress = suggestion.address; // Use the address string directly from suggestion
+            // Use the 'formatted' address string from Geoapify
+            const displayAddress = suggestion.formatted;
             li.textContent = displayAddress;
 
             // Store data needed on click
             li.dataset.address = displayAddress;
-            li.dataset.id = suggestion.id; // Store the ID from the suggestion
+            // Optional: Store place_id if needed for backend lookups
+            // li.dataset.placeId = suggestion.place_id;
 
             // Add click listener to each suggestion
             li.addEventListener('click', () => {
@@ -447,14 +444,16 @@
                 // *** Store the FULL selected address string in the hidden field for submission ***
                 selectedAddressInput.value = displayAddress;
 
-                // Optional: Store the ID if you plan to use the /get/{id} endpoint later (e.g., on the backend)
-                selectedAddressIdInput.value = suggestion.id;
+                // Optional: Store the place_id if you added an input for it
+                // if (document.getElementById('selected-place-id')) {
+                //     document.getElementById('selected-place-id').value = suggestion.place_id;
+                // }
 
                 suggestionsList.innerHTML = ''; // Clear suggestions
                 suggestionsContainer.style.display = 'none'; // Hide container
 
                 console.log("Selected Address (for backend):", selectedAddressInput.value);
-                console.log("Selected Address ID (optional):", selectedAddressIdInput.value);
+                // console.log("Selected Place ID (optional):", suggestion.place_id);
             });
             suggestionsList.appendChild(li);
         });
@@ -470,6 +469,7 @@
 
     // --- Optional: Hide suggestions when clicking outside ---
     document.addEventListener('click', (event) => {
+        // Check if the click is outside the input and the suggestions container
         if (!searchInput.contains(event.target) && !suggestionsContainer.contains(event.target)) {
             suggestionsContainer.style.display = 'none';
         }
@@ -477,9 +477,36 @@
 
     // --- Optional: Form submission handling ---
     consultationForm.addEventListener('submit', (event) => {
-        // Let the server handle validation - no alerts needed here
-        // You could add loading indicator or disable the submit button though
-        document.querySelector('.submit-btn').disabled = true;
+        // Basic check: Ensure an address was actually selected from suggestions
+        // This prevents submitting just the postcode if the user didn't click a suggestion
+        if (!selectedAddressInput.value || selectedAddressInput.value === searchInput.value) {
+             // Check if the input value looks like a suggestion was selected
+             let suggestionSelected = false;
+             suggestions.forEach(suggestion => { // Need access to suggestions here, might need refactoring
+                 if (searchInput.value === suggestion.formatted) {
+                     suggestionSelected = true;
+                     selectedAddressInput.value = suggestion.formatted; // Ensure hidden input is set
+                 }
+             });
+
+             // If still no valid selection, prevent submission or show error
+             if (!suggestionSelected) {
+                 console.warn("Form submission prevented: No address selected from suggestions.");
+                 // Optionally display a message to the user
+                 // alert("Please select a valid address from the suggestions list.");
+                 // event.preventDefault(); // Stop form submission
+                 // return; // Exit handler
+             }
+        }
+
+
+        // Disable button to prevent multiple submissions
+        const submitButton = document.querySelector('.submit-btn');
+        if (submitButton) {
+            submitButton.disabled = true;
+            submitButton.value = 'Submitting...'; // Provide visual feedback
+        }
+        // The form will now submit with the selected address in the hidden input
     });
 
 </script>

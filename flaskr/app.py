@@ -4,9 +4,11 @@ import secrets
 import string
 from datetime import date, datetime
 import logging
+import dotenv
+
 
 # --- Make sure get_all_bookings is imported ---
-from flask import Flask, make_response, render_template, request, flash, redirect, session, url_for, jsonify
+from flask import Flask, current_app, make_response, render_template, request, flash, redirect, session, url_for, jsonify
 from db import (
     set_up_db, add_user, add_carbon_footprint, add_energy_bill,
     get_user_energy_data, add_solar_assessment, add_in_person_assessment_booking,
@@ -42,6 +44,9 @@ os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
 # Set up logging
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s: %(message)s')
+
+dotenv.load_dotenv()
+# Load environment variables from .env file
 
 @app.route('/')
 def index():
@@ -288,7 +293,9 @@ def solarConsultation():
     else:
         # GET request handling - pass any stored results to the template
         solar_results = session.get('solar_results', None)
-        return render_template('solarConsultation.html', solar_results=solar_results)
+        api_key = os.getenv('GEOAPIFY_API_KEY')
+        logging.info(f"Geoapify API Key: {api_key}")  # Log the API key for debugging purposes
+        return render_template('solarConsultation.html', solar_results=solar_results,  geoapify_api_key=api_key)
     
 @app.route('/personConsultation', methods=['GET', 'POST'])
 def personConsultation():

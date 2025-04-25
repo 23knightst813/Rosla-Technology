@@ -3,7 +3,7 @@
 ---
 ## Instructions to Run the Program
 
-*Ensure you are in the root directory (`n:\Task 2`) before running these commands.*
+*Ensure you are in the root directory (`Task 2`) before running these commands.*
 
 ### Install the Dependencies
 ```bash
@@ -14,7 +14,6 @@ pip install -r flaskr/requirements.txt
 ```bash
 python flaskr/app.py
 ```
-*Alternatively, you can use the Flask CLI (you might need to set environment variables `FLASK_APP=flaskr/app.py` and `FLASK_ENV=development` first):*
 ```bash
 flask run
 ```

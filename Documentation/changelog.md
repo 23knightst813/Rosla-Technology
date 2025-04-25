@@ -1,4 +1,8 @@
 > ***Change Log***
+> - **5389bbb** 2025-04-25 11:31:19 - Refactor booking deletion authorization logic, add footer links to index page, and update documentation
+> - **f959b30** 2025-04-24 12:15:21 - Enhance user experience: implement cookie consent pop-up and set cookie functionality, improve layout and accessibility features.
+> - **d14c608** 2025-04-24 12:03:33 - Enhance user dashboard: add account update section with password verification, email and password update fields, and improve layout for better user experience.
+> - **077a465** 2025-04-24 11:25:16 - Enhance user dashboard: add installation requests table with delete functionality, improve layout and styling for better user experience.
 > - **5343202** 2025-04-24 10:11:40 - Enhance admin dashboard: implement booking deletion functionality, add confirmation prompts, and improve layout for better user experience.
 > - **4a279f9** 2025-04-23 15:12:22 - Enhance admin dashboard: add functionality to fetch and display installation requests and in-person assessment bookings, implement user role checks, and improve error handling.
 > - **3cd4f87** 2025-04-23 14:51:49 - Enhance installation process: update form actions and fields, add booking time functionality, and implement database support for installation requests.
