@@ -3,7 +3,7 @@
 ---
 ## Instructions to Run the Program
 
-*Ensure you are in the root directory (`Task 2`) before running these commands.*
+*Ensure you are in the root directory (`Rosla-Technology`) before running these commands.*
 
 ### Install the Dependencies
 ```bash
