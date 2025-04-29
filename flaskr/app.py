@@ -838,7 +838,7 @@ if __name__ == "__main__":
     set_up_db()
     logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s: %(message)s')
 
-    # Production server
-    # app.run(host="0.0.0.0", port=5000)
-    # Devlopment server
-    app.run(debug=True)
+    # # Production server
+    app.run(host="0.0.0.0", port=5000)
+    # # Devlopment server
+    # app.run(debug=True)
