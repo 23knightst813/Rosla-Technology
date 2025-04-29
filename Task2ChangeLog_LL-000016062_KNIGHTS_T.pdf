@@ -1,0 +1,2294 @@
+%PDF-1.3
+%ºß¬à
+3 0 obj
+<</Type /Page
+/Parent 1 0 R
+/Resources 2 0 R
+/MediaBox [0 0 1973.9999999999913598 854.]
+/Contents 4 0 R
+>>
+endobj
+4 0 obj
+<<
+/Length 35094
+>>
+stream
+0.200025 w
+0 G
+0.14 0.16 0.21 rg
+0. 854. 1973.9999999999913598 -854. re
+f
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+0. 840. Td
+(> ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.949 0.529 0.475 rg
+16.8000000000000007 840. Td
+(**) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.949 0.529 0.475 rg
+33.6000000000000014 840. Td
+(*Change Log*) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.949 0.529 0.475 rg
+134.3999999999999773 840. Td
+(**) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+0. 826. Td
+(> ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+1. 0.82 0.451 rg
+16.8000000000000007 826. Td
+(-) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+25.1999999999999957 826. Td
+( ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.949 0.529 0.475 rg
+33.6000000000000014 826. Td
+(**5389bbb**) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+125.9999999999999716 826. Td
+( 2025-04-25 11:31:19 - Refactor booking deletion authorization logic, add footer links to index page, and update documentation) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+0. 812. Td
+(> ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+1. 0.82 0.451 rg
+16.8000000000000007 812. Td
+(-) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+25.1999999999999957 812. Td
+( ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.949 0.529 0.475 rg
+33.6000000000000014 812. Td
+(**f959b30**) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+125.9999999999999716 812. Td
+( 2025-04-24 12:15:21 - Enhance user experience: implement cookie consent pop-up and set cookie functionality, improve layout and accessibility features.) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+0. 798. Td
+(> ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+1. 0.82 0.451 rg
+16.8000000000000007 798. Td
+(-) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+25.1999999999999957 798. Td
+( ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.949 0.529 0.475 rg
+33.6000000000000014 798. Td
+(**d14c608**) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+125.9999999999999716 798. Td
+( 2025-04-24 12:03:33 - Enhance user dashboard: add account update section with password verification, email and password update fields, and improve layout for better user experience.) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+0. 784. Td
+(> ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+1. 0.82 0.451 rg
+16.8000000000000007 784. Td
+(-) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+25.1999999999999957 784. Td
+( ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.949 0.529 0.475 rg
+33.6000000000000014 784. Td
+(**077a465**) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+125.9999999999999716 784. Td
+( 2025-04-24 11:25:16 - Enhance user dashboard: add installation requests table with delete functionality, improve layout and styling for better user experience.) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+0. 770. Td
+(> ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+1. 0.82 0.451 rg
+16.8000000000000007 770. Td
+(-) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+25.1999999999999957 770. Td
+( ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.949 0.529 0.475 rg
+33.6000000000000014 770. Td
+(**5343202**) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+125.9999999999999716 770. Td
+( 2025-04-24 10:11:40 - Enhance admin dashboard: implement booking deletion functionality, add confirmation prompts, and improve layout for better user experience.) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+0. 756. Td
+(> ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+1. 0.82 0.451 rg
+16.8000000000000007 756. Td
+(-) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+25.1999999999999957 756. Td
+( ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.949 0.529 0.475 rg
+33.6000000000000014 756. Td
+(**4a279f9**) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+125.9999999999999716 756. Td
+( 2025-04-23 15:12:22 - Enhance admin dashboard: add functionality to fetch and display installation requests and in-person assessment bookings, implement user role checks, and improve error handling.) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+0. 742. Td
+(> ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+1. 0.82 0.451 rg
+16.8000000000000007 742. Td
+(-) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+25.1999999999999957 742. Td
+( ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.949 0.529 0.475 rg
+33.6000000000000014 742. Td
+(**3cd4f87**) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+125.9999999999999716 742. Td
+( 2025-04-23 14:51:49 - Enhance installation process: update form actions and fields, add booking time functionality, and implement database support for installation requests.) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+0. 728. Td
+(> ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+1. 0.82 0.451 rg
+16.8000000000000007 728. Td
+(-) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+25.1999999999999957 728. Td
+( ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.949 0.529 0.475 rg
+33.6000000000000014 728. Td
+(**183068b**) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+125.9999999999999716 728. Td
+( 2025-04-23 12:20:27 - Enhance installation form: remove monthly bill input, add booking time field, and improve layout for better user experience.) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+0. 714. Td
+(> ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+1. 0.82 0.451 rg
+16.8000000000000007 714. Td
+(-) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+25.1999999999999957 714. Td
+( ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.949 0.529 0.475 rg
+33.6000000000000014 714. Td
+(**c740de5**) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+125.9999999999999716 714. Td
+( 2025-04-23 10:50:15 - Enhance installation functionality: add form fields for address, solar and EV-specific data, implement form validation, and update template for improved user experience.) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+0. 700. Td
+(> ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+1. 0.82 0.451 rg
+16.8000000000000007 700. Td
+(-) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+25.1999999999999957 700. Td
+( ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.949 0.529 0.475 rg
+33.6000000000000014 700. Td
+(**1d58cba**) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+125.9999999999999716 700. Td
+( 2025-04-23 10:02:36 - Enhance installation page: implement custom dropdown for product selection, add form fields for email and phone, and update styling for improved layout and accessibility.) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+0. 686. Td
+(> ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+1. 0.82 0.451 rg
+16.8000000000000007 686. Td
+(-) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+25.1999999999999957 686. Td
+( ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.949 0.529 0.475 rg
+33.6000000000000014 686. Td
+(**f64119c**) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+125.9999999999999716 686. Td
+( 2025-04-22 15:14:17 - OpenDyslexic in assesiblity mode) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+0. 672. Td
+(> ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+1. 0.82 0.451 rg
+16.8000000000000007 672. Td
+(-) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+25.1999999999999957 672. Td
+( ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.949 0.529 0.475 rg
+33.6000000000000014 672. Td
+(**8535842**) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+125.9999999999999716 672. Td
+( 2025-04-22 15:02:05 - Enhance accessibility and user feedback: update styling for accessibility icons, add error handling and success messages for booking functionality, and improve layout in various templates.) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+0. 658. Td
+(> ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+1. 0.82 0.451 rg
+16.8000000000000007 658. Td
+(-) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+25.1999999999999957 658. Td
+( ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.949 0.529 0.475 rg
+33.6000000000000014 658. Td
+(**3178721**) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+125.9999999999999716 658. Td
+( 2025-04-22 13:20:03 - Enhance in-person consultation functionality: add booking feature with form validation and database integration; create new table for storing bookings) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+0. 644. Td
+(> ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+1. 0.82 0.451 rg
+16.8000000000000007 644. Td
+(-) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+25.1999999999999957 644. Td
+( ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.949 0.529 0.475 rg
+33.6000000000000014 644. Td
+(**8f14c7a**) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+125.9999999999999716 644. Td
+( 2025-04-22 13:12:52 - Enhance registration functionality: generate a secure example password for users and update password hint in the registration template; fix security issue by suggesting randomly generated passwords) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+0. 630. Td
+(> ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+1. 0.82 0.451 rg
+16.8000000000000007 630. Td
+(-) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+25.1999999999999957 630. Td
+( ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.949 0.529 0.475 rg
+33.6000000000000014 630. Td
+(**21d5d94**) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+125.9999999999999716 630. Td
+( 2025-04-22 12:56:08 - Enhance person consultation functionality: add form validation for name, phone, date, and time; implement phone number validation; update form action URL) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+0. 616. Td
+(> ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+1. 0.82 0.451 rg
+16.8000000000000007 616. Td
+(-) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+25.1999999999999957 616. Td
+( ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.949 0.529 0.475 rg
+33.6000000000000014 616. Td
+(**e25f383**) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+125.9999999999999716 616. Td
+( 2025-04-22 12:39:24 - Enhance person consultation functionality: implement data retrieval from session, add error handling, and update template rendering) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+0. 602. Td
+(> ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+1. 0.82 0.451 rg
+16.8000000000000007 602. Td
+(-) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+25.1999999999999957 602. Td
+( ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.949 0.529 0.475 rg
+33.6000000000000014 602. Td
+(**186bbdd**) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+125.9999999999999716 602. Td
+( 2025-04-03 12:16:38 - Enhance accessibility features: add styling for accessibility icons and improve hover effects in templates) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+0. 588. Td
+(> ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+1. 0.82 0.451 rg
+16.8000000000000007 588. Td
+(-) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+25.1999999999999957 588. Td
+( ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.949 0.529 0.475 rg
+33.6000000000000014 588. Td
+(**989dd36**) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+125.9999999999999716 588. Td
+( 2025-04-03 12:11:47 - Enhance solar consultation functionality: retrieve and store user solar assessment data in session, improve error handling, and update results display + Added Assesbility button) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+0. 574. Td
+(> ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+1. 0.82 0.451 rg
+16.8000000000000007 574. Td
+(-) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+25.1999999999999957 574. Td
+( ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.949 0.529 0.475 rg
+33.6000000000000014 574. Td
+(**0eaf98a**) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+125.9999999999999716 574. Td
+( 2025-04-03 10:25:11 - Refactor solar assessment functionality: delete existing assessment for user before inserting new entry) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+0. 560. Td
+(> ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+1. 0.82 0.451 rg
+16.8000000000000007 560. Td
+(-) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+25.1999999999999957 560. Td
+( ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.949 0.529 0.475 rg
+33.6000000000000014 560. Td
+(**698e1d9**) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+125.9999999999999716 560. Td
+( 2025-04-03 10:22:40 - Add solar assessment functionality: create database table, implement data storage, and enhance solar consultation flow) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+0. 546. Td
+(> ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+1. 0.82 0.451 rg
+16.8000000000000007 546. Td
+(-) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+25.1999999999999957 546. Td
+( ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.949 0.529 0.475 rg
+33.6000000000000014 546. Td
+(**54d2876**) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+125.9999999999999716 546. Td
+( 2025-04-02 15:10:38 - Enhance solar consultation functionality: add detailed test cases, improve error handling, and update results display in the template) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+0. 532. Td
+(> ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+1. 0.82 0.451 rg
+16.8000000000000007 532. Td
+(-) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+25.1999999999999957 532. Td
+( ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.949 0.529 0.475 rg
+33.6000000000000014 532. Td
+(**2e5cc1b**) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+125.9999999999999716 532. Td
+( 2025-04-02 14:46:01 - Enhance solar consultation template: add property area information, adjust layout, and improve styling for better user experience) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+0. 518. Td
+(> ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+1. 0.82 0.451 rg
+16.8000000000000007 518. Td
+(-) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+25.1999999999999957 518. Td
+( ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.949 0.529 0.475 rg
+33.6000000000000014 518. Td
+(**dafa457**) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+125.9999999999999716 518. Td
+( 2025-04-02 14:31:10 - Update changelog and testlog: add recent changes and improve test case documentation for geocoding functionality) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+0. 504. Td
+(> ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+1. 0.82 0.451 rg
+16.8000000000000007 504. Td
+(-) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+25.1999999999999957 504. Td
+( ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.949 0.529 0.475 rg
+33.6000000000000014 504. Td
+(**82101ab**) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+125.9999999999999716 504. Td
+( 2025-04-02 10:16:32 - Update changelog and enhance solar consultation: improve address validation, update geocoding method, and refine error handling) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+0. 490. Td
+(> ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+1. 0.82 0.451 rg
+16.8000000000000007 490. Td
+(-) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+25.1999999999999957 490. Td
+( ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.949 0.529 0.475 rg
+33.6000000000000014 490. Td
+(**ccd5331**) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+125.9999999999999716 490. Td
+( 2025-04-01 15:11:11 - Rename solar consultation route to solar assessment and add adress auto fill) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+0. 476. Td
+(> ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+1. 0.82 0.451 rg
+16.8000000000000007 476. Td
+(-) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+25.1999999999999957 476. Td
+( ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.949 0.529 0.475 rg
+33.6000000000000014 476. Td
+(**3f920d3**) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+125.9999999999999716 476. Td
+( 2025-04-01 14:33:16 - Refactor solar consultation template: enhance layout, add postal code input, and improve address suggestions) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+0. 462. Td
+(> ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+1. 0.82 0.451 rg
+16.8000000000000007 462. Td
+(-) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+25.1999999999999957 462. Td
+( ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.949 0.529 0.475 rg
+33.6000000000000014 462. Td
+(**dc1e70f**) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+125.9999999999999716 462. Td
+( 2025-04-01 13:12:20 - Update styles and templates for solar consultation: enhance layout and add new design elements) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+0. 448. Td
+(> ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+1. 0.82 0.451 rg
+16.8000000000000007 448. Td
+(-) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+25.1999999999999957 448. Td
+( ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.949 0.529 0.475 rg
+33.6000000000000014 448. Td
+(**ddac9b0**) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+125.9999999999999716 448. Td
+( 2025-04-01 12:30:09 - Update changelog and testlog: enhance documentation for consultation module improvements and fix inaccuracies in test results) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+0. 434. Td
+(> ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+1. 0.82 0.451 rg
+16.8000000000000007 434. Td
+(-) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+25.1999999999999957 434. Td
+( ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.949 0.529 0.475 rg
+33.6000000000000014 434. Td
+(**2be0462**) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+125.9999999999999716 434. Td
+( 2025-04-01 12:27:14 - Enhance consultation module: add error handling, logging, and solar potential calculation) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+0. 420. Td
+(> ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+1. 0.82 0.451 rg
+16.8000000000000007 420. Td
+(-) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+25.1999999999999957 420. Td
+( ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.949 0.529 0.475 rg
+33.6000000000000014 420. Td
+(**4b7a07b**) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+125.9999999999999716 420. Td
+( 2025-04-01 11:32:32 - Refactor building area calculation to use Shapely and GeoPandas; update requirements and add dotenv support) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+0. 406. Td
+(> ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+1. 0.82 0.451 rg
+16.8000000000000007 406. Td
+(-) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+25.1999999999999957 406. Td
+( ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.949 0.529 0.475 rg
+33.6000000000000014 406. Td
+(**cbff7c5**) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+125.9999999999999716 406. Td
+( 2025-04-01 10:43:48 - Refactor consultations.py to integrate improved API – Rip yesterday's work) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+0. 392. Td
+(> ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+1. 0.82 0.451 rg
+16.8000000000000007 392. Td
+(-) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+25.1999999999999957 392. Td
+( ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.949 0.529 0.475 rg
+33.6000000000000014 392. Td
+(**e60f235**) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+125.9999999999999716 392. Td
+( 2025-03-31 16:15:34 - Add consultation module for building area calculations: implement geocoding and Overpass API integration) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+0. 378. Td
+(> ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+1. 0.82 0.451 rg
+16.8000000000000007 378. Td
+(-) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+25.1999999999999957 378. Td
+( ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.949 0.529 0.475 rg
+33.6000000000000014 378. Td
+(**80a19a2**) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+125.9999999999999716 378. Td
+( 2025-03-31 13:16:57 - Stable Completion of the energy tracker: Added file upload functionality with OCR processing; update requirements and .gitignore) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+0. 364. Td
+(> ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+1. 0.82 0.451 rg
+16.8000000000000007 364. Td
+(-) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+25.1999999999999957 364. Td
+( ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.949 0.529 0.475 rg
+33.6000000000000014 364. Td
+(**9815791**) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+125.9999999999999716 364. Td
+( 2025-03-28 11:39:23 - Add file upload functionality and OCR processing; update requirements and .gitignore) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+0. 350. Td
+(> ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+1. 0.82 0.451 rg
+16.8000000000000007 350. Td
+(-) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+25.1999999999999957 350. Td
+( ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.949 0.529 0.475 rg
+33.6000000000000014 350. Td
+(**e5da77b**) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+125.9999999999999716 350. Td
+( 2025-03-28 09:20:52 - Update styles and layout for InfoHub and smart home pages; enhance responsiveness and adjust changelog) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+0. 336. Td
+(> ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+1. 0.82 0.451 rg
+16.8000000000000007 336. Td
+(-) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+25.1999999999999957 336. Td
+( ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.949 0.529 0.475 rg
+33.6000000000000014 336. Td
+(**72d23f6**) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+125.9999999999999716 336. Td
+( 2025-03-28 09:05:05 - Enhance user authentication by adding login checks to carbon footprint calculator route; update registration template with password hint and styling adjustments) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+0. 322. Td
+(> ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+1. 0.82 0.451 rg
+16.8000000000000007 322. Td
+(-) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+25.1999999999999957 322. Td
+( ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.949 0.529 0.475 rg
+33.6000000000000014 322. Td
+(**bc37f74**) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+125.9999999999999716 322. Td
+( 2025-03-27 12:13:51 - Add error handling for various HTTP status codes and update changelog; adjust layout in carbon footprint calculator submission template) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+0. 308. Td
+(> ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+1. 0.82 0.451 rg
+16.8000000000000007 308. Td
+(-) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+25.1999999999999957 308. Td
+( ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.949 0.529 0.475 rg
+33.6000000000000014 308. Td
+(**ea3da93**) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+125.9999999999999716 308. Td
+( 2025-03-27 11:56:11 - Add carbon footprint backend functionality and results template; update changelog and test log) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+0. 294. Td
+(> ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+1. 0.82 0.451 rg
+16.8000000000000007 294. Td
+(-) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+25.1999999999999957 294. Td
+( ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.949 0.529 0.475 rg
+33.6000000000000014 294. Td
+(**e5444d8**) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+125.9999999999999716 294. Td
+( 2025-03-27 10:49:12 - Add changelog and update test log for Carbon Footprint Calculator UI) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+0. 280. Td
+(> ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+1. 0.82 0.451 rg
+16.8000000000000007 280. Td
+(-) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+25.1999999999999957 280. Td
+( ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.949 0.529 0.475 rg
+33.6000000000000014 280. Td
+(**24ad7bb**) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+125.9999999999999716 280. Td
+( 2025-03-27 10:40:23 - Updated the carbon footprint calculater to have the complted form) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+0. 266. Td
+(> ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+1. 0.82 0.451 rg
+16.8000000000000007 266. Td
+(-) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+25.1999999999999957 266. Td
+( ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.949 0.529 0.475 rg
+33.6000000000000014 266. Td
+(**3132979**) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+125.9999999999999716 266. Td
+( 2025-03-27 10:13:20 - Update test log for user login cases; add carbon footprint table and front end of the carbon footprint) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+0. 252. Td
+(> ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+1. 0.82 0.451 rg
+16.8000000000000007 252. Td
+(-) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+25.1999999999999957 252. Td
+( ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.949 0.529 0.475 rg
+33.6000000000000014 252. Td
+(**59cdc74**) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+125.9999999999999716 252. Td
+( 2025-03-26 13:09:39 - Add flash message functionality for user authentication feedback) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+0. 238. Td
+(> ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+1. 0.82 0.451 rg
+16.8000000000000007 238. Td
+(-) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+25.1999999999999957 238. Td
+( ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.949 0.529 0.475 rg
+33.6000000000000014 238. Td
+(**508e222**) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+125.9999999999999716 238. Td
+( 2025-03-26 12:45:26 - Finished Login and Register Front End input fields for email and password, social login buttons, and responsive design adjustments) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+0. 224. Td
+(> ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+1. 0.82 0.451 rg
+16.8000000000000007 224. Td
+(-) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+25.1999999999999957 224. Td
+( ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.949 0.529 0.475 rg
+33.6000000000000014 224. Td
+(**0d60d55**) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+125.9999999999999716 224. Td
+( 2025-03-26 09:17:22 - Finish Info Pages) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+0. 210. Td
+(> ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+1. 0.82 0.451 rg
+16.8000000000000007 210. Td
+(-) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+25.1999999999999957 210. Td
+( ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.949 0.529 0.475 rg
+33.6000000000000014 210. Td
+(**258ba30**) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+125.9999999999999716 210. Td
+( 2025-03-26 09:05:00 - rename energy tips route to reduce carbon footprint; update related HTML and SVG assets) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+0. 196. Td
+(> ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+1. 0.82 0.451 rg
+16.8000000000000007 196. Td
+(-) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+25.1999999999999957 196. Td
+( ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.949 0.529 0.475 rg
+33.6000000000000014 196. Td
+(**e4a64bf**) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+125.9999999999999716 196. Td
+( 2025-03-25 15:12:03 - add new info section for carbon footprint reduction with interactive content and styles) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+0. 182. Td
+(> ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+1. 0.82 0.451 rg
+16.8000000000000007 182. Td
+(-) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+25.1999999999999957 182. Td
+( ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.949 0.529 0.475 rg
+33.6000000000000014 182. Td
+(**99d4eed**) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+125.9999999999999716 182. Td
+( 2025-03-25 14:40:26 - update link colors in CFPI calculator and smart home templates) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+0. 168. Td
+(> ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+1. 0.82 0.451 rg
+16.8000000000000007 168. Td
+(-) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+25.1999999999999957 168. Td
+( ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.949 0.529 0.475 rg
+33.6000000000000014 168. Td
+(**354d54c**) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+125.9999999999999716 168. Td
+( 2025-03-25 14:39:31 - add new SVG icon for CFPI calculator and update HTML template) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+0. 154. Td
+(> ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+1. 0.82 0.451 rg
+16.8000000000000007 154. Td
+(-) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+25.1999999999999957 154. Td
+( ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.949 0.529 0.475 rg
+33.6000000000000014 154. Td
+(**190112d**) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+125.9999999999999716 154. Td
+( 2025-03-25 14:32:38 - refactor routing and templates for energy-related pages; add new info pages and improve image hover effects) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+0. 140. Td
+(> ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+1. 0.82 0.451 rg
+16.8000000000000007 140. Td
+(-) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+25.1999999999999957 140. Td
+( ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.949 0.529 0.475 rg
+33.6000000000000014 140. Td
+(**743e531**) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+125.9999999999999716 140. Td
+( 2025-03-25 14:18:45 - update InfoHub template with new styles, image animations, and layout adjustments) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+0. 126. Td
+(> ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+1. 0.82 0.451 rg
+16.8000000000000007 126. Td
+(-) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+25.1999999999999957 126. Td
+( ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.949 0.529 0.475 rg
+33.6000000000000014 126. Td
+(**246037a**) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+125.9999999999999716 126. Td
+( 2025-03-25 14:07:59 - add new routes for EV chargers, green energy, smart home, and energy tips; update InfoHub template with new links and images) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+0. 112. Td
+(> ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+1. 0.82 0.451 rg
+16.8000000000000007 112. Td
+(-) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+25.1999999999999957 112. Td
+( ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.949 0.529 0.475 rg
+33.6000000000000014 112. Td
+(**f10762b**) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+125.9999999999999716 112. Td
+( 2025-03-25 12:38:37 - add logout route, update InfoHub and base templates, and add new SVG images) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+0. 98. Td
+(> ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+1. 0.82 0.451 rg
+16.8000000000000007 98. Td
+(-) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+25.1999999999999957 98. Td
+( ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.949 0.529 0.475 rg
+33.6000000000000014 98. Td
+(**85c1af5**) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+125.9999999999999716 98. Td
+( 2025-03-25 12:14:03 - add routing for new pages and update navigation links in base template) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+0. 84. Td
+(> ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+1. 0.82 0.451 rg
+16.8000000000000007 84. Td
+(-) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+25.1999999999999957 84. Td
+( ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.949 0.529 0.475 rg
+33.6000000000000014 84. Td
+(**d3dd9c7**) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+125.9999999999999716 84. Td
+( 2025-03-25 12:08:49 - add testing log for base.html functionality and create placeholder templates for various pages) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+0. 70. Td
+(> ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+1. 0.82 0.451 rg
+16.8000000000000007 70. Td
+(-) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+25.1999999999999957 70. Td
+( ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.949 0.529 0.475 rg
+33.6000000000000014 70. Td
+(**12b3a3c**) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+125.9999999999999716 70. Td
+( 2025-03-25 12:01:52 - refactor layout and styles in base and index templates, add button styles and new sections) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+0. 56. Td
+(> ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+1. 0.82 0.451 rg
+16.8000000000000007 56. Td
+(-) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+25.1999999999999957 56. Td
+( ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.949 0.529 0.475 rg
+33.6000000000000014 56. Td
+(**00f982c**) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+125.9999999999999716 56. Td
+( 2025-03-25 10:36:10 - add header and styling to base template, update index page, and create script file) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+0. 42. Td
+(> ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+1. 0.82 0.451 rg
+16.8000000000000007 42. Td
+(-) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+25.1999999999999957 42. Td
+( ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.949 0.529 0.475 rg
+33.6000000000000014 42. Td
+(**fb3f67a**) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+125.9999999999999716 42. Td
+( 2025-03-25 10:10:31 - add initial Flask app structure with basic routing and templates) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+0. 28. Td
+(> ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+1. 0.82 0.451 rg
+16.8000000000000007 28. Td
+(-) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+25.1999999999999957 28. Td
+( ) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.949 0.529 0.475 rg
+33.6000000000000014 28. Td
+(**aa0fedc**) Tj
+ET
+BT
+/F5 14 Tf
+16.0999999999999979 TL
+0.584 0.902 0.796 rg
+125.9999999999999716 28. Td
+( 2025-03-25 09:54:57 - initialize documentation and project structure) Tj
+ET
+endstream
+endobj
+1 0 obj
+<</Type /Pages
+/Kids [3 0 R ]
+/Count 1
+>>
+endobj
+5 0 obj
+<<
+/Type /Font
+/BaseFont /Helvetica
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+6 0 obj
+<<
+/Type /Font
+/BaseFont /Helvetica-Bold
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+7 0 obj
+<<
+/Type /Font
+/BaseFont /Helvetica-Oblique
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+8 0 obj
+<<
+/Type /Font
+/BaseFont /Helvetica-BoldOblique
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+9 0 obj
+<<
+/Type /Font
+/BaseFont /Courier
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+10 0 obj
+<<
+/Type /Font
+/BaseFont /Courier-Bold
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+11 0 obj
+<<
+/Type /Font
+/BaseFont /Courier-Oblique
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+12 0 obj
+<<
+/Type /Font
+/BaseFont /Courier-BoldOblique
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+13 0 obj
+<<
+/Type /Font
+/BaseFont /Times-Roman
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+14 0 obj
+<<
+/Type /Font
+/BaseFont /Times-Bold
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+15 0 obj
+<<
+/Type /Font
+/BaseFont /Times-Italic
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+16 0 obj
+<<
+/Type /Font
+/BaseFont /Times-BoldItalic
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+17 0 obj
+<<
+/Type /Font
+/BaseFont /ZapfDingbats
+/Subtype /Type1
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+18 0 obj
+<<
+/Type /Font
+/BaseFont /Symbol
+/Subtype /Type1
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+2 0 obj
+<<
+/ProcSet [/PDF /Text /ImageB /ImageC /ImageI]
+/Font <<
+/F1 5 0 R
+/F2 6 0 R
+/F3 7 0 R
+/F4 8 0 R
+/F5 9 0 R
+/F6 10 0 R
+/F7 11 0 R
+/F8 12 0 R
+/F9 13 0 R
+/F10 14 0 R
+/F11 15 0 R
+/F12 16 0 R
+/F13 17 0 R
+/F14 18 0 R
+>>
+/XObject <<
+>>
+>>
+endobj
+19 0 obj
+<<
+/Producer (jsPDF 2.5.1)
+/CreationDate (D:20250425114946+01'00')
+>>
+endobj
+20 0 obj
+<<
+/Type /Catalog
+/Pages 1 0 R
+/OpenAction [3 0 R /FitH null]
+/PageLayout /OneColumn
+>>
+endobj
+xref
+0 21
+0000000000 65535 f 
+0000035284 00000 n 
+0000037101 00000 n 
+0000000015 00000 n 
+0000000137 00000 n 
+0000035341 00000 n 
+0000035466 00000 n 
+0000035596 00000 n 
+0000035729 00000 n 
+0000035866 00000 n 
+0000035989 00000 n 
+0000036118 00000 n 
+0000036250 00000 n 
+0000036386 00000 n 
+0000036514 00000 n 
+0000036641 00000 n 
+0000036770 00000 n 
+0000036903 00000 n 
+0000037005 00000 n 
+0000037349 00000 n 
+0000037435 00000 n 
+trailer
+<<
+/Size 21
+/Root 20 0 R
+/Info 19 0 R
+/ID [ <8ACD28EC50864D130B240EDB1E0728EE> <8ACD28EC50864D130B240EDB1E0728EE> ]
+>>
+startxref
+37539
+%%EOF
