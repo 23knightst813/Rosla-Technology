@@ -25,6 +25,7 @@ from auth import sign_in, get_user_id_by_email
 from validation import is_not_empty, is_valid_email, is_secure_password, is_valid_phone_number
 from tracker import save_uploaded_file, ocr_process_file, gemini_format
 from consultation import solar_potential
+from test import create_admin_account
 
 app = Flask(__name__)
 app.secret_key = 'dev' 
@@ -836,6 +837,7 @@ def request_entity_too_large(e):
 
 if __name__ == "__main__":
     set_up_db()
+    create_admin_account()
     logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s: %(message)s')
 
     # # Production server
