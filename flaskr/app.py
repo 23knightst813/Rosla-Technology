@@ -395,7 +395,7 @@ def dashboard():
     # --- Require Login ---
     if not session.get("email"):
         flash("You must be logged in to view the dashboard.", "error")
-        return redirect(url_for('login'))
+        return redirect(url_for(''))
 
     user_id = get_user_id_by_email()
     if not user_id:
